@@ -1,0 +1,76 @@
+# .gitignore for PHP/Web Project
+
+# Environment files (never commit sensitive data!)
+.env
+.env.local
+.env.*.local
+
+# PHP specific ignores
+/vendor/
+composer.phar
+composer.lock
+
+# Dependency directories
+/node_modules/
+/bower_components/
+
+# Cache and temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+.cache/
+/sessions/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE specific files
+.idea/
+.vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# Build files
+*.min.js
+*.min.css
+/dist/
+/build/
+
+# Local development files
+docker-compose.yml
+Dockerfile
+.dockerignore
+
+# User uploads and assets
+/uploads/
+/cache/
+/tmp/
+
+# Optional: Ignore your CSS/JS source maps if using preprocessors
+*.map
+
+# Optional: Ignore test directories
+/tests/
+/coverage/
+
+# Optional: Server configs (uncomment if needed)
+# .htaccess
+# web.config
+
+# Optional: Database files
+*.sqlite
+*.db
+*.sql
+
+# Debug files
+*.dump
+*.stackdump
