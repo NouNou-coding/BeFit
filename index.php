@@ -6,6 +6,17 @@
     <title>BeFit - AI-Powered Training Plans</title>
     <link rel="stylesheet" href="css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero-content {
+            background-attachment: fixed;
+        }
+        .section-separator {
+            margin: 50px auto;
+            width: 80%;
+            border: 0;
+            border-top: 2px solid #ddd;
+        }
+    </style>
 </head>
 <body>
     
@@ -18,7 +29,7 @@
         </div>
             
             <ul class="nav-links">
-                <li><a href="#shop-section">Supplements</a></li>
+                <li><a href="#shop-section">Shop</a></li>
                 <li><a href="#">About</a></li>
                 <li><a href="#">Support</a></li>
             </ul>
@@ -44,8 +55,16 @@
         </div>  
     </div>
 
+    <hr class="section-separator">
+
+    <?php include('benefits.php'); ?>
+
+
     <!-- Shop Section -->
-    <?php include('includes/shop-section.php'); ?>
+    <?php 
+    session_start();
+    include('includes/shop-section.php');
+     ?>
 
     <script src="transitions.js"></script>
 </body>
