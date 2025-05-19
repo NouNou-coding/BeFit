@@ -53,5 +53,3 @@
         </div>
     </div>
 </section>
-
-<?php include_once('includes/footer.php'); ?>

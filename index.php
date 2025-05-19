@@ -30,13 +30,13 @@
             
             <ul class="nav-links">
                 <li><a href="#shop-section">Shop</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="about.php">About</a></li>
                 <li><a href="#">Support</a></li>
             </ul>
     
             <div class="nav-buttons">
-                <a href="auth/signin.php" class="nav-login">Log In</a>
-                <a href="auth/signup.php" class="cta-button nav-cta">Get Started</a>
+                <a href="/auth/signin.php" class="nav-login">Log In</a>
+                <a href="/auth/signup.php" class="cta-button nav-cta">Get Started</a>
             </div>
         </div>
     </nav>
@@ -66,6 +66,8 @@
     include('includes/shop-section.php');
      ?>
 
+
+    <?php include('includes/footer.php'); ?>
     <script src="transitions.js"></script>
 </body>
 </html>

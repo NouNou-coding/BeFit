@@ -263,7 +263,6 @@ body {
 }
     
 .shop-container {
-    padding: 2rem 8%;
     text-align: center;
 }
         
@@ -656,4 +655,91 @@ transform-origin: center;
 .benefits-cta {
     text-align: center;
     margin-top: 2rem;
+}
+
+
+
+
+
+
+
+/* Footer Styles */
+.site-footer {
+    background: #0a0a0a;
+    color: #ffffff;
+    padding: 4rem 0 1rem;
+    margin-top: auto;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.footer-heading {
+    color: #4A90E2;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #4A90E2;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-icons a {
+    color: #ffffff;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #4A90E2;
+}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    padding-top: 2rem;
+    text-align: center;
+    color: #888;
+}
+
+/* Footer Logo Styles */
+.footer-logo {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+.footer-logo-img {
+    height: 50px;
+    width: auto;
+    filter: brightness(0) invert(1); /* Make logo white */
+    transition: transform 0.3s ease;
+}
+
+.footer-logo:hover .footer-logo-img {
+    transform: scale(1.05);
+    filter: brightness(0) invert(0.8) sepia(1) saturate(5) hue-rotate(175deg); /* Hover to brand blue */
 }
