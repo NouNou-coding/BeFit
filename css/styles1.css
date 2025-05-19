@@ -24,6 +24,7 @@ body::before {
     height: 100vh;
     background: rgba(0, 0, 0, 0.6);
     z-index: -1;
+     display: none;
 }
 
 /* Navigation Styles */
@@ -264,26 +265,32 @@ body {
     
 .shop-container {
     text-align: center;
+    max-width: 1200px;
+    margin: 1rem auto;
+    padding: 1rem 3% !important;
 }
         
 .page-header1 {
-     background: #4A90E2;
-    padding: 4rem 2.5rem 3rem;
+    background:  #f1f5f9 !important;
+    padding: 2rem !important;
+    color: #1e293b !important;
     margin: 2rem auto 3rem;
     border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+    box-shadow: none;
+    border: 1px solid #e2e8f0;
     width: fit-content;
-    min-width: 600px;
+    min-width: auto;
     max-width: 85%;
     text-align: center;
     position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
         
 .page-header1 span {
-    color: white !important;
+    color: #64748b !important;
     display: inline-block;
     padding: 0 15px;
-    font-size: 2.8rem !important;
+    font-size: 1rem !important;
         
 }
         
@@ -317,10 +324,8 @@ body {
 
 .page-header br {
 display: none;
-}
-.page-header1 {
-transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-transform-origin: center;
+ transform: none;
+    box-shadow: none;
 }
 
 .page-header1:hover {
@@ -354,21 +359,26 @@ transform-origin: center;
 }
 
 .shop-section {
-    background: #f9fafb;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    background: #f8fafc !important;
+    padding: 1.5rem;
+    border-radius: 16px;
+     border: 1px solid rgba(74, 144, 226, 0.1) !important;
+    margin: 1rem 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    overflow: visible;
+    width: 100%;
 }
 
 .shop-section h2 {
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: #2d3748;
-    text-transform: uppercase;
+    text-transform: none;
     position: relative;
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
     margin-bottom: 1.5rem;
     border-bottom: 2px solid #e2e8f0;
+    letter-spacing: -0.2px;
 }
 .shop-section h2::after {
     content: '';
@@ -382,54 +392,69 @@ transform-origin: center;
 }
         
 .shop-items {
-    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     grid-auto-rows: 1fr;
     align-items: stretch;
-     min-height: 400px;
-    padding: 1rem 1.5rem;
-    gap: 1.2rem;
+    min-height: 400px;
+    min-width: fit-content;
+    width: max-content;
+    padding: 20px 0;
+    gap: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(300px, 1fr);
+    flex-wrap: nowrap;
+    margin: 0;
 }
         
 .shop-item {
-    background: white !important;
-    border-radius: 8px;
-    border: 1px solid #edf2f7;
+    background:rgba(255, 255, 255, 0.95) !important;
+    border-radius: 12px;
+    border: 1px solid #f1f5f9 !important;
     padding: 1rem;
     transition: transform 0.2s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    color: white;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: white;   
     display: flex;
     flex-direction: column;
     height: 100%;
     min-height:  auto;
+    min-width: 220px;
     justify-content: space-between;
+    min-width: 200px;
+    flex-shrink: 0;
+    margin-bottom: 0;
+    margin: 0 0.5rem;
 }
         
 .shop-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(74,144,226,0.1);
 }
         
 .item-name {
-    font-size: 0.95rem;
-    margin: 0.5rem 0;
+    font-size: 1rem;
+    margin: 0.25rem 0;
     margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #2d3748 !important;
+    color: #1e293b !important;
     min-height: auto; 
-    height: 3.5em;
-    line-height: 1.3;
-     flex-shrink: 0;
+    height: 40px;
+    line-height: 1.4;
+    flex-shrink: 0;
+    overflow: hidden;
 }
 .item-image {
     width: 100%;
-    height: 120px;
-    object-fit: contain;
+    height: 150px;
+    object-fit: cover;
     border-radius: 8px;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     flex-shrink: 0;
+    padding: 0.5rem;
+    background: #f8fafc;
 }
         
 .item-price {
@@ -444,44 +469,49 @@ transform-origin: center;
         
 .item-description {
     font-size: 0.85rem;
-    color: #718096 !important;
-    margin: 0.8rem 0;
-    line-height: 1.4;
-    flex-grow: 1;
-    margin-bottom: 0.8rem;
-    min-height: auto;
+    color: #64748b !important;
+    margin: 0.5rem 0;
+    line-height: 1.5;
+    height: 60px;
     overflow: hidden;
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+    min-height: auto;
     display: -webkit-box;
-    --line-clamp: 2;
+    --line-clamp: 3;
     -webkit-box-orient: vertical;
 }
         
 .buy-button {
     display: block;
     width: 100%;
-    margin-top: 0.5rem;
-    padding: 8px 16px;
-    background: #4A90E2;
+    margin-top: auto;
+    padding: 12px;
+    background: #3b82f6;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     transition: all 0.3s ease;
     text-decoration: none;
 }
         
 .buy-button:hover {
-    background: #357ABD;
+    background: #2563eb;
 }
 
 .shop-page {
-    color: #333;
+    color: hsl(0, 0%, 20%);
 }
+
 .shop-container {
-    background: white;
+    background: rgba(255, 255, 255, 0.95) !important;
     margin-top: 2rem;
     padding: 2rem 5% !important;
+     backdrop-filter: blur(10px);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
 .shop-columns::after {
@@ -536,9 +566,10 @@ transform-origin: center;
 .compact-shop-grid {
     display: grid;
     gap: 1.5rem;
-    padding: 0 5%;
+    padding: 2rem;
     max-width: 1200px;
-    margin: 0 auto;
+     border-radius: 16px;
+    margin: 2rem 0;
 }
 
 .shop-page .shop-item {
@@ -551,7 +582,8 @@ transform-origin: center;
 }
 
 .compact-shop-grid {
-    display: grid;
+    display: block;
+    overflow: visible;
     gap: 1.5rem;
     padding: 0 5%;
     max-width: 1200px;
@@ -560,26 +592,85 @@ transform-origin: center;
 
 .price-container {
     margin: 0.5rem 0;
+    padding: 0.5rem 0;
+    border-top: 1px solid rgba(74, 144, 226, 0.1);
+    border-bottom: 1px solid rgba(74, 144, 226, 0.1);
 }
 
 .original-price {
     text-decoration: line-through;
-    color: #718096;
-    font-size: 0.9rem;
+    color: #94a3b8;
+    font-size: 0.8rem;
 }
 
 .discounted-price {
-    color: #38a169;
-    font-weight: 600;
-    font-size: 1.1rem;
+    color:  #16a34a;
+    font-weight: 700;
+    font-size: 1rem;
 }
 
 .signin-notice {
-    color: #4A90E2;
-    font-size: 0.85rem;
+    color: #3b82f6;
+    font-size: 0.75rem;
     margin-top: 0.3rem;
     font-weight: 500;
 }
+
+.scroll-container {
+    overflow-x: auto;
+    padding-bottom: 20px;
+    mask-image: none;
+    -webkit-mask-image: none;
+    width: 100%;
+     height: calc(100vh - 120px);
+    margin: 0;
+    padding: 0 20%;
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 3%,
+        black 97%,
+        transparent
+    );
+}
+
+.scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background:  #cbd5e1;
+    border-radius: 4px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb:hover {
+    background: #357ABD;
+}
+
+/* Scroll Gradient Fade */
+.scroll-container {
+    mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 5%,
+        black 95%,
+        transparent
+    );
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent,
+        black 5%,
+        black 95%,
+        transparent
+    );
+}
+
+
 
 
 
@@ -588,7 +679,7 @@ transform-origin: center;
 /* benefit.php */
 .benefits-section {
     background: #f8f9ff;
-    padding: 4rem 0;
+    padding: 6rem 0;
     position: relative;
     z-index: 1;
 }
@@ -601,49 +692,59 @@ transform-origin: center;
 
 .benefits-title {
     text-align: center;
-    font-size: 2.5rem;
-    color: #2d3748;
+    font-size: 2.75rem;
+    color: #1e293b;
     margin-bottom: 1rem;
+    font-weight: 700;
+    line-height: 1.2;
 }
 
 .benefits-subtitle {
     display: block;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    display: block;
+    margin-top: 1rem;
     color: #4A90E2;
-    margin-top: 0.5rem;
 }
 
 .benefits-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin: 3rem 0;
+    gap: 2.5rem;
+    margin: 4rem 0;
 }
 
 .benefit-card {
-    background: white;
-    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(74, 144, 226, 0.1);
+    border-radius: 16px;
+    padding: 2.5rem;
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-    transition: transform 0.3s ease;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
+    backdrop-filter: blur(8px);
 }
 
 .benefit-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(74, 144, 226, 0.1);
+    transform: translateY(-8px);
+    box-shadow: 0 8px 32px rgba(74, 144, 226, 0.1);
+    border-color: rgba(74, 144, 226, 0.2);
 }
 
 .benefit-icon {
-    font-size: 2.5rem;
+    font-size: 2.75rem;
     color: #4A90E2;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
 }
 
 .benefit-heading {
-    color: #2d3748;
-    font-size: 1.3rem;
-    margin-bottom: 1rem;
+    color: #64748b;
+    line-height: 1.7;
+    font-size: 1rem;
+    margin-bottom: 0;
 }
 
 .benefit-text {
@@ -654,7 +755,30 @@ transform-origin: center;
 
 .benefits-cta {
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 4rem;
+}
+
+.benefits-cta .cta-button {
+    padding: 18px 50px;
+    font-size: 1.1rem;
+    border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(74, 144, 226, 0.2);
+}
+
+/* Background pattern */
+.benefits-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(rgba(74, 144, 226, 0.06) 1px, transparent 1px),
+        radial-gradient(rgba(74, 144, 226, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: 0 0, 20px 20px;
+    pointer-events: none;
 }
 
 
@@ -665,10 +789,11 @@ transform-origin: center;
 
 /* Footer Styles */
 .site-footer {
-    background: #0a0a0a;
-    color: #ffffff;
+    background: #1a2035;
+    color: #e2e8f0;
     padding: 4rem 0 1rem;
-    margin-top: auto;
+    margin-top: 6px;
+    border-top: 1px solid rgba(74, 144, 226, 0.2);
 }
 
 .footer-container {
@@ -686,8 +811,10 @@ transform-origin: center;
 
 .footer-heading {
     color: #4A90E2;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-bottom: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
 .footer-links li {
@@ -695,13 +822,30 @@ transform-origin: center;
 }
 
 .footer-links a {
-    color: #ffffff;
+    color:  #cbd5e1;
     text-decoration: none;
+    position: relative;
+    padding-left: 0;
     transition: color 0.3s ease;
 }
 
 .footer-links a:hover {
     color: #4A90E2;
+    padding-left: 8px;
+}
+
+.footer-links a::before {
+    content: "•";
+    color: #4A90E2;
+    position: absolute;
+    left: -12px;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover::before {
+    opacity: 1;
+    left: -8px;
 }
 
 .social-icons {
@@ -710,20 +854,22 @@ transform-origin: center;
 }
 
 .social-icons a {
-    color: #ffffff;
-    font-size: 1.5rem;
-    transition: color 0.3s ease;
+    color: #94a3b8;
+    font-size: 1.4rem;
+    transition:  all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .social-icons a:hover {
     color: #4A90E2;
+    transform: translateY(-2px);
 }
 
 .footer-bottom {
-    border-top: 1px solid #333;
+    border-top: 1px solid rgba(74, 144, 226, 0.1);
     padding-top: 2rem;
     text-align: center;
-    color: #888;
+    color: #94a3b8;
+    font-size: 0.9rem;
 }
 
 /* Footer Logo Styles */
@@ -735,7 +881,7 @@ transform-origin: center;
 .footer-logo-img {
     height: 50px;
     width: auto;
-    filter: brightness(0) invert(1); /* Make logo white */
+    filter: brightness(0) invert(0.8) sepia(1) saturate(5) hue-rotate(175deg);
     transition: transform 0.3s ease;
 }
 

@@ -1,6 +1,9 @@
 <div class="shop-section">
     <h2>Supplements</h2>
+<div class="scroll-container">
+
     <div class="shop-items">
+        
         <div class="shop-item">
             <img src="photos/prot.webp" alt="protein" class="item-image">
             <div class="item-name">2kg Kevin Levrone - Gold Whey Protein</div>
@@ -74,5 +77,45 @@
             </div>
             <a href="#" class="buy-button">Add to Cart</a>
         </div>
-</div>
+
+        <div class="shop-item">
+            <img src="photos/mass.jpeg" alt="BCAAs" class="item-image">
+            <div class="item-name">4kg Kevin Levrone - Mass Gainer</div>
+             <div class="price-container">
+                <?php if(isset($_SESSION['user'])): ?>
+                    <div class="original-price">$84.99</div>
+                    <div class="discounted-price">$72.24 (15% OFF)</div>
+                <?php else: ?>
+                    <div class="item-price">$84.99</div>
+                    <div class="signin-notice">Sign in to unlock 15% discount</div>
+                <?php endif; ?>
+            </div>
+            <div class="item-description">
+                A perfect blend to gain weight mass as fast as possible.
+            </div>
+            <a href="#" class="buy-button">Add to Cart</a>
+        </div>
+
+        <div class="shop-item">
+            <img src="photos/mass.jpeg" alt="BCAAs" class="item-image">
+            <div class="item-name">4kg Kevin Levrone - Mass Gainer</div>
+             <div class="price-container">
+                <?php if(isset($_SESSION['user'])): ?>
+                    <div class="original-price">$84.99</div>
+                    <div class="discounted-price">$72.24 (15% OFF)</div>
+                <?php else: ?>
+                    <div class="item-price">$84.99</div>
+                    <div class="signin-notice">Sign in to unlock 15% discount</div>
+                <?php endif; ?>
+            </div>
+            <div class="item-description">
+                A perfect blend to gain weight mass as fast as possible.
+            </div>
+            <a href="#" class="buy-button">Add to Cart</a>
+        </div>    
+    
+    
+
+    </div>
+ </div>
 </div>

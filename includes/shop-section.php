@@ -2,7 +2,7 @@
     <div class="shop-container">
         <h1 class="page-header1">Essentials<br>
             <span style="font-size: 1.2rem; color: #666;">
-                Curated Fitness Solutions
+                 Scroll to Explore Products
             </span>
         </h1>
 

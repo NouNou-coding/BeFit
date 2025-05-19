@@ -1,4 +1,3 @@
-<?php include_once('includes/header.php'); ?>
 
 <section class="benefits-section">
     <div class="benefits-container">
