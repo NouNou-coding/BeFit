@@ -16,9 +16,6 @@
                     <div class="signin-notice">Sign in to unlock 15% discount</div>
                 <?php endif; ?>
             </div>
-            <div class="item-description">
-                Space-saving design with 1-20kg weight range. Perfect for home gyms.
-            </div>
             <a href="#" class="buy-button">Add to Cart</a>
         </div>
         
@@ -33,9 +30,6 @@
                     <div class="item-price">$24.99</div>
                     <div class="signin-notice">Sign in to unlock 15% discount</div>
                 <?php endif; ?>
-            </div>
-            <div class="item-description">
-                5-band set with varying resistance levels. Includes door anchor and handles.
             </div>
             <a href="#" class="buy-button">Add to Cart</a>
         </div>
@@ -52,9 +46,6 @@
                     <div class="signin-notice">Sign in to unlock 15% discount</div>
                 <?php endif; ?>
             </div>
-            <div class="item-description">
-                Durable leather belt. Help stabilize the core muscles in weight lifting.
-            </div>
             <a href="#" class="buy-button">Add to Cart</a>
         </div>
         
@@ -70,86 +61,8 @@
                     <div class="signin-notice">Sign in to unlock 15% discount</div>
                 <?php endif; ?>
             </div>
-            <div class="item-description">
-                Durable cast iron construction with textured handle. Perfect for Efficient workouts.
-            </div>
             <a href="#" class="buy-button">Add to Cart</a>
         </div>
-
-        <div class="shop-item">
-         <img src="photos/dumbell.jpeg" alt="Dumbbells" class="item-image">
-         <div class="item-name">FitRx Smart Adjustable Dumbbells - 1kg to 20kg</div>
-             <div class="price-container">
-             <?php if(isset($_SESSION['user'])): ?>
-                    <div class="original-price">$124.99</div>
-                     <div class="discounted-price">$104.99 (15% OFF)</div>
-                     <?php else: ?>
-                    <div class="item-price">$124.99</div>
-                     <div class="signin-notice">Sign in to unlock 15% discount</div>
-                     <?php endif; ?>
-                </div>
-             <div class="item-description">
-             Space-saving design with 1-20kg weight range. Perfect for home gyms.
-                </div>
-             <a href="#" class="buy-button">Add to Cart</a>
-            </div>
-                
-
-         <div class="shop-item">
-          <img src="photos/dumbell.jpeg" alt="Dumbbells" class="item-image">
-         <div class="item-name">FitRx Smart Adjustable Dumbbells - 1kg to 20kg</div>
-             <div class="price-container">
-             <?php if(isset($_SESSION['user'])): ?>
-                    <div class="original-price">$124.99</div>
-                     <div class="discounted-price">$104.99 (15% OFF)</div>
-                     <?php else: ?>
-                    <div class="item-price">$124.99</div>
-                     <div class="signin-notice">Sign in to unlock 15% discount</div>
-                     <?php endif; ?>
-                </div>
-             <div class="item-description">
-             Space-saving design with 1-20kg weight range. Perfect for home gyms.
-                </div>
-             <a href="#" class="buy-button">Add to Cart</a>
-            </div>
-                
-
-         <div class="shop-item">
-          <img src="photos/dumbell.jpeg" alt="Dumbbells" class="item-image">
-         <div class="item-name">FitRx Smart Adjustable Dumbbells - 1kg to 20kg</div>
-             <div class="price-container">
-             <?php if(isset($_SESSION['user'])): ?>
-                    <div class="original-price">$124.99</div>
-                     <div class="discounted-price">$104.99 (15% OFF)</div>
-                     <?php else: ?>
-                    <div class="item-price">$124.99</div>
-                     <div class="signin-notice">Sign in to unlock 15% discount</div>
-                     <?php endif; ?>
-                </div>
-             <div class="item-description">
-             Space-saving design with 1-20kg weight range. Perfect for home gyms.
-                </div>
-             <a href="#" class="buy-button">Add to Cart</a>
-            </div>
-                
-
-         <div class="shop-item">
-          <img src="photos/dumbell.jpeg" alt="Dumbbells" class="item-image">
-         <div class="item-name">FitRx Smart Adjustable Dumbbells - 1kg to 20kg</div>
-             <div class="price-container">
-             <?php if(isset($_SESSION['user'])): ?>
-                    <div class="original-price">$124.99</div>
-                     <div class="discounted-price">$104.99 (15% OFF)</div>
-                     <?php else: ?>
-                    <div class="item-price">$124.99</div>
-                     <div class="signin-notice">Sign in to unlock 15% discount</div>
-                     <?php endif; ?>
-                </div>
-             <div class="item-description">
-             Space-saving design with 1-20kg weight range. Perfect for home gyms.
-                </div>
-             <a href="#" class="buy-button">Add to Cart</a>
-            </div>
 
     </div>
 </div>

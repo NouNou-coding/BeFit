@@ -19,7 +19,7 @@
     </style>
 </head>
 <body>
-    
+    <div class="body-index">
     <nav class="page-header">
     <div class="nav-container">
         <div class="logo-nav">
@@ -62,7 +62,6 @@
 
     <!-- Shop Section -->
     <?php 
-    session_start();
     include('includes/shop-section.php');
      ?>
 
