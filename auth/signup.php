@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <!-- Keep your HTML form from signup3.html but change form action -->
-<form class="signup-form" method="POST" action="auth/signup.php">
+<form class="signup-form" method="POST" action="signup.php">
 
 
 <!DOCTYPE html>

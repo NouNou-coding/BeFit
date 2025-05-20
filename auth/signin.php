@@ -20,8 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-<!-- Keep your HTML form from signin2.html but change form action -->
-<form class="signin-form" method="POST" action="auth/signin.php">
+<form class="signin-form" method="POST" action="signin.php">
 
 
 <!DOCTYPE html>

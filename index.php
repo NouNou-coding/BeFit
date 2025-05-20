@@ -1,3 +1,10 @@
+<?php
+session_start(); // Add this at the very top
+require 'auth/config.php'; // Include config for session verification
+
+// Check if user is logged in
+$loggedIn = isset($_SESSION['user_id']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,14 +23,53 @@
             border: 0;
             border-top: 2px solid #ddd;
         }
+        .dashboard-content {
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .dashboard-options {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .dashboard-btn {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2rem 3rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .dashboard-btn i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .dashboard-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
-    <div class="body-index">
+     <div class="body-index">
     <nav class="page-header">
     <div class="nav-container">
         <div class="logo-nav">
-            <a href="index1.html">
+            <a href="index.php">
             <img src="photos/logo1.png" alt="BeFit Logo" class="logo">
             </a>
         </div>
@@ -35,36 +81,41 @@
             </ul>
     
             <div class="nav-buttons">
-                <a href="/auth/signin.php" class="nav-login">Log In</a>
-                <a href="/auth/signup.php" class="cta-button nav-cta">Get Started</a>
+                <?php if($loggedIn): ?>
+                    <span style="color: white; margin-right: 15px;">Welcome <?= htmlspecialchars($_SESSION['user_name']) ?></span>
+                    <a href="auth/logout.php" class="cta-button nav-cta">Logout</a>
+                <?php else: ?>
+                    <a href="auth/signin.php" class="nav-login">Log In</a>
+                    <a href="auth/signup.php" class="cta-button nav-cta">Get Started</a>
+                <?php endif; ?>
             </div>
         </div>
     </nav>
-    
 
-    <div class="hero-content">
-        <div class="hero-left">
-            <h1>Transform Your Fitness with 
-                <span class="highlight"><br>BeFit AI Precision.</span>
-            </h1>
-            <h3>"Workouts Tailored to You—Powered by Goals, Level & Equipment. Strength Simplified, Supplements Curated."
-            </h3>
-            <div class="cta-container">
-                <a href="signup3.html" class="cta-button">Get Started Now</a>
+    <?php if($loggedIn): ?>
+        <!-- Logged-in Content -->
+        <div class="dashboard-content">
+            <h1>Welcome back, <?= htmlspecialchars($_SESSION['user_name']) ?>!</h1>
+            <div class="dashboard-options">
+                <a href="build-workout.php" class="dashboard-btn">
+                    <i class="fas fa-dumbbell"></i>
+                    Build Your Workout
+                </a>
+                <a href="track-progress.php" class="dashboard-btn">
+                    <i class="fas fa-chart-line"></i>
+                    Track Your Progress
+                </a>
             </div>
-        </div>  
-    </div>
-
-    <hr class="section-separator">
-
-    <?php include('benefits.php'); ?>
-
-
-    <!-- Shop Section -->
-    <?php 
-    include('includes/shop-section.php');
-     ?>
-
+        </div>
+    <?php else: ?>
+        <!-- Original Landing Page Content -->
+        <div class="hero-content">
+            <!-- ... existing hero content ... -->
+        </div>
+        <hr class="section-separator">
+        <?php include('benefits.php'); ?>
+        <?php include('includes/shop-section.php'); ?>
+    <?php endif; ?>
 
     <?php include('includes/footer.php'); ?>
     <script src="transitions.js"></script>
