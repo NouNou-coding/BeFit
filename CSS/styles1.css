@@ -5,6 +5,16 @@
     font-family: 'Arial', sans-serif;
 }
 
+
+:root {
+  --primary-blue: #3B82F6;  /* Updated to Tailwind's blue-500 */
+  --secondary-blue: #60A5FA;
+  --dark-bg: #1E293B;
+  --light-bg: #F8FAFC;
+  --accent-orange: #F59E0B;  /* Complementary accent color */
+}
+
+
 .body-index{
     min-height: 100vh;
     position: relative;
@@ -12,7 +22,7 @@
     background-position: center;
     background-attachment: fixed;
     transition: background-image 1s ease-in-out;
-    background-image: url('/photos/img6.5.jpg'); /* for github */
+    background-image: url('/photos/img7.1.jpg'); /* for github */
 }
 
 body::before {
@@ -76,7 +86,7 @@ body::before {
 }
 
 .nav-links a:hover {
-    color: #4A90E2;
+    color: var(--primary-blue);
 }
 
 .nav-links a::after {
@@ -101,7 +111,7 @@ body::before {
 
 .nav-links a:hover,
 .nav-login:hover {
-    color: #4A90E2;
+    color: var(--primary-blue);
     text-decoration: none;
 }
 
@@ -116,7 +126,7 @@ body::before {
     position: relative;
     height: calc(100vh - 60px);
     z-index: 1;
-    min-height: auto;
+    min-height: 80vh;
     padding: 0 10% 2rem;
     display: flex;
     align-items: center;
@@ -124,6 +134,12 @@ body::before {
     color: white;
     margin-top: 20px;
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    animation: slideUp 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .hero-left {
@@ -132,8 +148,8 @@ body::before {
 
 /* Typography */
 h1 {
-    font-size: 6 rem;
-    line-height: 1.1;
+    font-size: 4 rem;
+    line-height: 1.2;
     margin-bottom: 1.5rem;
 }
 
@@ -150,7 +166,7 @@ h1, h3 {
 }
 
 .highlight {
-    color: #4A90E2;
+    color: var(--primary-blue);
     font-weight: 600;
 }
 
@@ -160,9 +176,12 @@ h1, h3 {
 }
 
 .cta-button {
+    background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+    position: relative;
+    overflow: hidden;  
     display: inline-block;
     padding: 15px 40px;
-    background-color: #4A90E2;
+    background-color: var(--primary-blue);
     color: white;
     text-decoration: none;
     border-radius: 30px;
@@ -171,6 +190,29 @@ h1, h3 {
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
      border: 2px solid transparent; /* Add border for contrast */ 
+}
+
+cta-button::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, 
+    transparent 25%,
+    rgba(255,255,255,0.1) 50%,
+    transparent 75%);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  to { transform: translateX(100%); }
+}
+
+/* Form Elements */
+.input-field:focus {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 
 .cta-button:hover {
@@ -193,8 +235,8 @@ h1, h3 {
 
 .nav-login:hover {
     background: rgba(255, 255, 255, 0.1);
-    border-color: #4A90E2;
-    color: #4A90E2 !important;
+    border-color: var(--primary-blue);
+    color: var(--primary-blue); 
     transform: translateY(-1px);
 }
 
@@ -237,9 +279,9 @@ body {
 
 .signin-switch-btn:hover {
     background-color: rgba(255, 255, 255, 0.25);
-    border-color: #4A90E2;
+    border-color: var(--primary-blue);
     transform: translateY(-2px);
-    color: #4A90E2;
+    color: var(--primary-blue);
 }
 
 
@@ -247,10 +289,14 @@ body {
 
 /* benefit.php */
 .benefits-section {
-    background: #f8f9ff;
+    background: var(--light-bg);
     padding: 6rem 0;
     position: relative;
     z-index: 1;
+}
+
+.benefit-card:hover .benefit-icon {
+  transform: translateY(-5px) scale(1.1);
 }
 
 .benefits-container {
@@ -274,7 +320,7 @@ body {
     font-weight: 500;
     display: block;
     margin-top: 1rem;
-    color: #4A90E2;
+    color: var(--primary-blue);
 }
 
 .benefits-grid {
@@ -293,6 +339,7 @@ body {
     box-shadow: 0 4px 24px rgba(0,0,0,0.04);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
     backdrop-filter: blur(8px);
 }
 
@@ -304,7 +351,8 @@ body {
 
 .benefit-icon {
     font-size: 2.75rem;
-    color: #4A90E2;
+    color: var(--primary-blue);
+    transition: transform 0.3s;
     margin-bottom: 1.5rem;
     text-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
 }
@@ -358,7 +406,7 @@ body {
 
 /* Footer Styles */
 .site-footer {
-    background: #1a2035;
+    background: var(--dark-bg);
     color: #e2e8f0;
     padding: 4rem 0 1rem;
     margin-top: 6px;
@@ -379,7 +427,7 @@ body {
 }
 
 .footer-heading {
-    color: #4A90E2;
+    color: var(--primary-blue);
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
     font-weight: 600;
@@ -399,13 +447,13 @@ body {
 }
 
 .footer-links a:hover {
-    color: #4A90E2;
+    color: var(--primary-blue);
     padding-left: 8px;
 }
 
 .footer-links a::before {
     content: "•";
-    color: #4A90E2;
+    color: var(--primary-blue);
     position: absolute;
     left: -12px;
     opacity: 0;
@@ -425,12 +473,16 @@ body {
 .social-icons a {
     color: #94a3b8;
     font-size: 1.4rem;
-    transition:  all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:  transform 0.3s;
 }
 
 .social-icons a:hover {
-    color: #4A90E2;
-    transform: translateY(-2px);
+    color: var(--primary-blue);
+    transform: scale(1.2);
+}
+
+@keyframes pulse {
+  50% { opacity: 0.5; }
 }
 
 .footer-bottom {
@@ -458,6 +510,32 @@ body {
     transform: scale(1.05);
     filter: brightness(0) invert(0.8) sepia(1) saturate(5) hue-rotate(175deg); /* Hover to brand blue */
 }
+
+.skeleton-loading {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .nav-links {
+    gap: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
 
 
 
@@ -530,7 +608,7 @@ body {
     transform: translateX(-50%);
     width: 100px;
     height: 3px;
-    background: #4A90E2;
+    background: var(--primary-blue);
 }
 .page-header br {
 display: none;
@@ -565,7 +643,7 @@ transform-origin: center;
     transform: translateX(-50%);
     height: 90%;
     width: 2px;
-    background: #4A90E2;
+    background: var(--primary-blue);
     top: 5%;
 }
 
@@ -596,7 +674,7 @@ transform-origin: center;
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: #4A90E2;
+    background: var(--primary-blue);
 }
 
 .shop-page-content{
@@ -612,14 +690,14 @@ transform-origin: center;
     align-items: stretch;
      min-height: 400px;
     padding: 1rem 1.5rem;
-    gap: 1.2rem;
+    gap: 1.5rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
         
 .shop-item {
     background: white !important;
     border-radius: 8px;
-    transition: transform 0.2s ease;
+    transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     min-width: 200px;
     flex: 0 0 auto;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -631,7 +709,7 @@ transform-origin: center;
     height: 100%;
     min-height:  auto !important;
     gap: 1rem;
-    padding: 1rem 0;
+    padding: 1.5rem;
     scrollbar-width: none;
     justify-content: space-between;
 }
@@ -641,8 +719,8 @@ transform-origin: center;
 }
 
 .shop-item:hover {
-    transform: translateY(-5px);
-     box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+    transform: translateY(-8px);
+     box-shadow: 0 12px 24px rgba(0,0,0,0.1);
 }
         
 .item-name {
@@ -658,8 +736,8 @@ transform-origin: center;
 }
 .item-image {
     width: 100%;
-    height: 100px;
-    object-fit: contain;
+    height: 160px;
+    object-fit: cover   ;
     border-radius: 8px;
     margin-bottom: 0.8rem;
     flex-shrink: 0;
@@ -684,7 +762,7 @@ transform-origin: center;
     margin-top: auto;
     margin-top: 0.5rem;
     padding: 8px 16px;
-    background: #4A90E2;
+    background: var(--primary-blue);
     color: white;
     border: none;
     border-radius: 6px;
@@ -706,7 +784,7 @@ transform-origin: center;
 }
 
 .discounted-price {
-    color: #4A90E2 !important;
+    color: #10B981 !important;
     font-weight: 700;
     font-size: 1.1rem;
 }
