@@ -1,11 +1,12 @@
 <?php
 require 'config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
-    $confirm_password = trim($_POST['confirm_password']);
+ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Use null coalescing operator to handle undefined keys
+    $name = trim($_POST['name'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
+    $confirm_password = trim($_POST['confirm_password'] ?? '');
 
     // Validation
     if (empty($name) || empty($email) || empty($password)) {
@@ -45,10 +46,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>BeFit - Sign Up</title>
     <link rel="stylesheet" href="../css/styles1.css">
     <style>
-        
         html, body {
             height: 100%;
             overflow-y: hidden;
+        }
+
+        .signin-container, .signup-container {
+            position: relative;
+            z-index: 1;
         }
 
         .form-group.name-group {
@@ -157,7 +162,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         position: relative;
         overflow: hidden;
-    }
+        }
 
 
         .account-section {
@@ -207,58 +212,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         position: relative;
         overflow: hidden;
         animation: pulseGlow 2s infinite;
-    }
-
-    .signup-btn:hover {
-        background-color: #357ABD;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
-    }
-
-    .signup-btn:active {
-        transform: translateY(1px);
-        transition: all 0.1s ease;
-    }
-
-    .signup-btn::after {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.1);
-        opacity: 0;
-        transition: all 0.4s ease;
-    }
-
-    .signup-btn:hover::after {
-        opacity: 1;
-        width: 120%;
-        height: 300%;
-    }
-
-        @media (max-width: 768px) {
-            .signup-container {
-                flex-direction: column;
-                padding: 1rem;
-                overflow-y: auto;
-            }
-            
-            .benefits-column, .form-container {
-                width: 100%;
-                max-width: none;
-                padding: 1.5rem;
-            }
-            
-            html, body {
-                overflow-y: auto;
-            }
+    
         }
+        .signup-btn:hover {
+            background-color: #357ABD;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .signup-btn:active {
+            transform: translateY(1px);
+            transition: all 0.1s ease;
+        }
+
+        .signup-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .signup-btn:hover::after {
+            opacity: 1;
+            width: 120%;
+            height: 300%;
+        }
+
+            @media (max-width: 768px) {
+                .signup-container {
+                    flex-direction: column;
+                    padding: 1rem;
+                    overflow-y: auto;
+                }
+
+                .benefits-column, .form-container {
+                    width: 100%;
+                    max-width: none;
+                    padding: 1.5rem;
+                }
+
+                html, body {
+                    overflow-y: auto;
+                }
+            }
     </style>
 </head>
-<body>
+<body class="shared-bg">
     <div class="signup-container">
         
         <div class="benefits-column">
@@ -284,21 +289,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-container">
             <h2 style="margin-bottom: 1.5rem; color: #333; text-align: center; font-size: 1.5rem;">Create Account</h2>
             
-            <form class="signup-form">
+            <form class="signup-form" method="POST" action="signup.php">
                 <div class="form-group">
-                    <input type="email" placeholder="Email Address" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
                 </div>
                 
                 <div class="form-group name-group">
-                    <input type="text" placeholder="Name" required>
+                    <input type="text"  name="name" placeholder="Name" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" placeholder="Create Password" required>
+                    <input type="password" name="password" placeholder="Create Password" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" placeholder="Confirm Password" required>
+                    <input type="password" name="confirm_password" placeholder="Confirm Password" required>
                 </div>
 
                 <div class="terms-checkbox">

@@ -1,8 +1,12 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 $host = 'localhost';
 $db   = 'befit';
-$user = 'root';
-$pass = '';
+$user = 'root';    // Default XAMPP username
+$pass = '';        // Default XAMPP password (blank)
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -15,11 +19,11 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    die("Database connection failed: " . $e->getMessage());
 }
 
 // Prevent direct access
-if (!defined('PROTECTED')) {
-    die('Direct access not allowed');
+// Prevent direct access
+if (basename($_SERVER['SCRIPT_FILENAME']) === basename(__FILE__)) {
+    die("Direct access forbidden");
 }
-?>

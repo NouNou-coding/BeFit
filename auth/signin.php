@@ -2,8 +2,8 @@
 require 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+     $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? ''); // Fixed line
 
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
@@ -14,10 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_name'] = $user['name'];
         header("Location: index.php");
-        exit();
-    } else {
+            exit();
+        } else {
         $error = "Invalid email or password!";
-    }
+        }
 }
 ?>
 <form class="signin-form" method="POST" action="signin.php">
@@ -31,6 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>BeFit - Sign In</title>
     <link rel="stylesheet" href="../css/styles1.css">
     <style>
+        .signin-container, .signup-container {
+            position: relative;
+            z-index: 1;
+        }
         /* Custom styles for signin page */
         html, body {
             height: 100%;
@@ -142,19 +146,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     </style>
 </head>
-<body>
+<body class="shared-bg">
     <div class="signin-container">
         <!-- Left Column - Signin Form -->
         <div class="left-column">
-            <form class="signin-form">
+            <form class="signin-form" method="POST" action="signin.php">
                 <h2 style="margin-bottom: 2rem; color: #333;">Sign In to BeFit</h2>
                 
                 <div class="form-group">
-                    <input type="email" placeholder="Email Address" required>
+                    <input type="email" name="email" placeholder="Email Address" required>
                 </div>
                 
                 <div class="form-group">
-                    <input type="password" placeholder="Password" required>
+                    <input type="password" name="password"  placeholder="Password" required>
                 </div>
 
                 <button type="submit" class="signin-btn">Sign In</button>
@@ -176,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
                 Continue your fitness journey with personalized AI-powered training plans.
             </p>
-            <img src="photos/logo1.png" alt="BeFit Logo" class="logo-signin">
+            <img src="../photos/logo1.png" alt="BeFit Logo" class="logo-signin">
 
              <div style="margin-top: 3rem;">
                 <p style="color: white; margin-bottom: 1rem;">Don't have an account?</p>

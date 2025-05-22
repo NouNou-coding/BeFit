@@ -14,6 +14,11 @@ $loggedIn = isset($_SESSION['user_id']);
     <link rel="stylesheet" href="css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        .nav-container, .hero-content, .dashboard-content {
+            position: relative;
+            z-index: 1;
+        }
+
         .hero-content {
             background-attachment: fixed;
         }
@@ -64,8 +69,7 @@ $loggedIn = isset($_SESSION['user_id']);
         }
     </style>
 </head>
-<body>
-     <div class="body-index">
+<body class="body-index shared-bg">
     <nav class="page-header">
     <div class="nav-container">
         <div class="logo-nav">
@@ -109,9 +113,20 @@ $loggedIn = isset($_SESSION['user_id']);
         </div>
     <?php else: ?>
         <!-- Original Landing Page Content -->
+
         <div class="hero-content">
-            <!-- ... existing hero content ... -->
+        <div class="hero-left">
+            <h1>Transform Your Fitness with 
+                <span class="highlight"><br>BeFit AI Precision.</span>
+            </h1>
+            <h3>"Workouts Tailored to You—Powered by Goals, Level & Equipment. Strength Simplified, Supplements Curated."
+            </h3>
+            <div class="cta-container">
+                <a href="signup3.html" class="cta-button">Get Started Now</a>
+            </div>
+        </div>  
         </div>
+        
         <hr class="section-separator">
         <?php include('benefits.php'); ?>
         <?php include('includes/shop-section.php'); ?>
