@@ -3,6 +3,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+define('HF_API_KEY', 'your-huggingface-token-here'); 
+    
 $host = 'localhost';
 $db   = 'befit';
 $user = 'root';    // Default XAMPP username

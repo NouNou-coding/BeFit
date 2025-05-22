@@ -2,8 +2,8 @@
 require 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-     $email = trim($_POST['email'] ?? '');
-    $password = trim($_POST['password'] ?? ''); // Fixed line
+    $email = trim($_POST['email'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $stmt->execute([$email]);
@@ -13,16 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_name'] = $user['name'];
-        header("Location: index.php");
-            exit();
-        } else {
+        header("Location: ../index.php");
+        exit();
+    } else {
         $error = "Invalid email or password!";
-        }
+    }
 }
 ?>
-<form class="signin-form" method="POST" action="signin.php">
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,162 +27,261 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeFit - Sign In</title>
     <link rel="stylesheet" href="../css/styles1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .signin-container, .signup-container {
-            position: relative;
-            z-index: 1;
+        :root {
+            --primary-blue: #4A90E2;
+            --dark-blue: #2B6CB0;
+            --gradient-start: #4A90E2;
+            --gradient-end: #63B3ED;
         }
-        /* Custom styles for signin page */
-        html, body {
-            height: 100%;
-            overflow-y: hidden;
-        }
-        
-        .signup-switch-btn:hover {
-            background-color: rgba(255, 255, 255, 0.25);
-            border-color: #4A90E2;
-            transform: translateY(-2px);
-            color: #4A90E2;
-        }
-
-        .signup-switch-btn {
-            display: inline-block;
-            padding: 12px 35px;
-            background-color: rgba(255, 255, 255, 0.15);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 30px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
 
         .signin-container {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 2rem 5%;
-            gap: 4rem;
-        }
-
-        .left-column, .right-column {
-            flex: 1;
-            max-width: 450px;
             padding: 2rem;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
         }
 
-        .right-column {
+        .signin-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-container {
             text-align: center;
-            color: white;
+            margin-bottom: 2.5rem;
         }
 
-        .signin-form {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2.5rem;
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .form-group {
+        .logo {
+            width: 120px;
             margin-bottom: 1.5rem;
         }
 
-        input {
-            width: 100%;
-            padding: 12px 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
+        .signin-title {
+            text-align: center;
+            color: #2D3748;
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
         }
 
-        input:focus {
+        .form-group {
+            margin-bottom: 1.8rem;
+            position: relative;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 14px 20px;
+            border: 2px solid #E2E8F0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #F7FAFC;
+        }
+
+        .input-field:focus {
             outline: none;
-            border-color: #4A90E2;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+        }
+
+        .input-label {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus + .input-label,
+        .input-field:not(:placeholder-shown) + .input-label {
+            top: -10px;
+            left: 10px;
+            font-size: 0.85rem;
+            color: var(--primary-blue);
+            background: white;
+            padding: 0 5px;
         }
 
         .signin-btn {
             width: 100%;
             padding: 14px;
-            background-color: #4A90E2;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: transform 0.3s ease;
+            font-size: 1rem;
         }
 
         .signin-btn:hover {
-            background-color: #357ABD;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
         }
 
         .extra-links {
-            margin-top: 1.5rem;
+            margin-top: 1.8rem;
             text-align: center;
         }
 
-        .logo-signin {
-            width: 180px;
-            margin: 2rem 0;
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1.5rem 0;
         }
 
-        @media (max-width: 768px) {
-            .signin-container {
-                flex-direction: column;
-                padding: 2rem;
+        .forgot-password {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .social-login {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .social-text {
+            color: #718096;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .social-text::before,
+        .social-text::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #E2E8F0;
+            margin: auto;
+        }
+
+        .social-text span {
+            padding: 0 1rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #EDF2F7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .signin-card {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
             }
             
-            .left-column, .right-column {
-                width: 100%;
-                max-width: none;
+            .logo {
+                width: 100px;
             }
+        }
+
+        /* Error Message Styling */
+        .error-message {
+            background: #FED7D7;
+            color: #C53030;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body class="shared-bg">
     <div class="signin-container">
-        <!-- Left Column - Signin Form -->
-        <div class="left-column">
-            <form class="signin-form" method="POST" action="signin.php">
-                <h2 style="margin-bottom: 2rem; color: #333;">Sign In to BeFit</h2>
-                
+        <div class="signin-card">
+            <div class="logo-container">
+                <img src="../photos/logo1.png" alt="BeFit Logo" class="logo">
+            </div>
+
+            <?php if(isset($error)): ?>
+                <div class="error-message"><?= htmlspecialchars($error) ?></div>
+            <?php endif; ?>
+
+            <h1 class="signin-title">Welcome Back</h1>
+            
+            <form method="POST" action="signin.php">
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="email" name="email" class="input-field" placeholder=" " required>
+                    <label class="input-label">Email Address</label>
                 </div>
-                
+
                 <div class="form-group">
-                    <input type="password" name="password"  placeholder="Password" required>
+                    <input type="password" name="password" class="input-field" placeholder=" " required>
+                    <label class="input-label">Password</label>
+                </div>
+
+                <div class="remember-forgot">
+                    <label>
+                        <input type="checkbox" name="remember">
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="signin-btn">Sign In</button>
 
-                <div class="extra-links">
-                    <p style="margin: 1rem 0; color: #666;">
-                        <input type="checkbox" id="remember">
-                        <label for="remember">Remember me</label>
-                    </p>
+                <div class="social-login">
+                    <div class="social-text">
+                        <span>Or continue with</span>
+                    </div>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-google"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-apple"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </div>
+                </div>
 
-                        <a href="#" style="color: #4A90E2; text-decoration: none;">Forgot Password?</a>
+                <div class="extra-links">
+                    <p>Don't have an account? <a href="signup.php" class="forgot-password">Sign Up</a></p>
                 </div>
             </form>
-        </div>
-
-        <!-- Right Column - Welcome Message -->
-        <div class="right-column">
-            <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Welcome Back!</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">
-                Continue your fitness journey with personalized AI-powered training plans.
-            </p>
-            <img src="../photos/logo1.png" alt="BeFit Logo" class="logo-signin">
-
-             <div style="margin-top: 3rem;">
-                <p style="color: white; margin-bottom: 1rem;">Don't have an account?</p>
-                <a href="signup.php" class="signup-switch-btn">Create Account</a>
-            </div>
         </div>
     </div>
 </body>

@@ -1,6 +1,6 @@
 <?php
-session_start(); // Add this at the very top
-require 'auth/config.php'; // Include config for session verification
+session_start();
+require 'auth/config.php'; 
 
 // Check if user is logged in
 $loggedIn = isset($_SESSION['user_id']);
@@ -101,7 +101,7 @@ $loggedIn = isset($_SESSION['user_id']);
         <div class="dashboard-content">
             <h1>Welcome back, <?= htmlspecialchars($_SESSION['user_name']) ?>!</h1>
             <div class="dashboard-options">
-                <a href="build-workout.php" class="dashboard-btn">
+                <a href="options/build-workout.php" class="dashboard-btn">
                     <i class="fas fa-dumbbell"></i>
                     Build Your Workout
                 </a>
@@ -110,9 +110,10 @@ $loggedIn = isset($_SESSION['user_id']);
                     Track Your Progress
                 </a>
             </div>
+             <hr class="section-separator">
+            <?php include('includes/shop-section.php'); ?>
         </div>
     <?php else: ?>
-        <!-- Original Landing Page Content -->
 
         <div class="hero-content">
         <div class="hero-left">
@@ -124,13 +125,13 @@ $loggedIn = isset($_SESSION['user_id']);
             <div class="cta-container">
                 <a href="signup3.html" class="cta-button">Get Started Now</a>
             </div>
-        </div>  
-        </div>
-        
+        </div> 
+    </div>
         <hr class="section-separator">
         <?php include('benefits.php'); ?>
         <?php include('includes/shop-section.php'); ?>
-    <?php endif; ?>
+   <?php endif; ?> 
+        </div>
 
     <?php include('includes/footer.php'); ?>
     <script src="transitions.js"></script>

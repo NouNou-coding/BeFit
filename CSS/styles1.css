@@ -1,3 +1,33 @@
+/* AI */
+.ai-section {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: #f8f9ff;
+    border-radius: 12px;
+}
+
+.ai-prompt {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.ai-prompt input {
+    flex: 1;
+    padding: 12px;
+}
+
+.ai-response {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    min-height: 100px;
+}
+
+
+
+
 * {
     margin: 0;
     padding: 0;
