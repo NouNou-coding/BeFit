@@ -12,10 +12,82 @@ $userData->execute([$_SESSION['user_id']]);
 $user = $userData->fetch(PDO::FETCH_ASSOC);
 
 // Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // [Existing validation and AI generation code]
-    // Update user measurements if changed
+
+function generateWorkoutPlan($userId, $weight, $height, $age, $goals, $days, $equipment) {
+    // Basic workout template - replace with real AI integration
+    $equipmentList = implode(', ', $equipment);
+    $goalsList = implode(', ', $goals);
+    
+    return "Custom $days-day program for:\n" .
+           "Goals: $goalsList\n" .
+           "Equipment: $equipmentList\n\n" .
+           "Sample Workout:\n" .
+           "- Warmup: 10min dynamic stretches\n" .
+           "- Strength Circuit (3x12): Squats, Pushups, Rows\n" .
+           "- Conditioning: 20min interval training";
 }
+
+    // Validate required fields
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $error = '';
+    
+    // Validate goals - must be an array with at least one selection
+    if (!isset($_POST['goals']) || !is_array($_POST['goals']) || empty($_POST['goals'])) {
+        $error = 'Please select at least one fitness goal';
+    }
+    
+    // Validate equipment - must be an array with at least one selection
+    if (!isset($_POST['equipment']) || !is_array($_POST['equipment']) || empty($_POST['equipment'])) {
+        $error = 'Please select at least one equipment type';
+    }
+
+    if (empty($error)) {
+        // Process valid form data
+        try {
+            // Your database operations here
+        } catch (PDOException $e) {
+            // Handle database errors
+        }
+    } else {
+        // Show error to user
+        echo '<div class="error">' . htmlspecialchars($error) . '</div>';
+    }
+}
+
+
+
+            // 2. Generate workout plan
+            $workoutPlan = generateWorkoutPlan(
+                $_SESSION['user_id'],
+                $user['weight'],
+                $user['height'],
+                $user['age'],
+                $_POST['goals'],
+                $_POST['training_days'],
+                $_POST['equipment']
+            );
+
+            // 3. Save workout plan
+            $stmt = $pdo->prepare("INSERT INTO workout_plans 
+                (user_id, weight, height, age, goal, training_days, equipment, workout_plan) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+            $stmt->execute([
+                $_SESSION['user_id'],
+                $user['weight'],
+                $user['height'],
+                $user['age'],
+                implode(',', $_POST['goals']),  // Store goals as comma-separated string
+                $_POST['training_days'],
+                implode(',', $_POST['equipment']),
+                $workoutPlan
+            ]);
+
+            $pdo->commit();
+            header("Location: view-workout.php?id=".$pdo->lastInsertId());
+            exit();
+
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,6 +95,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <title>AI Workout Builder | BeFit</title>
     <link rel="stylesheet" href="../css/workout-steps.css">
+    <link rel="stylesheet" href="../css/styles1.css">
 </head>
 <body class="shared-bg">
     <div class="workout-builder">
@@ -170,4 +243,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script src="../js/workout-builder.js"></script>
-</body
+                            </body>
+</html>

@@ -113,3 +113,33 @@ overflow: hidden;
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* Validation States */
+.input-group.invalid input {
+    border-color: #ef4444;
+    animation: shake 0.3s;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* AI Response States */
+.ai-response {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.ai-response.loading {
+    background: #f8fafc;
+    min-height: 120px;
+}
+
+.ai-error {
+    color: #ef4444;
+    padding: 1rem;
+    background: #fef2f2;
+    border-radius: 8px;
+}

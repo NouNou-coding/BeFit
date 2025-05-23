@@ -55,5 +55,95 @@ async function loadWorkoutHistory() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize equipment cards
+    document.querySelectorAll('.equipment-card').forEach(card => {
+        card.addEventListener('click', function() {
+            const checkbox = this.querySelector('input');
+            checkbox.checked = !checkbox.checked;
+            this.classList.toggle('selected', checkbox.checked);
+        });
+    });
+
+    // Initialize form validation
+    document.querySelectorAll('input, select').forEach(element => {
+        element.addEventListener('invalid', () => {
+            element.closest('.input-group').classList.add('invalid');
+        });
+        
+        element.addEventListener('input', () => {
+            element.closest('.input-group').classList.remove('invalid');
+        });
+    });
+
     loadWorkoutHistory();
 });
+
+// Step validation logic
+function validateStep(step) {
+    const forms = {
+        1: '#measurementForm',
+        2: '#preferencesForm',
+        3: '#environmentForm'
+    };
+    
+    const form = document.querySelector(forms[step]);
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return false;
+    }
+    return true;
+}
+
+// Enhanced form submission
+document.querySelector('#environmentForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const loading = document.getElementById('loading');
+    loading.style.display = 'block';
+    
+    try {
+        const formData = new FormData(e.target);
+        const response = await fetch('', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (response.redirected) {
+            window.location.href = response.url;
+        }
+    } catch (error) {
+        console.error('Submission error:', error);
+        loading.style.display = 'none';
+    }
+});
+
+// AI Suggestion Handler
+async function generateAITips() {
+    const prompt = document.getElementById('aiPrompt').value;
+    const responseArea = document.getElementById('aiResponse');
+    
+    responseArea.innerHTML = '<div class="loader"></div>';
+    
+    try {
+        const response = await fetch('../auth/ai-handler.php?action=workout', {
+            method: 'POST',
+            body: new URLSearchParams({ prompt })
+        });
+        
+        if (!response.ok) throw new Error('AI service error');
+        responseArea.innerHTML = await response.text();
+        
+    } catch (error) {
+        responseArea.innerHTML = `
+            <div class="ai-error">
+                <p>⚠️ AI Service Unavailable</p>
+                <small>Local fallback suggestions:</small>
+                <ul>
+                    <li>Start with bodyweight exercises</li>
+                    <li>Focus on compound movements</li>
+                    <li>Maintain proper form</li>
+                </ul>
+            </div>
+        `;
+    }
+}

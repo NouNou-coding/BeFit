@@ -54,3 +54,32 @@ function queryHuggingFace($model, $data) {
     return json_decode($response, true);
 }
 ?>
+<?php
+require 'config.php';
+
+header('Content-Type: text/html; charset=utf-8');
+
+// Local development check
+$isLocal = $_SERVER['SERVER_NAME'] === 'localhost';
+
+try {
+    if ($isLocal) {
+        // Local mock response
+        $mockWorkouts = [
+            "3-day full body routine focusing on compound movements",
+            "Beginner-friendly bodyweight circuit training",
+            "HIIT workout for fat loss with minimal equipment"
+        ];
+        echo nl2br($mockWorkouts[array_rand($mockWorkouts)]);
+        exit;
+    }
+
+    // Original Hugging Face integration
+    $response = queryHuggingFace($model, $data);
+    echo nl2br($response[0]['generated_text']);
+
+} catch (Exception $e) {
+    echo "Our AI trainer is currently unavailable. Suggested routine:\n\n";
+    echo "1. Bodyweight squats 3x15\n2. Push-ups 3x12\n3. Plank 3x30sec";
+}
+?>
