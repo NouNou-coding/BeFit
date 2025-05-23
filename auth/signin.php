@@ -29,11 +29,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="../css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-blue: #4A90E2;
-            --dark-blue: #2B6CB0;
-            --gradient-start: #4A90E2;
-            --gradient-end: #63B3ED;
+        .signup-btn {
+            display: inline-block;
+            padding: 8px 25px;
+            background-color: transparent;
+            color: #4A90E2;
+            border: 2px solid #4A90E2;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+    
+        .signup-btn:hover {
+            background-color: #4A90E2;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+    
+        .signup-btn:active {
+            transform: translateY(1px);
+        }
+    
+        html, body {
+            height: 100%;
+            overflow-y: hidden;
         }
 
         .signin-container {
@@ -41,181 +64,101 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 2rem;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            padding: 1rem 5%;
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
         }
 
-        .signin-card {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 3rem 2.5rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 440px;
-            position: relative;
-            backdrop-filter: blur(10px);
+        .welcome-column, .form-container {
+            flex: 1;
+            max-width: 450px;
+            padding: 1.5rem;
+            height: fit-content;
         }
 
-        .logo-container {
+        .welcome-column {
+            color: white;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
             text-align: center;
-            margin-bottom: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .logo {
-            width: 120px;
+        .welcome-column h2 {
+            font-size: 2rem;
             margin-bottom: 1.5rem;
+            color: #4A90E2;
         }
 
-        .signin-title {
-            text-align: center;
-            color: #2D3748;
-            font-size: 1.8rem;
+        .form-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+        }
+
+        .logo-signin {
+            width: 150px;
             margin-bottom: 2rem;
-            font-weight: 700;
         }
 
         .form-group {
-            margin-bottom: 1.8rem;
-            position: relative;
+            margin-bottom: 1.5rem;
         }
 
-        .input-field {
+        input {
             width: 100%;
-            padding: 14px 20px;
-            border: 2px solid #E2E8F0;
-            border-radius: 10px;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
             font-size: 1rem;
             transition: all 0.3s ease;
-            background: #F7FAFC;
         }
 
-        .input-field:focus {
+        input:focus {
+            border-color: #4A90E2;
             outline: none;
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
-        }
-
-        .input-label {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #718096;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-
-        .input-field:focus + .input-label,
-        .input-field:not(:placeholder-shown) + .input-label {
-            top: -10px;
-            left: 10px;
-            font-size: 0.85rem;
-            color: var(--primary-blue);
-            background: white;
-            padding: 0 5px;
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
         }
 
         .signin-btn {
             width: 100%;
             padding: 14px;
-            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            background-color: #4A90E2;
             color: white;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.3s ease;
-            font-size: 1rem;
+            transition: all 0.3s ease;
         }
-
         .signin-btn:hover {
+            background-color: #357ABD;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
         }
 
         .extra-links {
-            margin-top: 1.8rem;
             text-align: center;
-        }
-
-        .remember-forgot {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 1.5rem 0;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #ddd;
         }
 
         .forgot-password {
-            color: var(--primary-blue);
+            color: #4A90E2;
             text-decoration: none;
-            font-size: 0.9rem;
         }
 
         .forgot-password:hover {
             text-decoration: underline;
         }
 
-        .social-login {
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .social-text {
-            color: #718096;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-
-        .social-text::before,
-        .social-text::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #E2E8F0;
-            margin: auto;
-        }
-
-        .social-text span {
-            padding: 0 1rem;
-        }
-
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            margin-top: 1.5rem;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #EDF2F7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #718096;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover {
-            background: var(--primary-blue);
-            color: white;
-            transform: translateY(-2px);
-        }
-
-        @media (max-width: 480px) {
-            .signin-card {
-                padding: 2rem 1.5rem;
-                margin: 1rem;
-            }
-            
-            .logo {
-                width: 100px;
-            }
-        }
-
-        /* Error Message Styling */
         .error-message {
             background: #FED7D7;
             color: #C53030;
@@ -225,61 +168,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
             font-size: 0.9rem;
         }
+
+        @media (max-width: 768px) {
+            .signin-container {
+                flex-direction: column;
+                padding: 1rem;
+                overflow-y: auto;
+            }
+
+            .welcome-column, .form-container {
+                width: 100%;
+                max-width: none;
+                padding: 1.5rem;
+            }
+
+            html, body {
+                overflow-y: auto;
+            }
+        }
     </style>
 </head>
 <body class="shared-bg">
     <div class="signin-container">
-        <div class="signin-card">
-            <div class="logo-container">
-                <img src="../photos/logo1.png" alt="BeFit Logo" class="logo">
-            </div>
+        <div class="welcome-column">
+            <img src="../photos/logo1.png" alt="BeFit Logo" class="logo-signin">
+            <h2>Welcome Back</h2>
+            <p style="font-size: 1.1rem; opacity: 0.9;">Continue your fitness journey with personalized workouts and progress tracking</p>
+        </div>
 
+        <div class="form-container">
             <?php if(isset($error)): ?>
                 <div class="error-message"><?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
 
-            <h1 class="signin-title">Welcome Back</h1>
-            
             <form method="POST" action="signin.php">
                 <div class="form-group">
-                    <input type="email" name="email" class="input-field" placeholder=" " required>
-                    <label class="input-label">Email Address</label>
+                    <input type="email" name="email" placeholder="Email Address" required>
                 </div>
 
                 <div class="form-group">
-                    <input type="password" name="password" class="input-field" placeholder=" " required>
-                    <label class="input-label">Password</label>
+                    <input type="password" name="password" placeholder="Password" required>
                 </div>
 
-                <div class="remember-forgot">
-                    <label>
+                <div class="form-group">
+                    <label style="display: block; margin-bottom: 1rem;">
                         <input type="checkbox" name="remember">
                         Remember me
                     </label>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
                 </div>
 
                 <button type="submit" class="signin-btn">Sign In</button>
 
-                <div class="social-login">
-                    <div class="social-text">
-                        <span>Or continue with</span>
-                    </div>
-                    <div class="social-icons">
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-google"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-apple"></i>
-                        </a>
-                        <a href="#" class="social-icon">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                    </div>
-                </div>
-
                 <div class="extra-links">
-                    <p>Don't have an account? <a href="signup.php" class="forgot-password">Sign Up</a></p>
+                     <a href="#" class="forgot-password">Forgot Password?</a>
+                        <div style="margin-top: 1.5rem;">
+                            <p style="color: #666; margin-bottom: 0.5rem;">Don't have an account?</p>
+                            <a href="signup.php" class="signup-btn">Sign Up Now</a>
+                        </div>
                 </div>
             </form>
         </div>
