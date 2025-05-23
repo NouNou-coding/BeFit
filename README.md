@@ -1,12 +1,5 @@
- Navigate to Your Project Folder
-Use the cd command to change directory (don't run the path as a command):
+step 1 : download befit file and copy paste it inside xampp (htdocs)
+step 2 : turn apache and mysql
+step 3 : access in the web - http://localhost/BeFit/index.php
 
-Start the PHP Server
-Run the PHP development server from your project folder:
 
-cmd
-php -S localhost:8000
-
-Access Your Site
-Open your browser to:
-http://localhost:8000
