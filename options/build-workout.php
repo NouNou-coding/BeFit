@@ -7,24 +7,28 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+// In build-workout.php add validation
+$allowedGoals = ['muscle', 'strength', 'conditioning', 'fat_loss', 'bulking'];
+if (!in_array($goal, $allowedGoals)) {
+    die("Invalid goal selection");
+}
 $error = '';
 $workoutPlan = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize and validate inputs
     $weight = filter_input(INPUT_POST, 'weight', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $height = filter_input(INPUT_POST, 'height', FILTER_SANITIZE_NUMBER_INT);
     $age = filter_input(INPUT_POST, 'age', FILTER_SANITIZE_NUMBER_INT);
     $goal = $_POST['goal'] ?? '';
+    $allowedGoals = ['muscle', 'strength', 'conditioning', 'fat_loss', 'bulking'];
     $trainingDays = filter_input(INPUT_POST, 'training_days', FILTER_SANITIZE_NUMBER_INT);
     $equipment = $_POST['equipment'] ?? [];
 
-    // Validate inputs
     if (empty($weight) || empty($height) || empty($age) || empty($goal) || empty($trainingDays) || empty($equipment)) {
         $error = 'All fields are required!';
     } else {
         try {
-            // Generate AI workout plan (simulated - integrate your AI API here)
+            
             $workoutPlan = generateWorkoutPlan($_SESSION['user_id'], $weight, $height, $age, $goal, $trainingDays, $equipment);
             
             // Save to database
@@ -250,14 +254,29 @@ function generateWorkoutPlan($userId, $weight, $height, $age, $goal, $days, $equ
         document.getElementById('workoutForm').addEventListener('submit', function() {
             document.getElementById('loading').style.display = 'block';
         }
-            async function generateAITips() {
         const prompt = document.getElementById('aiPrompt').value;
         const response = await fetch('ai-handler.php?action=workout', {
             method: 'POST',
             body: new URLSearchParams({ prompt: prompt })
     });
     document.getElementById('aiResponse').innerHTML = await response.text();
-        });
+        );
+
+        function generateWorkoutPlan($userId, $weight, $height, $age, $goal, $days, $equipment) {
+    try {
+        $equipmentList = implode(', ', $equipment);
+        $prompt = "Create a $days-day $goal workout plan for a $age-year-old, $height cm tall, $weight kg individual. Equipment available: $equipmentList. Include warmups, exercises with sets/reps, rest periods, and progression advice.";
+        
+        $response = queryHuggingFace("microsoft/DialoGPT-medium", [
+            "inputs" => $prompt,
+            "parameters" => ["max_length" => 1500]
+        ]);
+        
+        return $response[0]['generated_text'];
+    } catch(Exception $e) {
+        return "AI-generated plan: \n".$e->getMessage(); // Fallback
+    }
+}
 </script>
 </body>
 </html>

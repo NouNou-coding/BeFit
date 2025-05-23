@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-define('HF_API_KEY', 'your-huggingface-token-here'); 
+define('HF_API_KEY', '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'); 
     
 $host = 'localhost';
 $db   = 'befit';
