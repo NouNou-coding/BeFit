@@ -3,13 +3,18 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-define('HF_API_KEY', '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'); 
+// auth/config.php
     
 $host = 'localhost';
+
 $db   = 'befit';
+
 $user = 'root';    // Default XAMPP username
+
 $pass = '';        // Default XAMPP password (blank)
+
 $charset = 'utf8mb4';
+
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
