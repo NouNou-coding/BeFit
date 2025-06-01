@@ -2,8 +2,6 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-
-// auth/config.php
     
 $host = 'localhost';
 
