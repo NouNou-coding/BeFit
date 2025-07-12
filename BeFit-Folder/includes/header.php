@@ -44,7 +44,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                     <span style="color: white; margin-right: 15px;">
                         Welcome <?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?>
                     </span>
-                    <a href="../auth/logout.php" class="cta-button nav-cta">Logout</a>
+                    <a href="/auth/logout.php" class="cta-button nav-cta">Logout</a>
                 <?php else: ?>
                     <a href="../auth/signin.php" class="nav-login">Log In</a>
                     <a href="../auth/signup.php" class="cta-button nav-cta">Get Started</a>
