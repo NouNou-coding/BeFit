@@ -342,5 +342,23 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             </div>
         </div>
     </div>
+<script>
+const inputs = document.querySelectorAll('#verificationModal input[type="text"]');
+inputs.forEach((input, index) => {
+    input.addEventListener('input', () => {
+        if (input.value.length === 1) {
+            if (index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        }
+    });
+    
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && index > 0) {
+            inputs[index - 1].focus();
+        }
+    });
+});
+</script>
 </body>
 </html>
