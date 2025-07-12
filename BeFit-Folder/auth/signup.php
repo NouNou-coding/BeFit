@@ -1,9 +1,5 @@
 <?php
-require 'config.php';
-
-define('PASSWORD_MIN_LENGTH', 8); // Minimum password length
-define('PASSWORD_NEEDS_UPPERCASE', true); // Require at least one uppercase letter
-define('PASSWORD_NEEDS_NUMBER', true); // Require at least one number
+require_once __DIR__ . '/../auth/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
