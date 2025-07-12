@@ -1,79 +1,32 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Define constants only if not already defined
-if (!defined('BASE_URL')) {
-    define('BASE_URL', 'http://' . $_SERVER['HTTP_HOST'] . '/BeFit-Folder/');
-}
-
-if (!defined('HF_API_KEY')) {
-    define('HF_API_KEY', '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'); 
-}
-
-    
-$host = 'localhost';
-$db   = 'befit_db';
-$user = 'root';    // Default XAMPP username
-$pass = '';        // Default XAMPP password (blank)
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
+$dbHost = 'localhost';
+$dbName = 'befit_db';
+$dbUser = 'root';      // Replace if needed
+$dbPass = '';          // Replace if MySQL has a password
 
 try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-    
-    // Create tables with MariaDB-compatible syntax
-    $pdo->exec("CREATE TABLE IF NOT EXISTS products (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        description TEXT,
-        price DECIMAL(10,2) NOT NULL,
-        image_url VARCHAR(255),
-        category VARCHAR(20) NOT NULL
-    )");
-    
-    $pdo->exec("CREATE TABLE IF NOT EXISTS orders (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT NOT NULL,
-        total DECIMAL(10,2) NOT NULL,
-        status VARCHAR(20) DEFAULT 'pending',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )");
-    
-    $pdo->exec("CREATE TABLE IF NOT EXISTS order_items (
-        order_id INT NOT NULL,
-        product_id INT NOT NULL,
-        quantity INT NOT NULL
-    )");
-    
-    // Add workout_plans table if not exists
-    $pdo->exec("CREATE TABLE IF NOT EXISTS workout_plans (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        user_id INT NOT NULL,
-        weight DECIMAL(5,2),
-        height INT,
-        age INT,
-        goal VARCHAR(255),
-        training_days INT,
-        equipment VARCHAR(255),
-        workout_plan TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )");
+    // Connect to MySQL server (without selecting DB)
+    $pdo = new PDO("mysql:host=$dbHost", $dbUser, $dbPass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-} catch (\PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
-define('PASSWORD_MIN_LENGTH', 8);           
-define('PASSWORD_NEEDS_UPPERCASE', true);  
-define('PASSWORD_NEEDS_NUMBER', true);      
+    // Create database if not exists
+    $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbName`");
+    $pdo->exec("USE `$dbName`");
 
-if (basename($_SERVER['SCRIPT_FILENAME']) === basename(__FILE__)) {
-    die("Direct access forbidden");
+    // Create tables (if not exists)
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            username VARCHAR(50) NOT NULL UNIQUE,
+            password VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ");
+
+    // Add other tables (products, orders, etc.) here
+    // Or rely on dump.sql for full schema
+
+} catch (PDOException $e) {
+    die("Database error: " . $e->getMessage());
 }
+?>
