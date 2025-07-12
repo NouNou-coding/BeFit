@@ -20,100 +20,111 @@ $loggedIn = isset($_SESSION['user_id']);
     <!-- CSS -->
     <link rel="stylesheet" href="/BeFit-Folder/public/css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2563EB;  /* Deep blue */
-            --primary-light: #3B82F6;
-            --dark: #111827;    /* Near-black */
-            --light: #F9FAFB;   /* Off-white */
-            --gray: #6B7280;    /* Medium gray */
-            --border-radius: 8px;
+            --primary: #0066FF;
+            --primary-dark: #0052CC;
+            --dark: #1A1A1A;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --border-radius: 12px;
         }
-
+        
         body {
-            font-family: 'Manrope', sans-serif;
+            font-family: 'Open Sans', sans-serif;
             color: var(--dark);
             line-height: 1.6;
-            background: var(--light);
-            margin: 0;
-            padding: 0;
+            background-color: var(--light);
         }
-
+        
         h1, h2, h3 {
-            font-weight: 800;
-            letter-spacing: -0.025em;
-            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
         }
-
-        /* Welcome Message (Logged In) */
+        
+        /* Welcome Message */
         .welcome-message {
             text-align: center;
-            margin: 5rem 0 3rem;
+            margin: 4rem 0 3rem;
         }
         .welcome-message h1 {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            color: var(--dark);
+            font-size: 2.8rem;
+            color: var(--primary);
             margin-bottom: 0.5rem;
         }
         .username {
-            color: var(--primary);
-            position: relative;
+            color: var(--dark);
+            font-weight: 800;
         }
         .welcome-message p {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
         }
 
-        /* Dashboard Buttons */
+        /* Dashboard Options */
         .dashboard-options {
             display: flex;
             justify-content: center;
             gap: 1.5rem;
-            margin: 3rem 0 5rem;
+            margin: 3rem 0;
             flex-wrap: wrap;
         }
         .dashboard-btn {
-            background: var(--dark);
+            background: var(--primary);
             color: white;
-            padding: 1rem 2rem;
+            padding: 1.2rem 2rem;
             border-radius: var(--border-radius);
             text-decoration: none;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            border: 2px solid var(--dark);
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: 2px solid transparent;
+            min-width: 220px;
+            justify-content: center;
         }
         .dashboard-btn:hover {
-            background: transparent;
-            color: var(--dark);
+            background: white;
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
         .dashboard-btn i {
-            font-size: 1.1rem;
+            font-size: 1.3rem;
         }
 
-        /* Hero Section (Logged Out) */
+        /* Hero Section */
         .hero-section {
             text-align: center;
-            padding: 8rem 2rem;
-            background: var(--dark);
-            color: white;
-            margin-bottom: 4rem;
+            padding: 6rem 2rem 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,102,255,0.1) 0%, rgba(0,82,204,0.05) 100%);
+            z-index: -1;
         }
         .hero-title {
-            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-size: 3rem;
+            color: var(--dark);
             margin-bottom: 1.5rem;
-            color: white;
+            line-height: 1.2;
+            font-weight: 800;
         }
         .hero-subtitle {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.85);
+            font-size: 1.3rem;
+            color: var(--gray);
             max-width: 700px;
-            margin: 0 auto 2.5rem;
+            margin: 0 auto 3rem;
             font-weight: 400;
         }
         .cta-button {
@@ -121,28 +132,34 @@ $loggedIn = isset($_SESSION['user_id']);
             background: var(--primary);
             color: white;
             padding: 1rem 2.5rem;
-            border-radius: var(--border-radius);
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
+            font-size: 1.1rem;
             transition: all 0.2s ease;
-            border: 2px solid var(--primary);
+            border: 2px solid transparent;
         }
         .cta-button:hover {
-            background: transparent;
+            background: white;
             color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
 
         /* Benefits Section */
         .benefits-section {
             padding: 5rem 2rem;
+            background: white;
+        }
+        .benefits-container {
             max-width: 1200px;
             margin: 0 auto;
         }
         .benefits-title {
             text-align: center;
-            font-size: clamp(2rem, 5vw, 2.5rem);
-            margin-bottom: 4rem;
+            font-size: 2.5rem;
             color: var(--dark);
+            margin-bottom: 4rem;
         }
         .benefits-grid {
             display: grid;
@@ -150,9 +167,17 @@ $loggedIn = isset($_SESSION['user_id']);
             gap: 2rem;
         }
         .benefit-card {
-            padding: 2rem;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 2.5rem 2rem;
             text-align: center;
             transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
         .benefit-icon {
             font-size: 2.5rem;
@@ -161,29 +186,54 @@ $loggedIn = isset($_SESSION['user_id']);
         }
         .benefit-heading {
             font-size: 1.5rem;
+            color: var(--dark);
             margin-bottom: 1rem;
+            font-weight: 700;
         }
         .benefit-card p {
             color: var(--gray);
-            margin: 0;
         }
 
         /* Shop Section */
-        .shop-section {
-            padding: 5rem 2rem;
-            background: var(--dark);
-            color: white;
-            margin-top: 4rem;
+        .shop-section-container {
+            max-width: 1200px;
+            margin: 5rem auto;
+            padding: 0 2rem;
+        }
+        .section-separator {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #E5E5E5, transparent);
+            margin: 4rem 0;
         }
         .section-title {
             text-align: center;
-            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-size: 2.5rem;
+            color: var(--dark);
             margin-bottom: 3rem;
-            color: white;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            margin: 1.5rem auto 0;
+            border-radius: 2px;
         }
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.3rem;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            .benefits-title, .section-title {
+                font-size: 2rem;
+            }
             .dashboard-options {
                 flex-direction: column;
                 align-items: center;
@@ -191,7 +241,6 @@ $loggedIn = isset($_SESSION['user_id']);
             .dashboard-btn, .cta-button {
                 width: 100%;
                 max-width: 280px;
-                justify-content: center;
             }
         }
     </style>
@@ -204,10 +253,10 @@ $loggedIn = isset($_SESSION['user_id']);
     <main class="main-content">
         <?php if($loggedIn): ?>
             <!-- Dashboard for logged in users -->
-            <section>
+            <section class="dashboard-section">
                 <div class="welcome-message">
                     <h1>Welcome back, <span class="username"><?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span></h1>
-                    <p>Ready to push your limits today?</p>
+                    <p>Ready to crush your fitness goals today?</p>
                 </div>
                 <div class="dashboard-options">
                     <a href="/BeFit-Folder/options/build-workout.php" class="dashboard-btn">
@@ -221,48 +270,52 @@ $loggedIn = isset($_SESSION['user_id']);
         <?php else: ?>
             <!-- Hero Section -->
             <section class="hero-section">
-                <h1 class="hero-title">Transform Your Fitness with BeFit AI</h1>
+                <h1 class="hero-title">Transform Your Fitness with BeFit AI Precision</h1>
                 <p class="hero-subtitle">
-                    Workouts tailored to your goals, level, and equipment. Strength simplified.
+                    Workouts Tailored to You—Powered by Goals, Level & Equipment. Strength Simplified, Supplements Curated.
                 </p>
                 <a href="/BeFit-Folder/auth/signup.php" class="cta-button">Get Started Now</a>
             </section>
             
             <!-- Benefits Section -->
             <section class="benefits-section">
-                <h2 class="benefits-title">Why Choose BeFit?</h2>
-                <div class="benefits-grid">
-                    <div class="benefit-card">
-                        <i class="fas fa-robot benefit-icon"></i>
-                        <h3 class="benefit-heading">AI-Powered</h3>
-                        <p>Adaptive workouts that evolve with your progress.</p>
-                    </div>
-                    <div class="benefit-card">
-                        <i class="fas fa-bolt benefit-icon"></i>
-                        <h3 class="benefit-heading">Efficient</h3>
-                        <p>Maximize results with optimized training plans.</p>
-                    </div>
-                    <div class="benefit-card">
-                        <i class="fas fa-tag benefit-icon"></i>
-                        <h3 class="benefit-heading">Member Discounts</h3>
-                        <p>Exclusive pricing on premium supplements.</p>
+                <div class="benefits-container">
+                    <h2 class="benefits-title">Why Choose BeFit?</h2>
+                    <div class="benefits-grid">
+                        <div class="benefit-card">
+                            <i class="fas fa-robot benefit-icon"></i>
+                            <h3 class="benefit-heading">AI-Powered Workouts</h3>
+                            <p>Smart algorithms create the perfect workout plan based on your goals, fitness level, and available equipment.</p>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-chart-line benefit-icon"></i>
+                            <h3 class="benefit-heading">Real-Time Tracking</h3>
+                            <p>Monitor your progress with detailed analytics and get adaptive recommendations to maximize results.</p>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-tags benefit-icon"></i>
+                            <h3 class="benefit-heading">Exclusive Discounts</h3>
+                            <p>Members get special pricing on premium supplements and fitness gear in our curated store.</p>
+                        </div>
                     </div>
                 </div>
             </section>
         <?php endif; ?>
         
         <!-- Shop Section -->
-        <section class="shop-section">
+        <div class="shop-section-container">
+            <hr class="section-separator">
             <h2 class="section-title">Premium Products</h2>
             <?php 
+            // Include shop section with absolute path
             $shopSectionPath = __DIR__ . '/includes/shop/shop-section.php';
             if (file_exists($shopSectionPath)) {
                 include $shopSectionPath;
             } else {
-                echo '<p style="text-align: center;">Shop section coming soon.</p>';
+                echo '<p class="error-message">Shop section is currently unavailable. Please check back later.</p>';
             }
             ?>
-        </section>
+        </div>
     </main>
     
     <!-- Footer -->
