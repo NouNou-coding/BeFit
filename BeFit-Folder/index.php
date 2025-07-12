@@ -20,48 +20,77 @@ $loggedIn = isset($_SESSION['user_id']);
     <!-- CSS -->
     <link rel="stylesheet" href="/BeFit-Folder/public/css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        /* Welcome Message Styling */
-        .welcome-message {
-            text-align: center;
-            margin: 3rem 0;
-            color: #4A90E2;
+        :root {
+            --primary: #0066FF;
+            --primary-dark: #0052CC;
+            --dark: #1A1A1A;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --border-radius: 12px;
         }
-        .welcome-message h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background-color: var(--light);
+        }
+        
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
             font-weight: 700;
         }
+        
+        /* Welcome Message */
+        .welcome-message {
+            text-align: center;
+            margin: 4rem 0 3rem;
+        }
+        .welcome-message h1 {
+            font-size: 2.8rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
         .username {
-            color: #2c3e50;
-            font-weight: bold;
+            color: var(--dark);
+            font-weight: 800;
+        }
+        .welcome-message p {
+            font-size: 1.2rem;
+            color: var(--gray);
         }
 
         /* Dashboard Options */
         .dashboard-options {
             display: flex;
             justify-content: center;
-            gap: 2rem;
+            gap: 1.5rem;
             margin: 3rem 0;
             flex-wrap: wrap;
         }
         .dashboard-btn {
-            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            background: var(--primary);
             color: white;
-            padding: 1.2rem 2.5rem;
-            border-radius: 12px;
+            padding: 1.2rem 2rem;
+            border-radius: var(--border-radius);
             text-decoration: none;
             display: flex;
             align-items: center;
             gap: 0.8rem;
-            transition: all 0.3s ease;
-            font-size: 1.1rem;
+            transition: all 0.2s ease;
             font-weight: 600;
-            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            font-size: 1.1rem;
+            border: 2px solid transparent;
+            min-width: 220px;
+            justify-content: center;
         }
         .dashboard-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            background: white;
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
         .dashboard-btn i {
             font-size: 1.3rem;
@@ -70,45 +99,56 @@ $loggedIn = isset($_SESSION['user_id']);
         /* Hero Section */
         .hero-section {
             text-align: center;
-            padding: 5rem 2rem;
-            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
-            border-radius: 0 0 20px 20px;
-            margin-bottom: 3rem;
+            padding: 6rem 2rem 5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0,102,255,0.1) 0%, rgba(0,82,204,0.05) 100%);
+            z-index: -1;
         }
         .hero-title {
-            font-size: 2.8rem;
-            color: #2c3e50;
+            font-size: 3rem;
+            color: var(--dark);
             margin-bottom: 1.5rem;
-            font-weight: 700;
             line-height: 1.2;
+            font-weight: 800;
         }
         .hero-subtitle {
             font-size: 1.3rem;
-            color: #5a6a7d;
+            color: var(--gray);
             max-width: 700px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.6;
+            margin: 0 auto 3rem;
+            font-weight: 400;
         }
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #4A90E2 0%, #357ABD 100%);
+            background: var(--primary);
             color: white;
             padding: 1rem 2.5rem;
-            border-radius: 30px;
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
         }
         .cta-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            background: white;
+            color: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
 
         /* Benefits Section */
         .benefits-section {
-            padding: 4rem 2rem;
+            padding: 5rem 2rem;
             background: white;
         }
         .benefits-container {
@@ -117,42 +157,41 @@ $loggedIn = isset($_SESSION['user_id']);
         }
         .benefits-title {
             text-align: center;
-            font-size: 2.2rem;
-            color: #2c3e50;
-            margin-bottom: 3rem;
-            font-weight: 700;
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 4rem;
         }
         .benefits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
         .benefit-card {
-            background: #f9fbfd;
-            border-radius: 12px;
+            background: white;
+            border-radius: var(--border-radius);
             padding: 2.5rem 2rem;
             text-align: center;
             transition: all 0.3s ease;
-            border: 1px solid #e1e8ed;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
         }
         .benefit-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
         .benefit-icon {
             font-size: 2.5rem;
-            color: #4A90E2;
+            color: var(--primary);
             margin-bottom: 1.5rem;
         }
         .benefit-heading {
-            font-size: 1.4rem;
-            color: #2c3e50;
+            font-size: 1.5rem;
+            color: var(--dark);
             margin-bottom: 1rem;
-            font-weight: 600;
+            font-weight: 700;
         }
         .benefit-card p {
-            color: #5a6a7d;
-            line-height: 1.6;
+            color: var(--gray);
         }
 
         /* Shop Section */
@@ -164,40 +203,44 @@ $loggedIn = isset($_SESSION['user_id']);
         .section-separator {
             border: 0;
             height: 1px;
-            background: linear-gradient(to right, transparent, #4A90E2, transparent);
-            margin: 3rem 0;
+            background: linear-gradient(to right, transparent, #E5E5E5, transparent);
+            margin: 4rem 0;
         }
         .section-title {
             text-align: center;
-            font-size: 2.2rem;
-            color: #2c3e50;
+            font-size: 2.5rem;
+            color: var(--dark);
             margin-bottom: 3rem;
-            font-weight: 700;
             position: relative;
         }
-        .section-title:after {
+        .section-title::after {
             content: '';
             display: block;
-            width: 80px;
+            width: 60px;
             height: 4px;
-            background: #4A90E2;
-            margin: 1rem auto 0;
+            background: var(--primary);
+            margin: 1.5rem auto 0;
             border-radius: 2px;
         }
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .hero-title {
-                font-size: 2.2rem;
+                font-size: 2.3rem;
             }
             .hero-subtitle {
                 font-size: 1.1rem;
             }
             .benefits-title, .section-title {
-                font-size: 1.8rem;
+                font-size: 2rem;
+            }
+            .dashboard-options {
+                flex-direction: column;
+                align-items: center;
             }
             .dashboard-btn, .cta-button {
-                padding: 1rem 2rem;
+                width: 100%;
+                max-width: 280px;
             }
         }
     </style>
@@ -213,7 +256,7 @@ $loggedIn = isset($_SESSION['user_id']);
             <section class="dashboard-section">
                 <div class="welcome-message">
                     <h1>Welcome back, <span class="username"><?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span></h1>
-                    <p>Ready for your next workout?</p>
+                    <p>Ready to crush your fitness goals today?</p>
                 </div>
                 <div class="dashboard-options">
                     <a href="/BeFit-Folder/options/build-workout.php" class="dashboard-btn">
@@ -237,22 +280,22 @@ $loggedIn = isset($_SESSION['user_id']);
             <!-- Benefits Section -->
             <section class="benefits-section">
                 <div class="benefits-container">
-                    <h2 class="benefits-title">Unlock Exclusive Benefits</h2>
+                    <h2 class="benefits-title">Why Choose BeFit?</h2>
                     <div class="benefits-grid">
                         <div class="benefit-card">
                             <i class="fas fa-robot benefit-icon"></i>
                             <h3 class="benefit-heading">AI-Powered Workouts</h3>
-                            <p>Get personalized training plans that adapt to your progress and available equipment for optimal results.</p>
+                            <p>Smart algorithms create the perfect workout plan based on your goals, fitness level, and available equipment.</p>
                         </div>
                         <div class="benefit-card">
                             <i class="fas fa-chart-line benefit-icon"></i>
-                            <h3 class="benefit-heading">Progress Tracking</h3>
-                            <p>Real-time analysis with smart suggestions to optimize your fitness journey and celebrate milestones.</p>
+                            <h3 class="benefit-heading">Real-Time Tracking</h3>
+                            <p>Monitor your progress with detailed analytics and get adaptive recommendations to maximize results.</p>
                         </div>
                         <div class="benefit-card">
-                            <i class="fas fa-percentage benefit-icon"></i>
-                            <h3 class="benefit-heading">15% Discount</h3>
-                            <p>Exclusive member pricing on premium supplements and fitness equipment in our store.</p>
+                            <i class="fas fa-tags benefit-icon"></i>
+                            <h3 class="benefit-heading">Exclusive Discounts</h3>
+                            <p>Members get special pricing on premium supplements and fitness gear in our curated store.</p>
                         </div>
                     </div>
                 </div>
@@ -262,7 +305,7 @@ $loggedIn = isset($_SESSION['user_id']);
         <!-- Shop Section -->
         <div class="shop-section-container">
             <hr class="section-separator">
-            <h2 class="section-title">Our Products</h2>
+            <h2 class="section-title">Premium Products</h2>
             <?php 
             // Include shop section with absolute path
             $shopSectionPath = __DIR__ . '/includes/shop/shop-section.php';
