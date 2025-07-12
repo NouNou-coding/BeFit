@@ -4,8 +4,8 @@
         <div class="footer-container">
             <div class="footer-grid">
                 <div class="footer-column">
-                    <a href="../index.php" class="footer-logo">
-                        <img src="../public/photos/logo1.png" alt="BeFit Logo" class="footer-logo-img">
+                    <a href="/BeFit-Folder/index.php" class="footer-logo">
+                        <img src="/BeFit-Folder/public/photos/logo1.png" alt="BeFit Logo" class="footer-logo-img">
                     </a>
                     <p class="footer-text">Transform your fitness journey with AI-powered training and nutrition plans.</p>
                 </div>
@@ -13,19 +13,19 @@
                 <div class="footer-column">
                     <h4 class="footer-heading">Quick Links</h4>
                     <ul class="footer-links">
-                        <li><a href="../index.php">Home</a></li>
-                        <li><a href="../index.php#shop-section">Shop</a></li>
-                        <li><a href="../about.php">About</a></li>
-                        <li><a href="../auth/signin.php">Sign In</a></li>
+                        <li><a href="/BeFit-Folder/index.php">Home</a></li>
+                        <li><a href="/BeFit-Folder/index.php#shop-section">Shop</a></li>
+                        <li><a href="/BeFit-Folder/about.php">About</a></li>
+                        <li><a href="/BeFit-Folder/auth/signin.php">Sign In</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-column">
                     <h4 class="footer-heading">Legal</h4>
                     <ul class="footer-links">
-                        <li><a href="../terms.php">Terms of Service</a></li>
-                        <li><a href="../privacy.php">Privacy Policy</a></li>
-                        <li><a href="../cookies.php">Cookie Policy</a></li>
+                        <li><a href="/BeFit-Folder/terms.php">Terms of Service</a></li>
+                        <li><a href="/BeFit-Folder/privacy.php">Privacy Policy</a></li>
+                        <li><a href="/BeFit-Folder/cookies.php">Cookie Policy</a></li>
                     </ul>
                 </div>
 
