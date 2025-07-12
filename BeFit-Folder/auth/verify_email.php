@@ -7,17 +7,7 @@ if (!isset($_SESSION['verification_email']) || !isset($_SESSION['verification_co
     header("Location: signup.php?error=verification_expired");
     exit();
 }
-//code expiration
-$codeExpiration = 10 * 60; // 10 minutes in seconds
 
-if ((time() - $_SESSION['verification_time']) > $codeExpiration) {
-    // Clear the verification session
-    unset($_SESSION['verification_email'], $_SESSION['verification_code'], $_SESSION['verification_time']);
-    
-    // Redirect with error
-    header("Location: signin.php?error=code_expired");
-    exit();
-}
 
 $email = $_SESSION['verification_email'];
 $error = '';

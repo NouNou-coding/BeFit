@@ -23,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($user['verified'])) {
         $_SESSION['verification_email'] = $user['email'];
         $_SESSION['verification_code'] = rand(100000, 999999);
-        $_SESSION['verification_time'] = time(); 
         $error = "Account not verified! Check your email for the code.";
     } else {
         $_SESSION['user_id'] = $user['id'];
