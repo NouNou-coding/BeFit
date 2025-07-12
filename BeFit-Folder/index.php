@@ -21,56 +21,48 @@ $loggedIn = isset($_SESSION['user_id']);
     <link rel="stylesheet" href="/BeFit-Folder/public/css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Main Content Styles */
-        .main-content {
-            min-height: calc(100vh - 120px);
-            padding: 2rem 5%;
-        }
-        
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('/BeFit-Folder/public/photos/gym8.jpg');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 5rem 2rem;
+        /* Welcome Message Styling */
+        .welcome-message {
             text-align: center;
-            border-radius: 10px;
-            margin-bottom: 2rem;
+            margin: 2rem 0;
+            color: #4A90E2;
         }
-        
-        .hero-title {
-            font-size: 2.5rem;
+        .welcome-message h1 {
+            font-size: 2.2rem;
             margin-bottom: 1rem;
-            line-height: 1.3;
         }
-        
-        .hero-subtitle {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            line-height: 1.6;
+        .username {
+            color: #2c3e50;
+            font-weight: bold;
         }
-        
-        /* Benefits Section */
-        .benefits-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+        /* Dashboard Options */
+        .dashboard-options {
+            display: flex;
+            justify-content: center;
             gap: 2rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        .dashboard-btn {
+            background: #4A90E2;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .dashboard-btn:hover {
+            background: #357ABD;
+            transform: translateY(-3px);
+        }
+
+        /* Shop Section Container */
+        .shop-section-container {
             margin: 3rem 0;
-        }
-        
-        .benefit-card {
-            background: rgba(255,255,255,0.9);
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-        }
-        
-        .benefit-card:hover {
-            transform: translateY(-5px);
         }
     </style>
 </head>
@@ -83,7 +75,9 @@ $loggedIn = isset($_SESSION['user_id']);
         <?php if($loggedIn): ?>
             <!-- Dashboard for logged in users -->
             <section class="dashboard-section">
-                <h1>Welcome back, <?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></h1>
+                <div class="welcome-message">
+                    <h1>Welcome back, <span class="username"><?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span></h1>
+                </div>
                 <div class="dashboard-options">
                     <a href="/BeFit-Folder/options/build-workout.php" class="dashboard-btn">
                         <i class="fas fa-dumbbell"></i> Build Workout
@@ -124,8 +118,19 @@ $loggedIn = isset($_SESSION['user_id']);
         <?php endif; ?>
         
         <!-- Shop Section -->
-        <hr class="section-separator">
-        <?php include __DIR__ . '/includes/shop/shop-section.php'; ?>
+        <div class="shop-section-container">
+            <hr class="section-separator">
+            <h2 class="section-title">Our Products</h2>
+            <?php 
+            // Include shop section with absolute path
+            $shopSectionPath = __DIR__ . '/includes/shop/shop-section.php';
+            if (file_exists($shopSectionPath)) {
+                include $shopSectionPath;
+            } else {
+                echo '<p class="error-message">Shop section is currently unavailable. Please check back later.</p>';
+            }
+            ?>
+        </div>
     </main>
     
     <!-- Footer -->

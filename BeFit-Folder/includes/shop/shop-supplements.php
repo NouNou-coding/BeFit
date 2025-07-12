@@ -1,5 +1,5 @@
 <?php
-require realpath(dirname(__FILE__) . '/../../auth/config.php');
+require __DIR__ . '/../../auth/config.php';
 
 // Get supplement products
 $stmt = $pdo->prepare("SELECT * FROM products WHERE category = 'supplement'");
@@ -12,10 +12,10 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div class="shop-items">
         <?php foreach ($products as $product): ?>
             <div class="shop-item">
-                <img src="/public/<?= $product['image_url'] ?>" alt="<?= $product['name'] ?>" class="item-image">
-                <div class="item-name"><?= $product['name'] ?></div>
+                <img src="/BeFit-Folder/public/<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="item-image">
+                <div class="item-name"><?= htmlspecialchars($product['name']) ?></div>
                 <div class="price-container">
-                    <?php if(isset($_SESSION['user'])): ?>
+                    <?php if(isset($_SESSION['user_id'])): ?>
                         <?php
                         $discountedPrice = $product['price'] * 0.85;
                         ?>
@@ -26,7 +26,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <div class="signin-notice">Sign in to unlock 15% discount</div>
                     <?php endif; ?>
                 </div>
-                <a href="ecommerce/cart.php?action=add&id=<?= $product['id'] ?>" class="buy-button">Add to Cart</a>
+                <a href="/BeFit-Folder/ecommerce/cart.php?action=add&id=<?= $product['id'] ?>" class="buy-button">Add to Cart</a>
             </div>
         <?php endforeach; ?>
     </div>
