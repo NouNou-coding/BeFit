@@ -10,14 +10,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
+    if (empty($user['verified'])) {
+        $_SESSION['verification_email'] = $user['email'];
+        $_SESSION['verification_code'] = rand(100000, 999999);
+        $error = "Account not verified! Check your email for the code.";
+    } else {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['user_name'] = $user['name'];
         header("Location: ../index.php");
         exit();
-    } else {
-        $error = "Invalid email or password!";
     }
+} else {
+    $error = "Invalid email or password!";
+}
 }
 ?>
 <!DOCTYPE html>
@@ -180,7 +186,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 width: 100%;
                 max-width: none;
                 padding: 1.5rem;
-            }
+            } /* Smooth transitions */
+input, button {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Glow effect on focus */
+input:focus {
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+}
+
+/* Button hover effects */
+.signup-btn:hover, .signin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+}
+
+/* Modern input styling */
+input {
+    border: none;
+    border-bottom: 2px solid #ddd;
+    border-radius: 0;
+    padding: 10px 0;
+    background: transparent;
+}
+
+input:focus {
+    border-bottom-color: #4A90E2;
+    outline: none;
+}
+
+/* Floating labels */
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-group input:not(:placeholder-shown) + label {
+    transform: translateY(-20px);
+    font-size: 0.8rem;
+    color: #4A90E2;
+}
+
+.form-group label {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    color: #999;
+    transition: all 0.3s;
+    pointer-events: none;
+}
 
             html, body {
                 overflow-y: auto;
@@ -200,6 +255,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if(isset($error)): ?>
                 <div class="error-message"><?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
+<?php if(isset($error) && strpos($error, 'Account not verified') !== false): ?>
+<div id="verificationModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 400px; width: 100%;">
+        <h3 style="color: #4A90E2; margin-bottom: 1rem;">Verify Your Email</h3>
+        <p>Enter the 6-digit code sent to your email:</p>
+        
+        <form method="POST" action="verify_email.php">
+            <div style="display: flex; gap: 10px; margin: 1rem 0;">
+                <input type="text" name="digit1" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                <input type="text" name="digit2" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                <input type="text" name="digit3" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                <input type="text" name="digit4" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                <input type="text" name="digit5" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                <input type="text" name="digit6" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+            </div>
+            <button type="submit" class="signin-btn">Verify Account</button>
+        </form>
+    </div>
+</div>
+<?php endif; ?>
 
             <form method="POST" action="signin.php">
                 <div class="form-group">
