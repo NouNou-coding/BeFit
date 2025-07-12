@@ -410,5 +410,8 @@ inputs.forEach((input, index) => {
     });
 });
 </script>
+<?php include 'footer.php'; ?>
+</body>
+</html>
 </body>
 </html>
