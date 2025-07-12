@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeFit - Sign In</title>
-    <link rel="stylesheet" href="../css/styles1.css">
+    <link rel="stylesheet" href="../public/css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .signup-btn {
@@ -191,7 +191,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="shared-bg">
     <div class="signin-container">
         <div class="welcome-column">
-            <img src="../photos/logo1.png" alt="BeFit Logo" class="logo-signin">
+            <img src="../public/photos/logo1.png" alt="BeFit Logo" class="logo-signin">
             <h2>Welcome Back</h2>
             <p style="font-size: 1.1rem; opacity: 0.9;">Continue your fitness journey with personalized workouts and progress tracking</p>
         </div>

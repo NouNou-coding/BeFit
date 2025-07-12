@@ -1,6 +1,8 @@
 <?php
 session_start();
 require 'auth/config.php'; 
+if (session_status() === PHP_SESSION_NONE) session_start();
+define('BASE_PATH', __DIR__);
 
 // Check if user is logged in
 $loggedIn = isset($_SESSION['user_id']);
@@ -11,7 +13,7 @@ $loggedIn = isset($_SESSION['user_id']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeFit - AI-Powered Training Plans</title>
-    <link rel="stylesheet" href="css/styles1.css">
+    <link rel="stylesheet" href="public/css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .nav-container, .hero-content, .dashboard-content {
@@ -74,14 +76,15 @@ $loggedIn = isset($_SESSION['user_id']);
     <div class="nav-container">
         <div class="logo-nav">
             <a href="index.php">
-            <img src="photos/logo1.png" alt="BeFit Logo" class="logo">
+            <img src="public/photos/logo1.png" alt="BeFit Logo" class="logo">
             </a>
         </div>
             
             <ul class="nav-links">
                 <li><a href="#shop-section">Shop</a></li>
-                <li><a href="about.php">About</a></li>
-                <li><a href="#">Support</a></li>
+                <li><a href="ecommerce/cart.php">Cart</a></li>
+                <li><a href="ecommerce/orders.php">My Orders</a></li>
+                <li><a href="about.php">About</a></li>  
             </ul>
     
             <div class="nav-buttons">
@@ -101,17 +104,17 @@ $loggedIn = isset($_SESSION['user_id']);
         <div class="dashboard-content">
             <h1>Welcome back, <?= htmlspecialchars($_SESSION['user_name']) ?>!</h1>
             <div class="dashboard-options">
-                <a href="options/build-workout.php" class="dashboard-btn">
+                <a href="../options/build-workout.php" class="dashboard-btn">
                     <i class="fas fa-dumbbell"></i>
                     Build Your Workout
                 </a>
-                <a href="track-progress.php" class="dashboard-btn">
+                <a href="../track-progress.php" class="dashboard-btn">
                     <i class="fas fa-chart-line"></i>
                     Track Your Progress
                 </a>
             </div>
              <hr class="section-separator">
-            <?php include('includes/shop-section.php'); ?>
+            <?php include('includes/shop/shop-section.php'); ?>
         </div>
     <?php else: ?>
 
@@ -123,13 +126,13 @@ $loggedIn = isset($_SESSION['user_id']);
             <h3>"Workouts Tailored to You—Powered by Goals, Level & Equipment. Strength Simplified, Supplements Curated."
             </h3>
             <div class="cta-container">
-                <a href="signup3.html" class="cta-button">Get Started Now</a>
+                <a href="auth/signup.html" class="cta-button">Get Started Now</a>
             </div>
         </div> 
     </div>
         <hr class="section-separator">
         <?php include('benefits.php'); ?>
-        <?php include('includes/shop-section.php'); ?>
+        <?php include('includes/shop/shop-section.php'); ?>
    <?php endif; ?> 
         </div>
 
