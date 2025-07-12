@@ -38,15 +38,21 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $_SESSION['verification_email'] = $email;
                 $_SESSION['verification_code'] = $verification_code;
                 
-           
-                //send email
-                if (sendVerificationEmail($email, $verification_code)) {
-                    header("Location: verify_email.php?email=" . urlencode($email));
-                    exit();
-                } else {
-                    $error = "Failed to send verification email. Contact support.";
+                // Debug output
+                error_log("Attempting to send verification to: $email");
+                
+                // Send email with error handling
+                try {
+                    if (sendVerificationEmail($email, $verification_code)) {
+                        header("Location: verify_email.php?email=" . urlencode($email));
+                        exit();
+                    } else {
+                        throw new Exception("SMTP failed silently");
+                    }
+                } catch (Exception $e) {
+                    $error = "Email system temporarily unavailable. Please try again later.";
+                    error_log("SMTP Error: " . $e->getMessage());
                 }
-
             } else {
                             $error = "Registration failed!";
                         }
@@ -354,6 +360,13 @@ input:focus {
 
         
         <div class="form-container">
+            <?php if(isset($error)): ?>
+            <div class="error-message" style="color:red; padding:10px; margin-bottom:20px; border:1px solid #ffcccc; border-radius:4px;">
+                <?= htmlspecialchars($error) ?>
+            </div>
+            <?php endif; ?>
+            
+            <h2 style="margin-bottom: 1.5rem;">Create Account</h2>
             <h2 style="margin-bottom: 1.5rem; color: #333; text-align: center; font-size: 1.5rem;">Create Account</h2>
             
             <form class="signup-form" method="POST" action="signup.php">
@@ -403,21 +416,11 @@ input:focus {
         </div>
     </div>
 <script>
-const inputs = document.querySelectorAll('#verificationModal input[type="text"]');
-inputs.forEach((input, index) => {
-    input.addEventListener('input', () => {
-        if (input.value.length === 1) {
-            if (index < inputs.length - 1) {
-                inputs[index + 1].focus();
-            }
-        }
-    });
-    
-    input.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && !input.value && index > 0) {
-            inputs[index - 1].focus();
-        }
-    });
+    // Simple form submission handler
+    document.querySelector('.signup-form')?.addEventListener('submit', function() {
+    const btn = document.querySelector('.signup-btn');
+    btn.disabled = true;
+    btn.textContent = 'Creating Account...';
 });
 </script>
 <?php include 'footer.php'; ?>

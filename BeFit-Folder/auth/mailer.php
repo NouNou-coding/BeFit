@@ -7,6 +7,17 @@ require __DIR__ . '/../vendor/phpmailer/phpmailer/src/Exception.php';
 require __DIR__ . '/../vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require __DIR__ . '/../vendor/phpmailer/phpmailer/src/SMTP.php';
 
+// Log SMTP activity and error handling (delete?)
+file_put_contents(__DIR__.'/smtp_debug.log', 
+    date('Y-m-d H:i:s')." - Attempting to send to: $email\n", 
+    FILE_APPEND
+);
+
+$mail->SMTPDebug = 3; // Full debug output
+$mail->Debugoutput = function($str, $level) {
+    file_put_contents(__DIR__.'/smtp_debug.log', "$level: $str\n", FILE_APPEND);
+};
+/////////
 function sendVerificationEmail($email, $code) {
     $mail = new PHPMailer(true);
     
