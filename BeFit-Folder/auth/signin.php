@@ -20,20 +20,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
-    if (empty($user['verified'])) {
-        $_SESSION['verification_email'] = $user['email'];
-        $_SESSION['verification_code'] = rand(100000, 999999);
-        $error = "Account not verified! Check your email for the code.";
+        if (empty($user['verified'])) {
+            $_SESSION['verification_email'] = $user['email'];
+            $_SESSION['verification_code'] = rand(100000, 999999);
+            $error = "Account not verified! Check your email for the code.";
+        } else {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_name'] = $user['name'];
+            
+            // Remember Me functionality
+            if (isset($_POST['remember'])) {
+                $cookie_expiry = time() + 30 * 24 * 60 * 60; // 30 days
+                setcookie('remember_email', $email, $cookie_expiry, '/');
+            } else {
+                if (isset($_COOKIE['remember_email'])) {
+                    setcookie('remember_email', '', time() - 3600, '/');
+                }
+            }
+            
+            header("Location: ../index.php");
+            exit();
+        }
     } else {
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_email'] = $user['email'];
-        $_SESSION['user_name'] = $user['name'];
-        header("Location: ../index.php");
-        exit();
+        $error = "Invalid email or password!";
     }
-} else {
-    $error = "Invalid email or password!";
-}
 }
 ?>
 <!DOCTYPE html>
@@ -185,6 +196,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 0.9rem;
         }
 
+        /* Enhanced Remember Me styling */
+        .remember-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .remember-container input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #4A90E2;
+            border-radius: 4px;
+            appearance: none;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+        
+        .remember-container input[type="checkbox"]:checked {
+            background-color: #4A90E2;
+        }
+        
+        .remember-container input[type="checkbox"]:checked::after {
+            content: "✓";
+            position: absolute;
+            color: white;
+            font-size: 12px;
+            left: 2px;
+            top: -1px;
+        }
+        
+        .remember-container label {
+            color: #555;
+            font-size: 0.9rem;
+            cursor: pointer;
+            user-select: none;
+        }
+
         @media (max-width: 768px) {
             .signin-container {
                 flex-direction: column;
@@ -196,56 +248,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 width: 100%;
                 max-width: none;
                 padding: 1.5rem;
-            } /* Smooth transitions */
-input, button {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
+            }
+            
+            input, button {
+                transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            }
 
-/* Glow effect on focus */
-input:focus {
-    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
-}
+            input:focus {
+                box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+            }
 
-/* Button hover effects */
-.signup-btn:hover, .signin-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
-}
-
-/* Modern input styling */
-input {
-    border: none;
-    border-bottom: 2px solid #ddd;
-    border-radius: 0;
-    padding: 10px 0;
-    background: transparent;
-}
-
-input:focus {
-    border-bottom-color: #4A90E2;
-    outline: none;
-}
-
-/* Floating labels */
-.form-group {
-    position: relative;
-    margin-bottom: 1.5rem;
-}
-
-.form-group input:not(:placeholder-shown) + label {
-    transform: translateY(-20px);
-    font-size: 0.8rem;
-    color: #4A90E2;
-}
-
-.form-group label {
-    position: absolute;
-    left: 0;
-    bottom: 10px;
-    color: #999;
-    transition: all 0.3s;
-    pointer-events: none;
-}
+            .signup-btn:hover, .signin-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+            }
 
             html, body {
                 overflow-y: auto;
@@ -265,53 +281,54 @@ input:focus {
             <?php if(isset($error)): ?>
                 <div class="error-message"><?= htmlspecialchars($error) ?></div>
             <?php endif; ?>
-<?php if(isset($error) && strpos($error, 'Account not verified') !== false): ?>
-<div id="verificationModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; justify-content: center; align-items: center;">
-    <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 400px; width: 100%;">
-        <h3 style="color: #4A90E2; margin-bottom: 1rem;">Verify Your Email</h3>
-        <p>Enter the 6-digit code sent to your email:</p>
-        
-        <form method="POST" action="verify_email.php">
-            <div style="display: flex; gap: 10px; margin: 1rem 0;">
-                <input type="text" name="digit1" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
-                <input type="text" name="digit2" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
-                <input type="text" name="digit3" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
-                <input type="text" name="digit4" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
-                <input type="text" name="digit5" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
-                <input type="text" name="digit6" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+            <?php if(isset($error) && strpos($error, 'Account not verified') !== false): ?>
+            <div id="verificationModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; justify-content: center; align-items: center;">
+                <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 400px; width: 100%;">
+                    <h3 style="color: #4A90E2; margin-bottom: 1rem;">Verify Your Email</h3>
+                    <p>Enter the 6-digit code sent to your email:</p>
+                    
+                    <form method="POST" action="verify_email.php">
+                        <div style="display: flex; gap: 10px; margin: 1rem 0;">
+                            <input type="text" name="digit1" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                            <input type="text" name="digit2" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                            <input type="text" name="digit3" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                            <input type="text" name="digit4" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                            <input type="text" name="digit5" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                            <input type="text" name="digit6" maxlength="1" style="width: 40px; text-align: center; font-size: 1.5rem;" required>
+                        </div>
+                        <button type="submit" class="signin-btn">Verify Account</button>
+                    </form>
+                </div>
             </div>
-            <button type="submit" class="signin-btn">Verify Account</button>
-        </form>
-    </div>
-</div>
-<?php endif; ?>
+            <?php endif; ?>
 
             <form method="POST" action="signin.php">
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="email" name="email" placeholder="Email Address" required 
+                           value="<?= isset($_COOKIE['remember_email']) ? htmlspecialchars($_COOKIE['remember_email']) : '' ?>">
                 </div>
 
                 <div class="form-group">
                     <input type="password" name="password" placeholder="Password" required>
                 </div>
 
-                <div class="form-group">
-                    <label style="display: block; margin-bottom: 1rem;">
-                        <input type="checkbox" name="remember">
-                        Remember me
-                    </label>
+                <div class="remember-container">
+                    <input type="checkbox" name="remember" id="remember" <?= isset($_COOKIE['remember_email']) ? 'checked' : '' ?>>
+                    <label for="remember">Remember me</label>
                 </div>
 
                 <button type="submit" class="signin-btn">Sign In</button>
 
                 <div class="extra-links">
-                     <a href="#" class="forgot-password">Forgot Password?</a>
-                        <div style="margin-top: 1.5rem;">
-                            <p style="color: #666; margin-bottom: 0.5rem;">Don't have an account?</p>
-                            <a href="signup.php" class="signup-btn">Sign Up Now</a>
-                        </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                    <div style="margin-top: 1.5rem;">
+                        <p style="color: #666; margin-bottom: 0.5rem;">Don't have an account?</p>
+                        <a href="signup.php" class="signup-btn">Sign Up Now</a>
+                    </div>
                 </div>
             </form>
         </div>
-    </div><?php include 'footer.php'; ?>
-
+    </div>
+    <?php include 'footer.php'; ?>
+</body>
+</html>
