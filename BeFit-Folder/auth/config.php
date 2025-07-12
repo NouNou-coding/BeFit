@@ -10,6 +10,14 @@ if (!defined('PASSWORD_MIN_LENGTH')) {
     define('PASSWORD_NEEDS_NUMBER', true);
    
 }
+if(!defined('SMTP_HOST')){
+    //email configurations
+    define('SMTP_HOST', 'smtp.gmail.com');
+    define('SMTP_USER', 'yorgobekaiiprofessional@gmail.com');
+    define('SMTP_PASS', 'fyji vqld hnth zgxi'); // NOT your regular password
+    define('SMTP_PORT', 587);
+
+}
 try {
     // Connect to MySQL server (without selecting DB)
     $pdo = new PDO("mysql:host=$dbHost", $dbUser, $dbPass);
@@ -36,10 +44,5 @@ try {
     die("Database error: " . $e->getMessage());
 }
 
-//email configurations
-define('SMTP_HOST', 'smtp.gmail.com');
-define('SMTP_USER', 'yorgobekaiiprofessional@gmail.com');
-define('SMTP_PASS', 'fyji vqld hnth zgxi'); // NOT your regular password
-define('SMTP_PORT', 587);
 
 ?>
