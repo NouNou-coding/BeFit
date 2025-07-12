@@ -33,27 +33,21 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
             
-            if ($stmt->execute([$name, $email, $hashed_password])) {
-                $verification_code = rand(100000, 999999);
-                $_SESSION['verification_email'] = $email;
-                $_SESSION['verification_code'] = $verification_code;
-                
-                // Debug output
-                error_log("Attempting to send verification to: $email");
-                
-                // Send email with error handling
-                try {
-                    if (sendVerificationEmail($email, $verification_code)) {
-                        header("Location: verify_email.php?email=" . urlencode($email));
-                        exit();
-                    } else {
-                        throw new Exception("SMTP failed silently");
-                    }
-                } catch (Exception $e) {
-                    $error = "Email system temporarily unavailable. Please try again later.";
-                    error_log("SMTP Error: " . $e->getMessage());
-                }
+        if ($stmt->execute([$name, $email, $hashed_password])) {
+            $verification_code = rand(100000, 999999);
+            $_SESSION['verification_email'] = $email;
+            $_SESSION['verification_code'] = $verification_code;
+            
+            // Send email
+            if (sendVerificationEmail($email, $verification_code)) {
+                // Store in session before redirect
+                $_SESSION['verification_sent'] = true;
+                header("Location: verify_email.php?email=".urlencode($email));
+                exit();
             } else {
+                $error = "Failed to send verification email. Please try again.";
+            }
+        } else {
                             $error = "Registration failed!";
                         }
                     }
@@ -393,21 +387,6 @@ input:focus {
 
                 <button type="submit" class="signup-btn">Sign Up</button>
             </form>
-<!-- Verification Modal -->
-<?php if(isset($success)): ?>
-<div id="verificationModal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;display:flex;justify-content:center;align-items:center;">
-    <div style="background:white;padding:2rem;border-radius:10px;max-width:400px;text-align:center;">
-        <h3 style="color:#4A90E2;">Verify Your Email</h3>
-        <p>We sent a code to <?= htmlspecialchars($email) ?></p>
-        
-        <form method="POST" action="verify_email.php" style="margin:1rem 0;">
-            <input type="text" name="verification_code" placeholder="Enter 6-digit code" 
-                   style="width:100%;padding:10px;text-align:center;font-size:1.2rem;" required>
-            <button type="submit" class="signup-btn" style="margin-top:1rem;">Verify</button>
-        </form>
-    </div>
-</div>
-<?php endif; ?>
 
             <div class="account-section">
                 <p style="color: #666; font-size: 0.9rem;">Already have an account?</p>
