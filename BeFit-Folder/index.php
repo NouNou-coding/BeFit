@@ -98,23 +98,28 @@ $loggedIn = isset($_SESSION['user_id']);
             </section>
             
             <!-- Benefits Section -->
-            <section class="benefits-section">
-                <h2>Unlock Exclusive Benefits</h2>
-                <div class="benefits-container">
+        <section class="benefits-section">
+            <div class="benefits-container">
+                <h2 class="benefits-title">Unlock Exclusive Benefits</h2>
+                <div class="benefits-grid">
                     <div class="benefit-card">
-                        <h3><i class="fas fa-robot"></i> AI-Powered Workouts</h3>
+                        <i class="fas fa-robot benefit-icon"></i>
+                        <h3 class="benefit-heading">AI-Powered Workouts</h3>
                         <p>Get personalized training plans that adapt to your progress and equipment.</p>
                     </div>
                     <div class="benefit-card">
-                        <h3><i class="fas fa-chart-line"></i> Progress Tracking</h3>
+                        <i class="fas fa-chart-line benefit-icon"></i>
+                        <h3 class="benefit-heading">Progress Tracking</h3>
                         <p>Real-time analysis with smart suggestions to optimize results.</p>
                     </div>
                     <div class="benefit-card">
-                        <h3><i class="fas fa-percentage"></i> 15% Discount</h3>
+                        <i class="fas fa-percentage benefit-icon"></i>
+                        <h3 class="benefit-heading">15% Discount</h3>
                         <p>Exclusive member pricing on all supplements and equipment.</p>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
         <?php endif; ?>
         
         <!-- Shop Section -->

@@ -1,4 +1,3 @@
-
 <section class="benefits-section">
     <div class="benefits-container">
         <h2 class="benefits-title">Unlock Exclusive Benefits<br>
@@ -48,7 +47,7 @@
         </div>
 
         <div class="benefits-cta">
-            <a href="auth/signup.php" class="cta-button">Start Your Journey Now</a>
+            <a href="/BeFit-Folder/auth/signup.php" class="cta-button">Start Your Journey Now</a>
         </div>
     </div>
 </section>
