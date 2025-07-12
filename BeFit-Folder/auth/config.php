@@ -4,10 +4,12 @@ $dbName = 'befit_db';
 $dbUser = 'root';      // Replace if needed
 $dbPass = '';          // Replace if MySQL has a password
 
-define('PASSWORD_MIN_LENGTH', 8); // Minimum password length
-define('PASSWORD_NEEDS_UPPERCASE', true); // Require at least one uppercase letter
-define('PASSWORD_NEEDS_NUMBER', true); // Require at least one number
-
+if (!defined('PASSWORD_MIN_LENGTH')) {
+    define('PASSWORD_MIN_LENGTH', 8);
+    define('PASSWORD_NEEDS_UPPERCASE', true);
+    define('PASSWORD_NEEDS_NUMBER', true);
+   
+}
 try {
     // Connect to MySQL server (without selecting DB)
     $pdo = new PDO("mysql:host=$dbHost", $dbUser, $dbPass);
