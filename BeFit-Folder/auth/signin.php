@@ -1,5 +1,15 @@
 <?php
+session_start();
 require 'config.php';
+
+// Check for email verification errors
+if (isset($_SESSION['verification_error'])) {
+    $error = $_SESSION['verification_error'];
+    unset($_SESSION['verification_error']);
+}
+if (isset($_GET['error']) && $_GET['error'] === 'code_expired') {
+    $error = "Verification code has expired. Please sign in again to receive a new code.";
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email'] ?? '');
@@ -13,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($user['verified'])) {
         $_SESSION['verification_email'] = $user['email'];
         $_SESSION['verification_code'] = rand(100000, 999999);
+        $_SESSION['verification_time'] = time(); 
         $error = "Account not verified! Check your email for the code.";
     } else {
         $_SESSION['user_id'] = $user['id'];
@@ -304,7 +315,4 @@ input:focus {
             </form>
         </div>
     </div><?php include 'footer.php'; ?>
-</body>
-</html>
-</body>
-</html>
+

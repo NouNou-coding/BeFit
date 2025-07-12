@@ -126,7 +126,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'anthony.imad@isae.edu.lb','$2y$10$Q65vpgrmm/TrWWGMoVXfb.DbpRnoT6g/6DdpzVXHaORuxTqQ9E6Yy','anthony','2025-07-12 00:49:50',0,NULL,0),(2,'yorgobekaii.0@gmail.com','$2y$10$Mqtv025yo/yBllFbn6Q8H.6EBXXxsoufHy8IV5R3txFRiE8LiqH86','Yorgo','2025-07-12 19:42:43',0,NULL,0),(3,'yorgo.bekai@isae.edu.lb','$2y$10$.a4kUmsz6cOZOPHG2N4upuyTnfg.xSk90AHXuEGn2ik1hTJJ8w966','Yorgo','2025-07-12 20:24:13',0,NULL,0);
+INSERT INTO `users` VALUES (1,'anthony.imad@isae.edu.lb','$2y$10$Q65vpgrmm/TrWWGMoVXfb.DbpRnoT6g/6DdpzVXHaORuxTqQ9E6Yy','anthony','2025-07-12 00:49:50',0,NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -170,4 +170,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-12 23:41:23
+-- Dump completed on 2025-07-12 23:43:37
