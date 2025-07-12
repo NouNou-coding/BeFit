@@ -1,6 +1,8 @@
 <?php
-// Start session only once at the very beginning
-session_start();
+// Start session at the very beginning
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Load configuration
 require_once __DIR__ . '/auth/config.php';
@@ -15,7 +17,7 @@ $loggedIn = isset($_SESSION['user_id']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeFit - AI-Powered Fitness</title>
-    <!-- Corrected CSS paths for BeFit-Folder -->
+    <!-- CSS -->
     <link rel="stylesheet" href="/BeFit-Folder/public/css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -28,7 +30,7 @@ $loggedIn = isset($_SESSION['user_id']);
         /* Hero Section */
         .hero-section {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                        url('/BeFit-Folder/public/photos/hero-bg.jpg');
+                        url('/BeFit-Folder/public/photos/gym8.jpg');
             background-size: cover;
             background-position: center;
             color: white;
@@ -107,7 +109,7 @@ $loggedIn = isset($_SESSION['user_id']);
                 <div class="benefits-container">
                     <div class="benefit-card">
                         <h3><i class="fas fa-robot"></i> AI-Powered Workouts</h3>
-                        <p>Personalized training plans that adapt to your progress and equipment.</p>
+                        <p>Get personalized training plans that adapt to your progress and equipment.</p>
                     </div>
                     <div class="benefit-card">
                         <h3><i class="fas fa-chart-line"></i> Progress Tracking</h3>
@@ -120,12 +122,16 @@ $loggedIn = isset($_SESSION['user_id']);
                 </div>
             </section>
         <?php endif; ?>
+        
+        <!-- Shop Section -->
+        <hr class="section-separator">
+        <?php include __DIR__ . '/includes/shop/shop-section.php'; ?>
     </main>
     
     <!-- Footer -->
     <?php include __DIR__ . '/includes/footer.php'; ?>
     
-    <!-- Corrected JS path -->
+    <!-- JavaScript -->
     <script src="/BeFit-Folder/public/js/transitions.js"></script>
 </body>
 </html>
