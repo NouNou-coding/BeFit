@@ -1,5 +1,6 @@
 <?php
-require 'config.php';
+session_start(); 
+require __DIR__ . '/../auth/config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_code = $_POST['digit1'] . $_POST['digit2'] . $_POST['digit3'] . 

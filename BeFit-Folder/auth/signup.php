@@ -1,5 +1,7 @@
 <?php
+session_start(); 
 require_once __DIR__ . '/../auth/config.php';
+require_once __DIR__ . '/../auth/mailer.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = trim($_POST['name'] ?? '');
@@ -32,16 +34,24 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $stmt = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
             
             if ($stmt->execute([$name, $email, $hashed_password])) {
-    $verification_code = rand(100000, 999999);
-    $_SESSION['verification_email'] = $email;
-    $_SESSION['verification_code'] = $verification_code;
+                $verification_code = rand(100000, 999999);
+                $_SESSION['verification_email'] = $email;
+                $_SESSION['verification_code'] = $verification_code;
+                
+           
+                //send email
+                if (sendVerificationEmail($email, $verification_code)) {
+                    header("Location: verify_email.php?email=" . urlencode($email));
+                    exit();
+                } else {
+                    $error = "Failed to send verification email. Contact support.";
+                }
 
-    $success = "Account created! Verification code: $verification_code";
-} else {
-                $error = "Registration failed!";
-            }
-        }
-    }
+            } else {
+                            $error = "Registration failed!";
+                        }
+                    }
+                }
 }
 ?>
 

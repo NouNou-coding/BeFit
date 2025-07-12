@@ -33,4 +33,11 @@ try {
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
 }
+
+//email configurations
+define('SMTP_HOST', 'smtp.gmail.com');
+define('SMTP_USER', 'yorgobekaiiprofessional@gmail.com');
+define('SMTP_PASS', 'fyji vqld hnth zgxi'); // NOT your regular password
+define('SMTP_PORT', 587);
+
 ?>
