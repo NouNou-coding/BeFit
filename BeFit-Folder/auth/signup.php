@@ -263,6 +263,56 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     max-width: none;
                     padding: 1.5rem;
                 }
+/* Smooth transitions */
+input, button {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Glow effect on focus */
+input:focus {
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+}
+
+/* Button hover effects */
+.signup-btn:hover, .signin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+}
+
+/* Modern input styling */
+input {
+    border: none;
+    border-bottom: 2px solid #ddd;
+    border-radius: 0;
+    padding: 10px 0;
+    background: transparent;
+}
+
+input:focus {
+    border-bottom-color: #4A90E2;
+    outline: none;
+}
+
+/* Floating labels */
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-group input:not(:placeholder-shown) + label {
+    transform: translateY(-20px);
+    font-size: 0.8rem;
+    color: #4A90E2;
+}
+
+.form-group label {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    color: #999;
+    transition: all 0.3s;
+    pointer-events: none;
+}
 
                 html, body {
                     overflow-y: auto;
