@@ -1,9 +1,12 @@
 @echo off
-:: Step 1: Create database (if not exists)
+:: Create database
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS befit_db"
 
-:: Step 2: Import the latest dump.sql
-mysql -u root befit_db < database\dump.sql
+:: Import tables 
+echo Checking if dump.sql exists...
+dir ..\database\dump.sql
+pause
+mysql -u root befit_db < ..\database\dump.sql
 
-echo ✅ Database "befit_db" setup complete! 
+echo ✅ Database setup complete!
 pause
