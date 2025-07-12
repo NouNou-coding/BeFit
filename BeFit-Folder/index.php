@@ -1,5 +1,5 @@
 <?php
-// Start session only once
+// Start session only once at the beginning
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/auth/config.php';
 require_once __DIR__ . '/includes/header.php';
 
-// Check if user is logged in
+// Check login status
 $loggedIn = isset($_SESSION['user_id']);
 ?>
 <!DOCTYPE html>
@@ -17,104 +17,74 @@ $loggedIn = isset($_SESSION['user_id']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeFit - AI-Powered Training Plans</title>
+    <!-- Fixed CSS paths -->
     <link rel="stylesheet" href="/public/css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .hero-content, .dashboard-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-content {
-            background-attachment: fixed;
-        }
-        
-        .section-separator {
-            margin: 50px auto;
-            width: 80%;
-            border: 0;
-            border-top: 2px solid #ddd;
-        }
-        
-        .dashboard-content {
-            padding: 4rem 2rem;
-            text-align: center;
-            color: white;
-        }
-
-        .dashboard-options {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
-            margin-top: 3rem;
-        }
-
-        .dashboard-btn {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 2rem 3rem;
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .dashboard-btn i {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .dashboard-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-    </style>
 </head>
 <body class="body-index shared-bg">
-
-    <?php if($loggedIn): ?>
-        <!-- Logged-in Content -->
-        <div class="dashboard-content">
-            <h1>Welcome back, <?= htmlspecialchars($_SESSION['user_name']) ?>!</h1>
-            <div class="dashboard-options">
-                <a href="/options/build-workout.php" class="dashboard-btn">
-                    <i class="fas fa-dumbbell"></i>
-                    Build Your Workout
-                </a>
-                <a href="/track-progress.php" class="dashboard-btn">
-                    <i class="fas fa-chart-line"></i>
-                    Track Your Progress
-                </a>
+    <!-- Content Area -->
+    <main>
+        <?php if($loggedIn): ?>
+            <!-- Dashboard for logged-in users -->
+            <div class="dashboard-content">
+                <h1>Welcome back, <?= htmlspecialchars($_SESSION['user_name']) ?>!</h1>
+                <div class="dashboard-options">
+                    <a href="/options/build-workout.php" class="dashboard-btn">
+                        <i class="fas fa-dumbbell"></i>
+                        Build Your Workout
+                    </a>
+                    <a href="/track-progress.php" class="dashboard-btn">
+                        <i class="fas fa-chart-line"></i>
+                        Track Your Progress
+                    </a>
+                </div>
+                <hr class="section-separator">
+                <?php include(__DIR__ . '/includes/shop/shop-section.php'); ?>
             </div>
+        <?php else: ?>
+            <!-- Hero section for guests -->
+            <section class="hero-content">
+                <div class="hero-left">
+                    <h1>Transform Your Fitness with 
+                        <span class="highlight">BeFit AI Precision.</span>
+                    </h1>
+                    <p class="hero-subtitle">"Workouts Tailored to You—Powered by Goals, Level & Equipment. Strength Simplified, Supplements Curated."</p>
+                    <div class="cta-container">
+                        <a href="/auth/signup.php" class="cta-button">Get Started Now</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Benefits section -->
+            <section class="benefits-section">
+                <h2>Unlock Exclusive Benefits When You Join BeFit AI</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <div class="benefit-icon">+</div>
+                        <h3>AI-Powered Workouts</h3>
+                        <p>Get personalized training plans that adapt to your progress, goals, and available equipment.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">▼</div>
+                        <h3>Progress Tracking & AI Coaching</h3>
+                        <p>Real-time performance analysis with smart suggestions to optimize your results.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <div class="benefit-icon">●</div>
+                        <h3>15% Permanent Discount</h3>
+                        <p>Exclusive member pricing on all supplements and equipment.</p>
+                    </div>
+                </div>
+            </section>
+
             <hr class="section-separator">
             <?php include(__DIR__ . '/includes/shop/shop-section.php'); ?>
-        </div>
-    <?php else: ?>
-        <!-- Guest Content -->
-        <div class="hero-content">
-            <div class="hero-left">
-                <h1>Transform Your Fitness with 
-                    <span class="highlight"><br>BeFit AI Precision.</span>
-                </h1>
-                <h3>"Workouts Tailored to You—Powered by Goals, Level & Equipment. Strength Simplified, Supplements Curated."</h3>
-                <div class="cta-container">
-                    <a href="/auth/signup.php" class="cta-button">Get Started Now</a>
-                </div>
-            </div> 
-        </div>
-        <hr class="section-separator">
-        <?php include(__DIR__ . '/benefits.php'); ?>
-        <?php include(__DIR__ . '/includes/shop/shop-section.php'); ?>
-    <?php endif; ?>
+        <?php endif; ?>
+    </main>
 
     <?php include(__DIR__ . '/includes/footer.php'); ?>
+    
+    <!-- Fixed JS path -->
     <script src="/public/js/transitions.js"></script>
 </body>
 </html>
