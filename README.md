@@ -59,7 +59,7 @@ If you modify the database (e.g., add tables), update the shared `dump.sql` for 
 - **Error: "Access denied for user 'root'"**  
   - **Solution**: Edit the `.bat` files:  
     1. Open `setup.bat` and `publish.bat` in a text editor.  
-    2. Replace `-pYOUR_MYSQL_PASSWORD` with your MySQL password (or remove `-p` if no password).  
+    2. add `-pYOUR_MYSQL_PASSWORD` with your MySQL password (or remove `-p` if no password).  
 
 - **Error: "Can’t connect to MySQL server"**  
   - **Solution**: Ensure **MySQL** is running in XAMPP.  
