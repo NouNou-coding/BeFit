@@ -2,26 +2,22 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
+// Autoload PHPMailer classes
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../vendor/phpmailer/phpmailer/src/Exception.php';
-require __DIR__ . '/../vendor/phpmailer/phpmailer/src/PHPMailer.php';
-require __DIR__ . '/../vendor/phpmailer/phpmailer/src/SMTP.php';
 
-// Log SMTP activity and error handling (delete?)
-file_put_contents(__DIR__.'/smtp_debug.log', 
-    date('Y-m-d H:i:s')." - Attempting to send to: $email\n", 
-    FILE_APPEND
-);
-
-$mail->SMTPDebug = 3; // Full debug output
-$mail->Debugoutput = function($str, $level) {
-    file_put_contents(__DIR__.'/smtp_debug.log', "$level: $str\n", FILE_APPEND);
-};
-/////////
 function sendVerificationEmail($email, $code) {
     $mail = new PHPMailer(true);
     
     try {
+        // Debug settings (must be set AFTER instantiating PHPMailer)
+        $mail->SMTPDebug = 3; // Enable verbose debug output
+        $mail->Debugoutput = function($str, $level) {
+            file_put_contents(__DIR__.'/smtp_debug.log', 
+                date('Y-m-d H:i:s')." [$level] $str\n", 
+                FILE_APPEND
+            );
+        };
+
         // Server settings
         $mail->isSMTP();
         $mail->Host       = SMTP_HOST;
@@ -30,6 +26,7 @@ function sendVerificationEmail($email, $code) {
         $mail->Password   = SMTP_PASS;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = SMTP_PORT;
+        $mail->Timeout    = 30; // Increase timeout
 
         // Recipients
         $mail->setFrom(SMTP_USER, 'BeFit AI');
@@ -39,12 +36,21 @@ function sendVerificationEmail($email, $code) {
         $mail->isHTML(true);
         $mail->Subject = 'Your BeFit Verification Code';
         $mail->Body    = "Your verification code is: <b>$code</b>";
-        
-        $mail->SMTPDebug = 3;//enable verbose debugging
+        $mail->AltBody = "Your verification code is: $code";
+
+        // Security settings
+        $mail->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ];
+
         $mail->send();
         return true;
     } catch (Exception $e) {
-        error_log("Mail Error: " . $mail->ErrorInfo);
+        error_log("Mail Error: " . $e->getMessage());
         return false;
     }
 }
