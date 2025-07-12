@@ -70,3 +70,10 @@ try {
 } catch (\PDOException $e) {
     die("Database connection failed: " . $e->getMessage());
 }
+define('PASSWORD_MIN_LENGTH', 8);           
+define('PASSWORD_NEEDS_UPPERCASE', true);  
+define('PASSWORD_NEEDS_NUMBER', true);      
+
+if (basename($_SERVER['SCRIPT_FILENAME']) === basename(__FILE__)) {
+    die("Direct access forbidden");
+}
