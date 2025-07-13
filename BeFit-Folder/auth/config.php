@@ -1,4 +1,19 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}// Cookie consent check
+define('ALLOW_ANALYTICS', 
+    isset($_COOKIE['cookie_consent']) && 
+    $_COOKIE['cookie_consent'] === 'accepted'
+);
+
+// Example usage (later in your HTML head):
+if (ALLOW_ANALYTICS) {
+    define('GA_TRACKING_ID', 'UA-XXXXX-Y'); // Replace with your ID
+}
+
+// Your existing code...
+$dbHost = 'localhost';
 $dbHost = 'localhost';
 $dbName = 'befit_db';
 $dbUser = 'root';      // Replace if needed
