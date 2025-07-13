@@ -23,4 +23,35 @@
             &copy; <?= date('Y') ?> BeFit. All rights reserved.
         </p>
     </div>
+<div id="cookie-consent" class="cookie-banner" style="display:none;">
+  <p>We use cookies to enhance your experience. By continuing, you agree to our <a href="/privacy">Cookie Policy</a>.</p>
+  <button id="accept-cookies" class="cookie-btn">Accept</button>
+  <button id="decline-cookies" class="cookie-btn">Decline</button>
+</div>
+
+<style>
+  .cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1A1A1A;
+    color: white;
+    padding: 15px;
+    text-align: center;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+  .cookie-btn {
+    background: #4A90E2;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+</style>
 </footer>
