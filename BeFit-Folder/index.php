@@ -98,28 +98,31 @@ $loggedIn = isset($_SESSION['user_id']);
 
         /* Hero Section */
         
-        
         .hero-section {
-            text-align: center;
-            padding: 8rem 2rem;
-            position: relative;
-            background: white;
-            margin-bottom: 4rem;
+        text-align: center;
+        padding: 6rem 2rem;
+        position: relative;
+        background: transparent;
         }
         .hero-title {
-            font-size: clamp(2.5rem, 6vw, 3.5rem);
-            margin-bottom: 1.5rem;
+            font-size: clamp(2.5rem, 7vw, 4rem);
             line-height: 1.1;
-            font-weight: 800;
             color: var(--dark);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            /* New styles you're adding: */
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.5rem;
         }
         .hero-subtitle {
             font-size: clamp(1.2rem, 3vw, 1.5rem);
             color: var(--gray);
             max-width: 700px;
             margin: 0 auto 3rem;
-            font-weight: 400;
             line-height: 1.6;
+            /* New styles you're adding: */
+            font-weight: 300;
+            letter-spacing: 0.02em;
         }
         .cta-button {
             display: inline-block;
@@ -132,10 +135,12 @@ $loggedIn = isset($_SESSION['user_id']);
             font-size: 1.1rem;
             transition: all 0.2s ease;
             border: 2px solid var(--primary);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .cta-button:hover {
             background: white;
             color: var(--primary);
+            transform: translateY(-2px);
         }
         /* Benefits Section */
         .benefits-section {
@@ -260,13 +265,13 @@ $loggedIn = isset($_SESSION['user_id']);
             </section>
         <?php else: ?>
             <!-- Hero Section -->
-        <section class="hero-section">
+            <section class="hero-section">
             <h1 class="hero-title">Transform Your Fitness with BeFit AI Precision</h1>
             <p class="hero-subtitle">
                 Workouts Tailored to You—Powered by Goals, Level & Equipment. Strength Simplified, Supplements Curated.
             </p>
             <a href="/BeFit-Folder/auth/signup.php" class="cta-button">Get Started Now</a>
-        </section>
+            </section>
             
             <!-- Benefits Section -->
             <section class="benefits-section">
