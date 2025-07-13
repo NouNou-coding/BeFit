@@ -1,5 +1,17 @@
-/* AI */
-/* Add to styles */
+:root {
+    /* Core Colors */
+    --primary: #0066FF;       /* Main brand blue */
+    --primary-dark: #0052CC;  /* Darker blue */
+    --dark: #1A1A1A;         /* Dark text color */
+    --light: #F8F9FA;        /* Light background */
+    --gray: #6C757D;         /* Subtitle/text gray */
+    
+    /* Spacing */
+    --section-padding: 8rem;
+    
+    /* Borders */
+    --border-radius: 8px;
+}
 
 .loader {
     border: 4px solid #f3f3f3;

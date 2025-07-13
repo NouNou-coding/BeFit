@@ -97,55 +97,46 @@ $loggedIn = isset($_SESSION['user_id']);
         }
 
         /* Hero Section */
+        
+        
         .hero-section {
             text-align: center;
-            padding: 6rem 2rem 5rem;
+            padding: 8rem 2rem;
             position: relative;
-            overflow: hidden;
-        }
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(0,102,255,0.1) 0%, rgba(0,82,204,0.05) 100%);
-            z-index: -1;
+            background: white;
+            margin-bottom: 4rem;
         }
         .hero-title {
-            font-size: 3rem;
-            color: var(--dark);
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
             margin-bottom: 1.5rem;
-            line-height: 1.2;
+            line-height: 1.1;
             font-weight: 800;
+            color: var(--dark);
         }
         .hero-subtitle {
-            font-size: 1.3rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
             color: var(--gray);
             max-width: 700px;
             margin: 0 auto 3rem;
             font-weight: 400;
+            line-height: 1.6;
         }
         .cta-button {
             display: inline-block;
             background: var(--primary);
             color: white;
             padding: 1rem 2.5rem;
-            border-radius: 50px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             font-size: 1.1rem;
             transition: all 0.2s ease;
-            border: 2px solid transparent;
+            border: 2px solid var(--primary);
         }
         .cta-button:hover {
             background: white;
             color: var(--primary);
-            border-color: var(--primary);
-            transform: translateY(-2px);
         }
-
         /* Benefits Section */
         .benefits-section {
             padding: 5rem 2rem;
@@ -269,13 +260,13 @@ $loggedIn = isset($_SESSION['user_id']);
             </section>
         <?php else: ?>
             <!-- Hero Section -->
-            <section class="hero-section">
-                <h1 class="hero-title">Transform Your Fitness with BeFit AI Precision</h1>
-                <p class="hero-subtitle">
-                    Workouts Tailored to You—Powered by Goals, Level & Equipment. Strength Simplified, Supplements Curated.
-                </p>
-                <a href="/BeFit-Folder/auth/signup.php" class="cta-button">Get Started Now</a>
-            </section>
+        <section class="hero-section">
+            <h1 class="hero-title">Transform Your Fitness with BeFit AI Precision</h1>
+            <p class="hero-subtitle">
+                Workouts Tailored to You—Powered by Goals, Level & Equipment. Strength Simplified, Supplements Curated.
+            </p>
+            <a href="/BeFit-Folder/auth/signup.php" class="cta-button">Get Started Now</a>
+        </section>
             
             <!-- Benefits Section -->
             <section class="benefits-section">
