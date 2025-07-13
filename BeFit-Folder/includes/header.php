@@ -9,6 +9,26 @@ if (session_status() === PHP_SESSION_NONE) session_start();
     <title>BeFit - AI-Powered Fitness</title>
     <link rel="stylesheet" href="/BeFit-Folder/public/css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- In header.php -->
+<head>
+  <!-- Your existing meta tags, title, etc. -->
+  
+  <?php if (ALLOW_ANALYTICS): ?>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<?= GA_TRACKING_ID ?>"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', '<?= GA_TRACKING_ID ?>', { 
+      anonymize_ip: true,
+      cookie_domain: 'auto',
+      cookie_flags: 'SameSite=None;Secure'
+    });
+  </script>
+  <?php endif; ?>
+  
+</head>
 </head>
 <body class="shared-bg">
     <nav class="page-header">
