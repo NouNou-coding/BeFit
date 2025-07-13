@@ -2,10 +2,13 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }// Cookie consent check
-define('ALLOW_ANALYTICS', 
-    isset($_COOKIE['cookie_consent']) && 
-    $_COOKIE['cookie_consent'] === 'accepted'
-);
+// Replace your existing line 5 with this:
+if (!defined('ALLOW_ANALYTICS')) {
+    define('ALLOW_ANALYTICS', 
+        isset($_COOKIE['cookie_consent']) && 
+        $_COOKIE['cookie_consent'] === 'accepted'
+    );
+}
 
 // Example usage (later in your HTML head):
 if (ALLOW_ANALYTICS) {
