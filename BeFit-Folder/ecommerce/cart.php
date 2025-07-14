@@ -68,30 +68,28 @@ if (isset($_GET['action'])) {
                     session_destroy();
                     header("Location: ../auth/signin.php?error=invalid_user");
                     exit;
-                }   $stmt = $pdo->prepare("INSERT INTO orders (user_id, total, status, created_at, status_updated_at) VALUES (?, ?, 'pending', NOW(), NOW())");
-            $stmt->execute([$_SESSION['user_id'], $total]);
-            $order_id = $pdo->lastInsertId();
+                }
 
-                // Create order
+                // Create order (only once - removed the duplicate insertion)
                 try {
-                    $stmt = $pdo->prepare("INSERT INTO orders (user_id, total) VALUES (?, ?)");
+                    $stmt = $pdo->prepare("INSERT INTO orders (user_id, total, status, created_at, status_updated_at) VALUES (?, ?, 'pending', NOW(), NOW())");
                     $stmt->execute([$_SESSION['user_id'], $total]);
+                    $order_id = $pdo->lastInsertId();
+                    
+                    // Add order items
+                    foreach ($_SESSION['cart'] as $product_id => $quantity) {
+                        $stmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity) VALUES (?, ?, ?)");
+                        $stmt->execute([$order_id, $product_id, $quantity]);
+                    }
+                    
+                    // Clear cart
+                    unset($_SESSION['cart']);
+                    header("Location: orders.php");
+                    exit;
                 } catch (PDOException $e) {
                     // If error occurs, show simple message
                     die("Error during checkout. Please try again or contact support.");
                 }
-                $order_id = $pdo->lastInsertId();
-                
-                // Add order items
-                foreach ($_SESSION['cart'] as $product_id => $quantity) {
-                    $stmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity) VALUES (?, ?, ?)");
-                    $stmt->execute([$order_id, $product_id, $quantity]);
-                }
-                
-                // Clear cart
-                unset($_SESSION['cart']);
-                header("Location: orders.php");
-                exit;
             }
         }
     }
