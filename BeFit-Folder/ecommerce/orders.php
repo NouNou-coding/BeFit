@@ -146,6 +146,29 @@ $orders = $orders->fetchAll(PDO::FETCH_ASSOC);
             margin-bottom: 1.5rem;
             font-weight: 400;
         }
+/* Add to the existing styles */
+.status-pending {
+    background: #fff3cd;
+    color: #856404;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+.status-completed {
+    background: #d4edda;
+    color: #155724;
+    transition: all 0.5s ease;
+    transform: scale(1);
+}
+
+.status-completed:hover {
+    transform: scale(1.05);
+}
     </style>
 </head>
 <body>
@@ -214,6 +237,42 @@ $orders = $orders->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    <?php foreach ($orders as $order): ?>
+        <?php if ($order['status'] == 'pending'): ?>
+            // Calculate remaining time in seconds
+            const orderTime<?= $order['id'] ?> = new Date('<?= $order['created_at'] ?>').getTime();
+            const tenMinutes = 10 * 60 * 1000; // 10 minutes in milliseconds
+            const endTime<?= $order['id'] ?> = orderTime<?= $order['id'] ?> + tenMinutes;
+            
+            function updateTimer<?= $order['id'] ?>() {
+                const now = new Date().getTime();
+                const distance = endTime<?= $order['id'] ?> - now;
+                
+                if (distance < 0) {
+                    // Time is up, reload the page to show updated status
+                    document.getElementById('status-timer-<?= $order['id'] ?>').innerHTML = 'Processing...';
+                    setTimeout(() => location.reload(), 2000);
+                    return;
+                }
+                
+                // Calculate minutes and seconds
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                // Display the result
+                document.getElementById('status-timer-<?= $order['id'] ?>').innerHTML = 
+                    `Pending (${minutes}m ${seconds}s)`;
+            }
+            
+            // Update timer immediately and then every second
+            updateTimer<?= $order['id'] ?>();
+            setInterval(updateTimer<?= $order['id'] ?>, 1000);
+        <?php endif; ?>
+    <?php endforeach; ?>
+});
+</script>
     </div>
     
     <?php include '../includes/footer.php'; ?>
