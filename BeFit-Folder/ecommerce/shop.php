@@ -1,24 +1,8 @@
 <?php
 session_start();
 require '../auth/config.php';
-if (session_status() === PHP_SESSION_NONE) session_start();
 
-// Create orders and order_items tables if not exists
-$pdo->exec("CREATE TABLE IF NOT EXISTS orders (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT,
-    total DECIMAL(10,2),
-    status ENUM('pending','completed') DEFAULT 'pending',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)");
-
-$pdo->exec("CREATE TABLE IF NOT EXISTS order_items (
-    order_id INT,
-    product_id INT,
-    quantity INT
-)");
-
-// Get products
+// Get all products
 $products = $pdo->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);
 
 // Handle cart actions
@@ -29,44 +13,8 @@ if (isset($_GET['action'])) {
             $_SESSION['cart'][$product_id] = 0;
         }
         $_SESSION['cart'][$product_id]++;
-    }
-    elseif ($_GET['action'] == 'remove' && isset($_GET['id'])) {
-        $product_id = (int)$_GET['id'];
-        if (isset($_SESSION['cart'][$product_id])) {
-            unset($_SESSION['cart'][$product_id]);
-        }
-    }
-    elseif ($_GET['action'] == 'checkout') {
-        if (!empty($_SESSION['cart']) && isset($_SESSION['user_id'])) {
-            // Calculate total
-            $total = 0;
-            $product_ids = array_keys($_SESSION['cart']);
-            $placeholders = implode(',', array_fill(0, count($product_ids), '?'));
-            $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ($placeholders)");
-            $stmt->execute($product_ids);
-            $cart_products = $stmt->fetchAll();
-            
-            foreach ($cart_products as $product) {
-                $total += $product['price'] * $_SESSION['cart'][$product['id']];
-            }
-            
-            // Create order
-            $stmt = $pdo->prepare("INSERT INTO orders (user_id, total) VALUES (?, ?)");
-            $stmt->execute([$_SESSION['user_id'], $total]);
-            $order_id = $pdo->lastInsertId();
-            
-            // Add order items
-            foreach ($_SESSION['cart'] as $product_id => $quantity) {
-                $stmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity) VALUES (?, ?, ?)");
-                $stmt->execute([$order_id, $product_id, $quantity]);
-            }
-            
-            // Clear cart
-            unset($_SESSION['cart']);
-            
-            header("Location: orders.php");
-            exit;
-        }
+        header("Location: shop.php");
+        exit;
     }
 }
 ?>
@@ -74,72 +22,172 @@ if (isset($_GET['action'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Shop</title>
+    <title>Shop - BeFit</title>
     <link rel="stylesheet" href="../public/css/styles1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .product-card { border: 1px solid #ddd; padding: 15px; border-radius: 5px; text-align: center; }
-        .cart { border: 1px solid #ddd; padding: 20px; border-radius: 5px; margin-top: 30px; }
-        .cart-item { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+        .shop-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .shop-header {
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .shop-title {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .shop-subtitle {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-name {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .product-price {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .product-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #f0f7ff;
+            color: var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .add-to-cart {
+            display: block;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .add-to-cart:hover {
+            background: var(--primary-dark);
+        }
+        
+        .cart-link {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 100;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Products</h1>
-        <div class="product-grid">
+    <?php include '../includes/header.php'; ?>
+    
+    <div class="shop-container">
+        <div class="shop-header">
+            <h1 class="shop-title">Our Premium Products</h1>
+            <p class="shop-subtitle">Quality fitness equipment and supplements for your journey</p>
+        </div>
+        
+        <div class="products-grid">
             <?php foreach ($products as $product): ?>
                 <div class="product-card">
-                    <?php if ($product['image_url']): ?>
-                        <img src="<?= $product['image_url'] ?>" alt="<?= $product['name'] ?>" style="max-width: 100%; height: 150px; object-fit: cover;">
-                    <?php endif; ?>
-                    <h3><?= $product['name'] ?></h3>
-                    <p>$<?= number_format($product['price'], 2) ?></p>
-                    <a href="shop.php?action=add&id=<?= $product['id'] ?>">Add to Cart</a>
+                    <img src="../public/<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="product-image">
+                    <div class="product-info">
+                        <span class="product-category"><?= ucfirst($product['category']) ?></span>
+                        <h3 class="product-name"><?= htmlspecialchars($product['name']) ?></h3>
+                        <p class="product-price">$<?= number_format($product['price'], 2) ?></p>
+                        <a href="shop.php?action=add&id=<?= $product['id'] ?>" class="add-to-cart">
+                            Add to Cart <i class="fas fa-cart-plus"></i>
+                        </a>
+                    </div>
                 </div>
             <?php endforeach; ?>
         </div>
-        
-        <div class="cart">
-            <h2>Shopping Cart</h2>
-            <?php if (!empty($_SESSION['cart'])): ?>
-                <?php
-                $total = 0;
-                $product_ids = array_keys($_SESSION['cart']);
-                $placeholders = implode(',', array_fill(0, count($product_ids), '?'));
-                $stmt = $pdo->prepare("SELECT * FROM products WHERE id IN ($placeholders)");
-                $stmt->execute($product_ids);
-                $cart_products = $stmt->fetchAll();
-                
-                foreach ($cart_products as $product):
-                    $quantity = $_SESSION['cart'][$product['id']];
-                    $subtotal = $product['price'] * $quantity;
-                    $total += $subtotal;
-                ?>
-                    <div class="cart-item">
-                        <div>
-                            <h4><?= $product['name'] ?></h4>
-                            <p>$<?= number_format($product['price'], 2) ?> x <?= $quantity ?></p>
-                        </div>
-                        <div>
-                            <p>$<?= number_format($subtotal, 2) ?></p>
-                            <a href="shop.php?action=remove&id=<?= $product['id'] ?>">Remove</a>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-                
-                <div style="margin-top: 20px; text-align: right;">
-                    <h3>Total: $<?= number_format($total, 2) ?></h3>
-                    <?php if (isset($_SESSION['user_id'])): ?>
-                        <a href="shop.php?action=checkout">Checkout</a>
-                    <?php else: ?>
-                        <p>Please <a href="login.php">login</a> to checkout</p>
-                    <?php endif; ?>
-                </div>
-            <?php else: ?>
-                <p>Your cart is empty</p>
-            <?php endif; ?>
-        </div>
     </div>
+    
+    <a href="cart.php" class="cart-link">
+        <i class="fas fa-shopping-cart"></i>
+        <?php if (!empty($_SESSION['cart'])): ?>
+            <span class="cart-count"><?= array_sum($_SESSION['cart']) ?></span>
+        <?php endif; ?>
+    </a>
+    
+    <?php include '../includes/footer.php'; ?>
 </body>
 </html>

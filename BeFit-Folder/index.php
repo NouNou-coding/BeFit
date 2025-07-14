@@ -4,6 +4,17 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Handle cart actions
+if (isset($_GET['action']) && $_GET['action'] == 'add' && isset($_GET['id'])) {
+    $product_id = (int)$_GET['id'];
+    if (!isset($_SESSION['cart'][$product_id])) {
+        $_SESSION['cart'][$product_id] = 0;
+    }
+    $_SESSION['cart'][$product_id]++;
+    header("Location: " . strtok($_SERVER['REQUEST_URI'], '?'));
+    exit;
+}
+
 // Load configuration
 require_once __DIR__ . '/auth/config.php';
 
@@ -317,7 +328,26 @@ $loggedIn = isset($_SESSION['user_id']);
     <!-- Footer -->
     <?php include __DIR__ . '/includes/footer.php'; ?>
     
-    <!-- JavaScript -->
-    <script src="/BeFit-Folder/public/js/transitions.js"></script>
+        <!-- JavaScript -->
+        <script src="/BeFit-Folder/public/js/transitions.js"></script>
+    <?php if (isset($_GET['action']) && $_GET['action'] == 'add'): ?>
+    <div class="cart-notification" id="cartNotification">
+        <i class="fas fa-check-circle"></i>
+        <span>Item added to cart!</span>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notification = document.getElementById('cartNotification');
+            if (notification) {
+                setTimeout(() => {
+                    notification.classList.add('show');
+                    setTimeout(() => {
+                        notification.classList.remove('show');
+                    }, 3000);
+                }, 100);
+            }
+        });
+    </script>
+    <?php endif; ?>
 </body>
 </html>
