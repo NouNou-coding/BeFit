@@ -56,6 +56,7 @@ CREATE TABLE `orders` (
   `total` decimal(10,2) NOT NULL,
   `status` enum('pending','completed') DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status_updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `created_at` (`created_at`),
@@ -69,7 +70,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (3,5,21.24,'pending','2025-07-14 11:08:41');
+INSERT INTO `orders` VALUES (3,5,21.24,'pending','2025-07-14 11:08:41','2025-07-14 12:37:14');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,4 +174,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-14 14:26:03
+-- Dump completed on 2025-07-14 15:37:34
