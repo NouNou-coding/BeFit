@@ -1,7 +1,9 @@
 <?php
 $pageTitle = "Terms & Conditions - BeFit";
 $activePage = "terms";
+require_once __DIR__ . '/auth/config.php';
 include __DIR__ . '/includes/header.php';
+
 ?>
 
 <main class="terms-page">
