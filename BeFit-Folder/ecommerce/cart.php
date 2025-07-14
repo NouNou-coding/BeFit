@@ -68,7 +68,9 @@ if (isset($_GET['action'])) {
                     session_destroy();
                     header("Location: ../auth/signin.php?error=invalid_user");
                     exit;
-                }
+                }   $stmt = $pdo->prepare("INSERT INTO orders (user_id, total, status, created_at, status_updated_at) VALUES (?, ?, 'pending', NOW(), NOW())");
+            $stmt->execute([$_SESSION['user_id'], $total]);
+            $order_id = $pdo->lastInsertId();
 
                 // Create order
                 try {
