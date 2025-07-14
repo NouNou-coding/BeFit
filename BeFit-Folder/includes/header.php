@@ -42,7 +42,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             <ul class="nav-links">
                 <li><a href="/BeFit-Folder/index.php#shop-section">Shop</a></li>
                 <li><a href="/BeFit-Folder/about.php">About</a></li>
-                <li><a href="#">Support</a></li>
+                <li><a href="support.php">Support</a></li>
                 <li><a href="/BeFit-Folder/ecommerce/cart.php"><i class="fas fa-shopping-cart"></i> Cart</a></li>
                 <li><a href="/BeFit-Folder/ecommerce/orders.php"><i class="fas fa-history"></i> Orders</a></li>
             </ul>
