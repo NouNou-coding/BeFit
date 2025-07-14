@@ -71,13 +71,14 @@ $orders = $orders->fetchAll(PDO::FETCH_ASSOC);
             font-size: 0.9rem;
         }
         
-        .order-status {
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+       .order-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+}
         
         .status-pending {
             background: #fff3cd;
@@ -148,26 +149,37 @@ $orders = $orders->fetchAll(PDO::FETCH_ASSOC);
         }
 /* Add to the existing styles */
 .status-pending {
-    background: #fff3cd;
-    color: #856404;
+    background: #FFEB3B;
+    color: #FF6D00;
+    box-shadow: 0 2px 5px rgba(255, 152, 0, 0.2);
     animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.7; }
-    100% { opacity: 1; }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
 }
 
 .status-completed {
-    background: #d4edda;
-    color: #155724;
-    transition: all 0.5s ease;
-    transform: scale(1);
+    background: #4CAF50;
+    color: white;
+    box-shadow: 0 2px 5px rgba(76, 175, 80, 0.3);
 }
 
 .status-completed:hover {
     transform: scale(1.05);
+}
+.status-completed::after {
+    content: "✓";
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+/* Add a clock icon for pending status */
+.status-pending::before {
+    content: "⏳";
+    margin-right: 5px;
 }
     </style>
 </head>
