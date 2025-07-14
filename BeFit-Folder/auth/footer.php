@@ -27,5 +27,5 @@
   <p>We use cookies to enhance your experience. By continuing, you agree to our <a href="/privacy" style="color: #4A90E2;">Cookie Policy</a>.</p>
   <button id="accept-cookies" style="background: #4A90E2; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">Accept</button>
   <button id="decline-cookies" style="background: #ff4444; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer;">Decline</button>
-</div>
+</div> <script src="/BeFit-Folder/public/js/cookie-consent.js"></script>
 </footer>
