@@ -1,5 +1,6 @@
 <?php
 $pageTitle = "Terms & Conditions - BeFit";
+require_once __DIR__ . '/auth/config.php';
 include __DIR__ . '/includes/header.php';
 ?>
 
