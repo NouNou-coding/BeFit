@@ -31,8 +31,8 @@ if (!defined('PASSWORD_MIN_LENGTH')) {
 
 if (!defined('SMTP_HOST')) {
     define('SMTP_HOST', 'smtp.gmail.com');
-    define('SMTP_USER', 'yorgobekaiiprofessional@gmail.com');
-    define('SMTP_PASS', 'fyji vqld hnth zgxi');
+    define('SMTP_USER', 'befitcompany.contact@gmail.com');
+    define('SMTP_PASS', 'yzqa psik rafu sszd');
     define('SMTP_PORT', 587);
 }
 
