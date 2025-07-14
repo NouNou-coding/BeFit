@@ -61,6 +61,8 @@
                 });
             });
         });
-    </script>
+    </script> <script>
+  console.log('Cookie Consent:', document.cookie);
+</script>
 </body>
 </html>
