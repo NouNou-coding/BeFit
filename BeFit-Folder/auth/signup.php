@@ -63,273 +63,178 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     <title>BeFit - Sign Up</title>
     <link rel="stylesheet" href="../public/css/styles1.css">
     <style>
-        html, body {
-            height: 100%;
-            overflow-y: hidden;
-        }
+    html, body {
+        height: 100%;
+        overflow-y: hidden;
+    }
 
-        .signin-container, .signup-container {
-            position: relative;
-            z-index: 1;
-        }
+    .signin-container, .signup-container {
+        position: relative;
+        z-index: 1;
+    }
 
-        .form-group.name-group {
-            margin-bottom: 1.2rem;
-        }
+    .signup-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 1rem 5%;
+        gap: 2rem;
+        max-width: 1100px;
+        margin: 0 auto;
+    }
 
+    .benefits-column, .form-container {
+        flex: 1;
+        max-width: 450px;
+        padding: 2rem;
+        height: fit-content;
+    }
+
+    .benefits-column {
+        color: white;
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 15px;
+        backdrop-filter: blur(5px);
+    }
+
+    .benefit-item {
+        margin-bottom: 2rem;
+    }
+
+    .benefit-item h3 {
+        font-size: 1.3rem;
+        margin-bottom: 0.6rem;
+        color: #4A90E2;
+    }
+
+    .benefit-item p {
+        font-size: 1rem;
+        opacity: 0.9;
+        line-height: 1.5;
+    }
+
+    .form-container {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 15px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px 15px;
+        border: none;
+        border-bottom: 2px solid #ddd;
+        border-radius: 0;
+        font-size: 1rem;
+        background: transparent;
+        transition: all 0.3s ease;
+    }
+
+    input:focus {
+        border-bottom-color: #4A90E2;
+        outline: none;
+        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.1);
+    }
+
+    .terms-checkbox {
+        display: flex;
+        align-items: center;
+        margin: 1.5rem 0;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .terms-checkbox input {
+        width: auto;
+        margin-right: 0.8rem;
+    }
+
+    .terms-checkbox a {
+        color: #4A90E2;
+        text-decoration: none;
+    }
+
+    .terms-checkbox a:hover {
+        text-decoration: underline;
+    }
+
+    .signup-btn {
+        width: 100%;
+        padding: 14px;
+        background-color: #4A90E2;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 1rem;
+    }
+
+    .signup-btn:hover {
+        background-color: #357ABD;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+    }
+
+    .account-section {
+        text-align: center;
+        margin-top: 1.5rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid #eee;
+    }
+
+    .signin-btn {
+        display: inline-block;
+        padding: 10px 25px;
+        background-color: transparent;
+        color: #4A90E2;
+        border: 2px solid #4A90E2;
+        border-radius: 25px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        margin-top: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .signin-btn:hover {
+        background-color: #4A90E2;
+        color: white;
+    }
+
+    .error-message {
+        color: #d32f2f;
+        padding: 12px;
+        margin-bottom: 20px;
+        background-color: #ffebee;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
         .signup-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 1rem 5%;
-            gap: 2rem;
-            max-width: 1100px;
-            margin: 0 auto;
+            flex-direction: column;
+            padding: 1rem;
+            overflow-y: auto;
         }
 
         .benefits-column, .form-container {
-            flex: 1;
-            max-width: 450px;
-            padding: 1.5rem;
-            height: fit-content;
-        }
-
-        .benefits-column {
-            color: white;
-            background: rgba(0, 0, 0, 0.4);
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
-        }
-
-        .benefit-item {
-            margin-bottom: 2rem;
-        }
-
-        .benefit-item h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.6rem;
-            color: #4A90E2;
-        }
-
-        .benefit-item p {
-            font-size: 1rem;
-            opacity: 0.9;
-            line-height: 1.5;
-        }
-
-        .form-container {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            padding: 2rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        input {
             width: 100%;
-            padding: 10px 15px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+            max-width: none;
         }
 
-        input:focus {
-            border-color: #4A90E2;
-            outline: none;
-            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+        html, body {
+            overflow-y: auto;
         }
-
-        .terms-checkbox {
-            display: flex;
-            align-items: center;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .terms-checkbox input {
-            width: auto;
-            margin-right: 0.8rem;
-        }
-
-        .terms-checkbox a {
-            color: #4A90E2;
-            text-decoration: none;
-            margin-left: 0.3rem;
-        }
-
-        .terms-checkbox a:hover {
-            text-decoration: underline;
-        }
-
-        .signin-btn {
-        width: 100%;
-        padding: 14px;
-        background-color: #4A90E2;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        position: relative;
-        overflow: hidden;
-        }
-
-
-        .account-section {
-            text-align: center;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #ddd;
-        }
-
-        .signin-btn {
-            display: inline-block;
-            padding: 8px 25px;
-            background-color: transparent;
-            color: #4A90E2;
-            border: 2px solid #4A90E2;
-            border-radius: 20px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .signin-btn:hover {
-            background-color: #4A90E2;
-            color: white;
-             background-color: #357ABD;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
-        }
-
-        .signin-btn:active {
-            transform: translateY(1px);
-            transition: all 0.1s ease;
-        }   
-
-        .signup-btn {
-        width: 100%;
-        padding: 14px;
-        background-color: #4A90E2;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        position: relative;
-        overflow: hidden;
-        animation: pulseGlow 2s infinite;
-    
-        }
-        .signup-btn:hover {
-            background-color: #357ABD;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
-        }
-
-        .signup-btn:active {
-            transform: translateY(1px);
-            transition: all 0.1s ease;
-        }
-
-        .signup-btn::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            opacity: 0;
-            transition: all 0.4s ease;
-        }
-
-        .signup-btn:hover::after {
-            opacity: 1;
-            width: 120%;
-            height: 300%;
-        }
-
-            @media (max-width: 768px) {
-                .signup-container {
-                    flex-direction: column;
-                    padding: 1rem;
-                    overflow-y: auto;
-                }
-
-                .benefits-column, .form-container {
-                    width: 100%;
-                    max-width: none;
-                    padding: 1.5rem;
-                }
-/* Smooth transitions */
-input, button {
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* Glow effect on focus */
-input:focus {
-    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
-}
-
-/* Button hover effects */
-.signup-btn:hover, .signin-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
-}
-
-/* Modern input styling */
-input {
-    border: none;
-    border-bottom: 2px solid #ddd;
-    border-radius: 0;
-    padding: 10px 0;
-    background: transparent;
-}
-
-input:focus {
-    border-bottom-color: #4A90E2;
-    outline: none;
-}
-
-/* Floating labels */
-.form-group {
-    position: relative;
-    margin-bottom: 1.5rem;
-}
-
-.form-group input:not(:placeholder-shown) + label {
-    transform: translateY(-20px);
-    font-size: 0.8rem;
-    color: #4A90E2;
-}
-
-.form-group label {
-    position: absolute;
-    left: 0;
-    bottom: 10px;
-    color: #999;
-    transition: all 0.3s;
-    pointer-events: none;
-}
-
-                html, body {
-                    overflow-y: auto;
-                }
-            }
-    </style>
-</head>
+    }
+</style>
 <body class="shared-bg">
     <div class="signup-container">
         
@@ -353,23 +258,22 @@ input:focus {
         </div>
 
         
-        <div class="form-container">
-            <?php if(isset($error)): ?>
-            <div class="error-message" style="color:red; padding:10px; margin-bottom:20px; border:1px solid #ffcccc; border-radius:4px;">
-                <?= htmlspecialchars($error) ?>
-            </div>
-            <?php endif; ?>
-            
-            <h2 style="margin-bottom: 1.5rem;">Create Account</h2>
-            <h2 style="margin-bottom: 1.5rem; color: #333; text-align: center; font-size: 1.5rem;">Create Account</h2>
-            
-            <form class="signup-form" method="POST" action="signup.php">
+            <div class="form-container">
+                <?php if(isset($error)): ?>
+                <div class="error-message">
+                    <?= htmlspecialchars($error) ?>
+                </div>
+                <?php endif; ?>
+                
+                <h2 style="margin-bottom: 1.5rem; color: #333; text-align: center; font-size: 1.8rem;">Create Account</h2>
+                
+                <form class="signup-form" method="POST" action="signup.php">
                 <div class="form-group">
-                    <input type="email" name="email" placeholder="Email Address" required>
+                    <input type="text" name="name" placeholder="Full Name" required>
                 </div>
                 
-                <div class="form-group name-group">
-                    <input type="text"  name="name" placeholder="Name" required>
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Email Address" required>
                 </div>
 
                 <div class="form-group">
@@ -386,12 +290,12 @@ input:focus {
                 </div>
 
                 <button type="submit" class="signup-btn">Sign Up</button>
-            </form>
+                </form>
 
-            <div class="account-section">
-                <p style="color: #666; font-size: 0.9rem;">Already have an account?</p>
-                <a href="signin.php" class="signin-btn">Sign In Now</a>
-            </div>
+                <div class="account-section">
+                    <p style="color: #666; font-size: 0.9rem;">Already have an account?</p>
+                    <a href="signin.php" class="signin-btn">Sign In Now</a>
+                </div>
         </div>
     </div>
 <script>
