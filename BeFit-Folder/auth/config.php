@@ -51,7 +51,33 @@ try {
         status_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id)
         )
+    "); function updateOrderStatuses($pdo) {
+    // Get all pending orders older than 10 minutes
+    $stmt = $pdo->prepare("
+        SELECT id FROM orders 
+        WHERE status = 'pending' 
+        AND created_at < DATE_SUB(NOW(), INTERVAL 10 MINUTE)
     ");
+    $stmt->execute();
+    $oldOrders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    if (!empty($oldOrders)) {
+        // Update them to completed
+        $ids = array_column($oldOrders, 'id');
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        
+        $updateStmt = $pdo->prepare("
+            UPDATE orders 
+            SET status = 'completed', 
+                status_updated_at = NOW() 
+            WHERE id IN ($placeholders)
+        ");
+        $updateStmt->execute($ids);
+    }
+}
+
+// Call this function at the start of any order-related page
+updateOrderStatuses($pdo);
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
 }
