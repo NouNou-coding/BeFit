@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $emailBody .= "Message:\n$message";
         
         if (sendSupportEmail(
-    "support@befit.com",  // Your support email address
+    "yorgobekaiiprofessional@gmail.com",  // Your support email address
     $_POST['email'],     // Customer's email from form
     $_POST['name'],      // Customer's name from form
     $_POST['message']    // Customer's message from form

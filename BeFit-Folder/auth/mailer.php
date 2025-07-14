@@ -49,6 +49,12 @@ function sendVerificationEmail($email, $code) {
 
         $mail->send();
         return true;
+    } catch (Exception $e) {
+        error_log("Mail Error: " . $e->getMessage());
+        return false;
+    }
+} // <-- THIS WAS MISSING! (Closing brace for sendVerificationEmail)
+
 function sendSupportEmail($to, $from, $name, $message) {
     $mail = new PHPMailer(true);
     
@@ -100,11 +106,6 @@ function sendSupportEmail($to, $from, $name, $message) {
         return true;
     } catch (Exception $e) {
         error_log("Support email failed: " . $e->getMessage());
-        return false;
-    }
-}
-    } catch (Exception $e) {
-        error_log("Mail Error: " . $e->getMessage());
         return false;
     }
 }
