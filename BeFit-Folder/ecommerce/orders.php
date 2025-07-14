@@ -2,7 +2,8 @@
 session_start();
 require '../auth/config.php';
 
-if (!isset($_SESSION['user_id'])) {
+
+if (!isset($_SESSION['user_id']) || !is_numeric($_SESSION['user_id'])) {
     header("Location: ../auth/signin.php");
     exit;
 }

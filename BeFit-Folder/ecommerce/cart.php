@@ -2,6 +2,10 @@
 session_start();
 require '../auth/config.php';
 
+if (!isset($_SESSION['user_id']) || !is_numeric($_SESSION['user_id'])) {
+    header("Location: ../auth/signin.php");
+    exit;
+}
 // Redirect if not logged in
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../auth/signin.php?redirect=cart");
@@ -54,9 +58,26 @@ if (isset($_GET['action'])) {
                     $total += $price * $_SESSION['cart'][$product['id']];
                 }
                 
+                // Verify user exists first
+                $userCheck = $pdo->prepare("SELECT id FROM users WHERE id = ? LIMIT 1");
+                $userCheck->execute([$_SESSION['user_id']]);
+                $validUser = $userCheck->fetch();
+
+                if (!$validUser) {
+                    // If user doesn't exist, log them out and redirect
+                    session_destroy();
+                    header("Location: ../auth/signin.php?error=invalid_user");
+                    exit;
+                }
+
                 // Create order
-                $stmt = $pdo->prepare("INSERT INTO orders (user_id, total) VALUES (?, ?)");
-                $stmt->execute([$_SESSION['user_id'], $total]);
+                try {
+                    $stmt = $pdo->prepare("INSERT INTO orders (user_id, total) VALUES (?, ?)");
+                    $stmt->execute([$_SESSION['user_id'], $total]);
+                } catch (PDOException $e) {
+                    // If error occurs, show simple message
+                    die("Error during checkout. Please try again or contact support.");
+                }
                 $order_id = $pdo->lastInsertId();
                 
                 // Add order items
