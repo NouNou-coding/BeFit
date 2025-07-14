@@ -1,8 +1,12 @@
-<?php
+<?php // At the VERY TOP of config.php (before session_start())
+if (!isset($_COOKIE['cookie_consent'])) {
+    define('ALLOW_ANALYTICS', false);
+} else {
+    define('ALLOW_ANALYTICS', $_COOKIE['cookie_consent'] === 'accepted');
+}
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
-}// Cookie consent check
-// Replace your existing line 5 with this:
+}
 if (!defined('ALLOW_ANALYTICS')) {
     define('ALLOW_ANALYTICS', 
         isset($_COOKIE['cookie_consent']) && 
@@ -10,9 +14,8 @@ if (!defined('ALLOW_ANALYTICS')) {
     );
 }
 
-// Example usage (later in your HTML head):
 if (ALLOW_ANALYTICS) {
-    define('GA_TRACKING_ID', 'UA-XXXXX-Y'); // Replace with your ID
+    define('GA_TRACKING_ID', 'UA-XXXXX-Y');
 }
 
 // Your existing code...
