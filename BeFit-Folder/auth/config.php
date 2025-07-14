@@ -1,10 +1,12 @@
 <?php
 // At the VERY TOP of config.php (before session_start())
 if (!defined('ALLOW_ANALYTICS')) {
-    define('ALLOW_ANALYTICS', 
-        isset($_COOKIE['cookie_consent']) && 
-        $_COOKIE['cookie_consent'] === 'accepted'
-    );
+    $cookiePath = '/BeFit-Folder/'; // Match your site structure
+    $cookieName = 'cookie_consent';
+    
+    // Check for cookie in the correct path
+    $cookieValue = $_COOKIE[$cookieName] ?? '';
+    define('ALLOW_ANALYTICS', $cookieValue === 'accepted');
 }
 
 if (session_status() === PHP_SESSION_NONE) {
