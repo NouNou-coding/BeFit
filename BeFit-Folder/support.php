@@ -1,6 +1,7 @@
 <?php
 session_start();
-require '../auth/config.php';
+require_once __DIR__ . '/auth/config.php';
+require_once __DIR__ . '/auth/mailer.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'] ?? '';
