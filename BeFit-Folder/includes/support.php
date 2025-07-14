@@ -1,6 +1,5 @@
 <?php
 session_start();
-<?php
 require __DIR__ . '/../auth/config.php';
 require __DIR__ . '/../auth/mailer.php';
 
