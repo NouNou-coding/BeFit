@@ -193,48 +193,54 @@ $orders = $orders->fetchAll(PDO::FETCH_ASSOC);
         <?php else: ?>
             <?php foreach ($orders as $order): ?>
                 <div class="order-card">
-                    <div class="order-header">
-                        <div>
-                            <h3 class="order-id">Order #<?= $order['id'] ?></h3>
-                            <p class="order-date">Placed on <?= date('F j, Y', strtotime($order['created_at'])) ?></p>
-                        </div>
-                        <span class="order-status status-<?= $order['status'] ?>"><?= ucfirst($order['status']) ?></span>
-                    </div>
-                    
-                    <div class="order-details">
-                        <div class="order-summary">
-                            <div>
-                                <h4>Order Summary</h4>
-                            </div>
-                            <div class="order-total">
-                                Total: $<?= number_format($order['total'], 2) ?>
-                            </div>
-                        </div>
-                        
-                        <div class="order-items">
-                            <h5 class="items-title">Items Purchased</h5>
-                            <?php
-                            $stmt = $pdo->prepare("
-                                SELECT p.name, p.price, oi.quantity 
-                                FROM order_items oi
-                                JOIN products p ON p.id = oi.product_id
-                                WHERE oi.order_id = ?
-                            ");
-                            $stmt->execute([$order['id']]);
-                            $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                            
-                            foreach ($items as $item):
-                            ?>
-                                <div class="item">
-                                    <span class="item-name"><?= $item['name'] ?></span>
-                                    <span class="item-price">
-                                        $<?= number_format($item['price'], 2) ?> × <?= $item['quantity'] ?> = $<?= number_format($item['price'] * $item['quantity'], 2) ?>
-                                    </span>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    </div>
+    <div class="order-header">
+        <div>
+            <h3 class="order-id">Order #<?= $order['id'] ?></h3>
+            <p class="order-date">Placed on <?= date('F j, Y H:i', strtotime($order['created_at'])) ?></p>
+        </div>
+        <span class="order-status status-<?= $order['status'] ?>">
+            <?php if ($order['status'] == 'pending'): ?>
+                <span id="status-timer-<?= $order['id'] ?>"></span>
+            <?php else: ?>
+                <?= ucfirst($order['status']) ?>
+            <?php endif; ?>
+        </span>
+    </div>
+    
+    <div class="order-details">
+        <div class="order-summary">
+            <div>
+                <h4>Order Summary</h4>
+            </div>
+            <div class="order-total">
+                Total: $<?= number_format($order['total'], 2) ?>
+            </div>
+        </div>
+        
+        <div class="order-items">
+            <h5 class="items-title">Items Purchased</h5>
+            <?php
+            $stmt = $pdo->prepare("
+                SELECT p.name, p.price, oi.quantity 
+                FROM order_items oi
+                JOIN products p ON p.id = oi.product_id
+                WHERE oi.order_id = ?
+            ");
+            $stmt->execute([$order['id']]);
+            $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            foreach ($items as $item):
+            ?>
+                <div class="item">
+                    <span class="item-name"><?= $item['name'] ?></span>
+                    <span class="item-price">
+                        $<?= number_format($item['price'], 2) ?> × <?= $item['quantity'] ?> = $<?= number_format($item['price'] * $item['quantity'], 2) ?>
+                    </span>
                 </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
             <?php endforeach; ?>
         <?php endif; ?>
 <script>
