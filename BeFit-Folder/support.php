@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </style>
 </head>
 <body class="shared-bg">
-    <?php include '../includes/header.php'; ?>
+    <?php include __DIR__ . '/includes/header.php';?>
     
     <div class="support-container">
         <h1 class="support-title">Contact Support</h1>
@@ -147,6 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
     
-    <?php include '../includes/footer.php'; ?>
+    <?php include __DIR__ . '/includes/footer.php'; ?>
 </body>
 </html>
