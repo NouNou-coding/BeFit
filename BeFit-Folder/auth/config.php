@@ -1,12 +1,5 @@
-<?php // At the VERY TOP of config.php (before session_start())
-if (!isset($_COOKIE['cookie_consent'])) {
-    define('ALLOW_ANALYTICS', false);
-} else {
-    define('ALLOW_ANALYTICS', $_COOKIE['cookie_consent'] === 'accepted');
-}
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+<?php
+// At the VERY TOP of config.php (before session_start())
 if (!defined('ALLOW_ANALYTICS')) {
     define('ALLOW_ANALYTICS', 
         isset($_COOKIE['cookie_consent']) && 
@@ -14,41 +7,38 @@ if (!defined('ALLOW_ANALYTICS')) {
     );
 }
 
-if (ALLOW_ANALYTICS) {
-    define('GA_TRACKING_ID', 'UA-XXXXX-Y');
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-// Your existing code...
-$dbHost = 'localhost';
+if (ALLOW_ANALYTICS && !defined('GA_TRACKING_ID')) {
+    define('GA_TRACKING_ID', 'UA-XXXXX-Y'); // Replace with your actual ID
+}
+
+// Your existing database configuration...
 $dbHost = 'localhost';
 $dbName = 'befit_db';
-$dbUser = 'root';      // Replace if needed
-$dbPass = '';          // Replace if MySQL has a password
+$dbUser = 'root';
+$dbPass = '';
 
 if (!defined('PASSWORD_MIN_LENGTH')) {
     define('PASSWORD_MIN_LENGTH', 8);
     define('PASSWORD_NEEDS_UPPERCASE', true);
     define('PASSWORD_NEEDS_NUMBER', true);
-   
 }
-if(!defined('SMTP_HOST')){
-    //email configurations
+
+if (!defined('SMTP_HOST')) {
     define('SMTP_HOST', 'smtp.gmail.com');
     define('SMTP_USER', 'yorgobekaiiprofessional@gmail.com');
-    define('SMTP_PASS', 'fyji vqld hnth zgxi'); // NOT your regular password
+    define('SMTP_PASS', 'fyji vqld hnth zgxi');
     define('SMTP_PORT', 587);
-
 }
+
 try {
-    // Connect to MySQL server (without selecting DB)
     $pdo = new PDO("mysql:host=$dbHost", $dbUser, $dbPass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Create database if not exists
     $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbName`");
     $pdo->exec("USE `$dbName`");
-
-    // Create tables (if not exists)
     $pdo->exec("
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,13 +47,7 @@ try {
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ");
-
-    // Add other tables (products, orders, etc.) here
-    // Or rely on dump.sql for full schema
-
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
 }
-
-
 ?>
