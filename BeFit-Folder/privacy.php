@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../auth/config.php';
 $title = "Privacy Policy";
 include __DIR__ . '/includes/header.php';
 ?>
