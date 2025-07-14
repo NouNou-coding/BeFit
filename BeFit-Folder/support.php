@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Invalid email format!";
     } else {
         // Send email (you'll need to configure your mailer)
-        $to = "support@befit.com";
+        $to = "befitcompany.contact@gmail.com";
         $subject = "Support Request from $name";
         $headers = "From: $email\r\n";
         $headers .= "Reply-To: $email\r\n";
@@ -24,11 +24,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $emailBody .= "Email: $email\n\n";
         $emailBody .= "Message:\n$message";
         
-        if (mail($to, $subject, $emailBody, $headers)) {
-            $success = "Your message has been sent! We'll respond within 24 hours.";
-        } else {
-            $error = "Failed to send message. Please try again later.";
-        }
+        if (sendSupportEmail(
+    "support@befit.com",  // Your support email address
+    $_POST['email'],     // Customer's email from form
+    $_POST['name'],      // Customer's name from form
+    $_POST['message']    // Customer's message from form
+)) {
+    $success = "Your message has been sent! We'll respond within 24 hours.";
+} else {
+    $error = "Failed to send message. Please try again later.";
+}
     }
 }
 ?>
