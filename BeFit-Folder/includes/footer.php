@@ -32,8 +32,8 @@
                 <div class="footer-column">
                     <h4 class="footer-heading">Connect</h4>
                     <div class="social-icons">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/befitmiddleeast?igsh=eGNodThhdHB0ZmVt"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/share/16V3szLFh2/"><i class="fab fa-facebook"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
