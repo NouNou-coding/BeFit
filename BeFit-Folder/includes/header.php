@@ -43,6 +43,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                 <li><a href="/BeFit-Folder/index.php#shop-section">Shop</a></li>
                 <li><a href="/BeFit-Folder/about.php">About</a></li>
                 <li><a href="support.php">Support</a></li>
+                <li><a href="/BeFit-Folder/workout_builder/" <?= basename($_SERVER['PHP_SELF']) == 'workout_builder' ? 'class="active"' : '' ?>>Workout Builder</a></li>
                 <li><a href="/BeFit-Folder/ecommerce/cart.php"><i class="fas fa-shopping-cart"></i> Cart</a></li>
                 <li><a href="/BeFit-Folder/ecommerce/orders.php"><i class="fas fa-history"></i> Orders</a></li>
             </ul>

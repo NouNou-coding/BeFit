@@ -2,6 +2,7 @@
 // Set timezone for Lebanon (Asia/Beirut)
 date_default_timezone_set('Asia/Beirut');
 
+define('GEMINI_API_KEY', 'AIzaSyAKA9hwIB0VYN7ltMbZF3NJbAyVOtejNME');
 
 if (!defined('ALLOW_ANALYTICS')) {
     $cookiePath = '/BeFit-Folder/'; // Match your site structure

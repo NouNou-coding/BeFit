@@ -1,0 +1,345 @@
+/* Workout Builder Styles */
+.workout-builder-container, .workout-plan-container, .chat-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+}
+
+.workout-header, .chat-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.workout-header h1, .chat-header h1 {
+    color: var(--primary);
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.workout-header p, .chat-header p {
+    color: var(--gray);
+    font-size: 1.2rem;
+}
+
+.workout-form {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.form-section {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+}
+
+.form-section:last-child {
+    border-bottom: none;
+}
+
+.form-section h2 {
+    color: var(--primary-dark);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin: 0;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.secondary-button {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.secondary-button:hover {
+    background: var(--primary-light);
+}
+
+/* Workout Plan Styles */
+.plan-details {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.user-stats ul {
+    list-style: none;
+    padding: 0;
+}
+
+.user-stats li {
+    margin-bottom: 0.8rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid #eee;
+}
+
+.weekly-plan {
+    margin-bottom: 3rem;
+}
+
+.workout-day {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 1.5rem;
+}
+
+.workout-day h3 {
+    color: var(--primary);
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+th, td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+}
+
+.supplement-recommendations {
+    margin-bottom: 3rem;
+}
+
+.supplement-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.supplement-card {
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease;
+}
+
+.supplement-card:hover {
+    transform: translateY(-5px);
+}
+
+.supplement-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.supplement-card h3 {
+    margin: 1rem;
+    font-size: 1.2rem;
+    color: var(--dark);
+}
+
+.supplement-card .price {
+    margin: 0 1rem 0.5rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.supplement-card .reason {
+    margin: 0 1rem 1rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.supplement-card .buy-button {
+    display: block;
+    margin: 1rem;
+    padding: 0.5rem;
+    background: var(--primary);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.2s ease;
+}
+
+.supplement-card .buy-button:hover {
+    background: var(--primary-dark);
+}
+
+.plan-actions, .plan-actions-bottom, .chat-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.plan-actions-bottom {
+    margin-top: 3rem;
+}
+
+/* Chat Styles */
+.chat-box {
+    height: 500px;
+    overflow-y: auto;
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.chat-message {
+    margin-bottom: 1.5rem;
+}
+
+.chat-message.user-message {
+    text-align: right;
+}
+
+.chat-message.ai-message {
+    text-align: left;
+}
+
+.message-content {
+    display: inline-block;
+    max-width: 80%;
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #f0f4f8;
+}
+
+.user-message .message-content {
+    background: var(--primary);
+    color: white;
+}
+
+.chat-message.loading .message-content {
+    color: var(--gray);
+    font-style: italic;
+}
+
+.chat-input {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.chat-input form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.chat-input input[type="text"] {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.suggested-questions {
+    margin-top: 1rem;
+}
+
+.suggested-questions p {
+    margin-bottom: 0.5rem;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.suggestion-btn {
+    background: none;
+    border: none;
+    color: var(--primary);
+    text-decoration: underline;
+    cursor: pointer;
+    margin-right: 1rem;
+    font-size: 0.9rem;
+    padding: 0;
+}
+
+.suggestion-btn:hover {
+    color: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+    .plan-details {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-actions, .plan-actions, .plan-actions-bottom, .chat-actions {
+        flex-direction: column;
+    }
+    
+    .secondary-button, .cta-button {
+        width: 100%;
+        text-align: center;
+    }
+}

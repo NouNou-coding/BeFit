@@ -265,14 +265,14 @@ $loggedIn = isset($_SESSION['user_id']);
                     <h1>Welcome back, <span class="username"><?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span></h1>
                     <p>Ready to crush your fitness goals today?</p>
                 </div>
-                <div class="dashboard-options">
-                    <a href="/BeFit-Folder/options/build-workout.php" class="dashboard-btn">
-                        <i class="fas fa-dumbbell"></i> Build Workout
-                    </a>
-                    <a href="/BeFit-Folder/track-progress.php" class="dashboard-btn">
-                        <i class="fas fa-chart-line"></i> Track Progress
-                    </a>
-                </div>
+        <div class="dashboard-options">
+            <a href="/BeFit-Folder/workout_builder/" class="dashboard-btn">
+                <i class="fas fa-dumbbell"></i> Build Workout
+            </a>
+            <a href="/BeFit-Folder/track-progress.php" class="dashboard-btn">
+                <i class="fas fa-chart-line"></i> Track Progress
+            </a>
+        </div>
             </section>
         <?php else: ?>
             <!-- Hero Section -->
