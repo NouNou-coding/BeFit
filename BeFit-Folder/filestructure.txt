@@ -1224,6 +1224,7 @@ C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\save_
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\view_workout.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\assets\css
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\assets\js
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\assets\css\workout_builder.css
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\assets\js\workout_builder.js
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes\gemini_client.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes\workout_functions.php
