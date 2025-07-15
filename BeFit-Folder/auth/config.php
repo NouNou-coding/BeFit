@@ -51,7 +51,17 @@ try {
         status_updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id)
         )
-    "); // Order status management
+    ");$pdo->exec("
+    CREATE TABLE IF NOT EXISTS password_resets (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        token VARCHAR(64) NOT NULL,
+        expires_at DATETIME NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        UNIQUE KEY (token)
+    )
+"); // Order status management
 if (!function_exists('updateOrderStatuses')) {
     function updateOrderStatuses($pdo) {
         try {
