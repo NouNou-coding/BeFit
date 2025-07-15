@@ -3,7 +3,9 @@ session_start();
 require 'config.php';
 // Clear any password reset tokens from URL
 if (isset($_GET['token'])) {
-    header("Location: signin.php");
+    // Completely remove token from URL and redirect
+    $url = str_replace(['?token=', '&token='], '', $_SERVER['REQUEST_URI']);
+    header("Location: $url");
     exit();
 }
 
