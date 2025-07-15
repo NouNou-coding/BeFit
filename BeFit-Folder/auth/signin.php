@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'config.php';
+require_once 'config.php';
 // Clear any password reset tokens from URL
 if (isset($_GET['token'])) {
     // Completely remove token from URL and redirect

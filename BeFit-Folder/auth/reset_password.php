@@ -14,7 +14,7 @@
  * - Complex password requirements
  * - CSRF protection via unique tokens
  */
-require __DIR__ . '/config.php';
+require_once __DIR__ . '/config.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 } else {

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require __DIR__ . '/../auth/config.php';
+require_once __DIR__ . '/../auth/config.php';
 
 // Redirect if no verification session exists
 if (!isset($_SESSION['verification_email']) || !isset($_SESSION['verification_code'])) {

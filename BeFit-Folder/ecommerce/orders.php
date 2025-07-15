@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../auth/config.php';
+require_once '../auth/config.php';
 
 
 if (!isset($_SESSION['user_id']) || !is_numeric($_SESSION['user_id'])) {

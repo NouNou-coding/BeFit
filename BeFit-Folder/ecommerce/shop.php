@@ -1,6 +1,6 @@
 <?php
 session_start();
-require '../auth/config.php';
+require_once '../auth/config.php';
 
 // Get all products
 $products = $pdo->query("SELECT * FROM products")->fetchAll(PDO::FETCH_ASSOC);

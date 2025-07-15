@@ -1,5 +1,5 @@
 <?php
-require '../auth/config.php';
+require_once '../auth/config.php';
 
 // Sample equipment products
 $equipment = [

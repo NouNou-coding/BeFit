@@ -20,8 +20,8 @@
  * 5. Redirects back to verification page with status
  */
 session_start();
-require __DIR__ . '/../auth/config.php';
-require __DIR__ . '/../auth/mailer.php';
+require_once __DIR__ . '/../auth/config.php';
+require_once __DIR__ . '/../auth/mailer.php';
 
 $email = $_GET['email'] ?? '';
 

@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/../../auth/config.php';
+require_once __DIR__ . '/../../auth/config.php';
 
 // Get supplement products
 $stmt = $pdo->prepare("SELECT * FROM products WHERE category = 'supplement'");

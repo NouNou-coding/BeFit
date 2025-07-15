@@ -1,5 +1,5 @@
 <?php
-require __DIR__ . '/config.php';  // Use absolute path
+require_once __DIR__ . '/config.php';  // Use absolute path
 session_start();  // Add this - crucial for session handling
 
 // Clear all session variables

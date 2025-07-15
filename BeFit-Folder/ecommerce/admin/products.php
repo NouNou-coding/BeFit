@@ -1,5 +1,5 @@
 <?php
-require 'db.php';
+require_once 'db.php';
 
 // Create products table if not exists
 $pdo->exec("CREATE TABLE IF NOT EXISTS products (
