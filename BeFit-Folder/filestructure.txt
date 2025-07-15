@@ -5,6 +5,7 @@ C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\composer.json
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\composer.lock
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\database
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\ecommerce
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\filestructure.txt
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\includes
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\index.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\privacy.php
@@ -14,7 +15,7 @@ C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\setup.sh
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\support.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\terms.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\vendor
-C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout-builder.js
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth\add-products.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth\check_session.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth\config.php
@@ -57,6 +58,7 @@ C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\public\photos\prework
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\public\photos\prot.webp
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\public\photos\pullup.jpg
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\public\photos\resistance.jpg
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\scripts\generate_structure.bat
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\scripts\publish.bat
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\scripts\setup.bat
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\vendor\autoload.php
