@@ -41,7 +41,9 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                 <li class="nav-icons">
                     <a href="/BeFit-Folder/ecommerce/cart.php" class="icon-link" title="Cart">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count"><?= $_SESSION['cart_count'] ?? 0 ?></span>
+                        <?php if(isset($_SESSION['cart']) && count($_SESSION['cart']) > 0): ?>
+                        <span class="cart-count"><?= array_sum($_SESSION['cart']) ?></span>
+                        <?php endif; ?>
                     </a>
                     <a href="/BeFit-Folder/ecommerce/orders.php" class="icon-link" title="Orders">
                         <i class="fas fa-history"></i>
@@ -52,8 +54,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             <div class="nav-buttons">
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <div class="user-welcome">
-                        <span class="welcome-message">Welcome,</span>
-                        <span class="username"><?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span>
+                        <span class="welcome-message">Welcome back, <?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span>
                     </div>
                     <a href="/BeFit-Folder/auth/logout.php" class="cta-button nav-cta">
                         <i class="fas fa-sign-out-alt"></i> Logout
