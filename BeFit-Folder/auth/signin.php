@@ -328,7 +328,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             </form>
         </div>
+    </div> <!-- Add this modal at the bottom of your signin.php file, just before the footer include -->
+<div id="forgotPasswordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 400px; width: 100%;">
+        <h3 style="color: #4A90E2; margin-bottom: 1rem;">Reset Your Password</h3>
+        <p>Enter your email address to receive a password reset link:</p>
+        
+        <form id="forgotPasswordForm" method="POST" action="forgot_password.php">
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <input type="email" name="email" placeholder="Your email address" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <button type="submit" class="signin-btn" style="width: 100%;">Send Reset Link</button>
+        </form>
+        
+        <button onclick="document.getElementById('forgotPasswordModal').style.display='none'" 
+                style="margin-top: 1rem; background: none; border: none; color: #666; cursor: pointer;">
+            Cancel
+        </button>
+        
+        <div id="forgotPasswordMessage" style="margin-top: 1rem;"></div>
     </div>
+</div>
+
+<script>
+// Update your existing forgot password link to show the modal
+document.querySelector('.forgot-password').addEventListener('click', function(e) {
+    e.preventDefault();
+    document.getElementById('forgotPasswordModal').style.display = 'flex';
+});
+
+// AJAX form submission
+document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const formData = new FormData(form);
+    const messageDiv = document.getElementById('forgotPasswordMessage');
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            messageDiv.innerHTML = `<div style="color: green;">${data.message}</div>`;
+            form.reset();
+        } else {
+            messageDiv.innerHTML = `<div style="color: red;">${data.message}</div>`;
+        }
+    })
+    .catch(error => {
+        messageDiv.innerHTML = `<div style="color: red;">An error occurred. Please try again.</div>`;
+    });
+});
+</script>
     <?php include 'footer.php'; ?>
 </body>
 </html>
