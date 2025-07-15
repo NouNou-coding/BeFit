@@ -1,3 +1,4 @@
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\.gitignore
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\about.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\benefits.php
@@ -150,3 +151,19 @@ C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\vendor\phpmailer\phpm
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\vendor\phpmailer\phpmailer\src\PHPMailer.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\vendor\phpmailer\phpmailer\src\POP3.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\vendor\phpmailer\phpmailer\src\SMTP.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\assets
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\chat.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\form.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\history.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\index.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\process_chat.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\process_form.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\save_workout.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\view_workout.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\assets\css
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\assets\js
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\assets\js\workout_builder.js
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes\gemini_client.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes\workout_functions.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes\workout_history_functions.php

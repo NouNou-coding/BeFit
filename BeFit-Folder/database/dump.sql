@@ -134,6 +134,66 @@ INSERT INTO `products` VALUES (1,'FitRx Smart Adjustable Dumbbells - 1kg to 20kg
 UNLOCK TABLES;
 
 --
+-- Table structure for table `recommended_supplements`
+--
+
+DROP TABLE IF EXISTS `recommended_supplements`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `recommended_supplements` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `reason` text NOT NULL,
+  `recommended_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `purchased` tinyint(1) DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `recommended_supplements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `recommended_supplements_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recommended_supplements`
+--
+
+LOCK TABLES `recommended_supplements` WRITE;
+/*!40000 ALTER TABLE `recommended_supplements` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recommended_supplements` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_workout_history`
+--
+
+DROP TABLE IF EXISTS `user_workout_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_workout_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `workout_date` date NOT NULL,
+  `workout_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`workout_data`)),
+  `completed` tinyint(1) DEFAULT 0,
+  `notes` text DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `user_workout_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_workout_history`
+--
+
+LOCK TABLES `user_workout_history` WRITE;
+/*!40000 ALTER TABLE `user_workout_history` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_workout_history` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `users`
 --
 
@@ -182,6 +242,11 @@ CREATE TABLE `workout_plans` (
   `equipment` varchar(255) DEFAULT NULL,
   `workout_plan` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `fitness_level` enum('beginner','intermediate','advanced') DEFAULT 'beginner',
+  `gender` enum('male','female','other') DEFAULT NULL,
+  `medical_conditions` text DEFAULT NULL,
+  `preferences` text DEFAULT NULL,
+  `last_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -204,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-15 23:06:38
+-- Dump completed on 2025-07-16  1:48:06
