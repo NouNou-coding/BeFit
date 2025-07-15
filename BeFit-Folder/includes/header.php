@@ -52,21 +52,25 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             </ul>
     
             <div class="nav-buttons">
-                <?php if(isset($_SESSION['user_id'])): ?>
-                    <div class="user-welcome">
-                        <span class="welcome-message">Welcome back, <?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span>
+            <?php if(isset($_SESSION['user_id'])): ?>
+                <div class="user-profile">
+                    <div class="welcome-message">
+                        <span class="welcome-text">Welcome back</span>
+                        <span class="username"><?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span>
                     </div>
-                    <a href="/BeFit-Folder/auth/logout.php" class="cta-button nav-cta">
-                        <i class="fas fa-sign-out-alt"></i> Logout
+                    <a href="/BeFit-Folder/auth/logout.php" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
                     </a>
-                <?php else: ?>
-                    <a href="/BeFit-Folder/auth/signin.php" class="nav-login">
-                        <i class="fas fa-sign-in-alt"></i> Log In
-                    </a>
-                    <a href="/BeFit-Folder/auth/signup.php" class="cta-button nav-cta">
-                        <i class="fas fa-user-plus"></i> Sign Up
-                    </a>
-                <?php endif; ?>
+                </div>
+            <?php else: ?>
+                <a href="/BeFit-Folder/auth/signin.php" class="auth-btn login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Log In
+                </a>
+                <a href="/BeFit-Folder/auth/signup.php" class="auth-btn signup-btn">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </a>
+            <?php endif; ?>
+        </div>
             </div>
         </div>
     </nav>
