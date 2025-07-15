@@ -70,8 +70,38 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (3,5,21.24,'pending','2025-07-14 11:08:41','2025-07-14 12:37:14');
+INSERT INTO `orders` VALUES (3,5,21.24,'completed','2025-07-14 11:08:41','2025-07-15 18:53:14');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `password_resets`
+--
+
+DROP TABLE IF EXISTS `password_resets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `password_resets` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `expires_at` datetime NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `token` (`token`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `password_resets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_resets`
+--
+
+LOCK TABLES `password_resets` WRITE;
+/*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
+INSERT INTO `password_resets` VALUES (1,5,'f64bd4af2e22b8af1827a1f1df7b7eec0c5b346af71897ab6ee1eda32fef5131','2025-07-15 21:59:36','2025-07-15 18:59:36'),(2,5,'7bee5e94f4bb945d8213b6f83f156b21e97c4c74a9c7dc40fde46138d0eead4d','2025-07-15 22:04:13','2025-07-15 19:04:13'),(3,5,'fbd812d53b399ea56a9acac643b97d2d1d246079255ef6351c45ea7bbf59b665','2025-07-15 22:04:14','2025-07-15 19:04:14'),(4,5,'445761729ae94d03ee4603bdcd31c4861f626b182f5589f3af1e0b5e43d9fb1c','2025-07-15 22:14:31','2025-07-15 19:14:31'),(5,5,'58a8fbaac17d62765e7f9ec9b4f1506cb66ebe1faab70d6c47f1353ca3763518','2025-07-15 22:25:34','2025-07-15 19:25:34'),(6,5,'7f114cd229a0bacb11ed22425856dbc22f4534fd8a970b035d032ec2302bba6c','2025-07-15 22:29:19','2025-07-15 19:29:19'),(8,5,'e1d3e7677a771cd3ff4d1490ef8b5272abacb530a45b022a0fd731ce9d0c83fe','2025-07-16 00:00:43','2025-07-15 20:00:43'),(9,5,'b718a7e46a90617764924297ed58f20892e298ec32c50b4b754595f6c64edadb','2025-07-16 00:06:10','2025-07-15 20:06:10');
+/*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -130,20 +160,9 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'anthony.imad@isae.edu.lb','$2y$10$Q65vpgrmm/TrWWGMoVXfb.DbpRnoT6g/6DdpzVXHaORuxTqQ9E6Yy','anthony','2025-07-12 00:49:50',0,NULL,0),(4,'baldingjoker@gmail.com','$2y$10$3swY2PHX2U3ko8Rk8bHR1OcD1ME8AjhMCcL5wbM5KLHhzWJCT7E6e','baldingjoker','2025-07-14 10:38:21',1,NULL,0),(5,'yorgobekaii.0@gmail.com','$2y$10$ylpLMqEJB3I3FDIg.3y2P.HjCTWJnR65GlOD93hfKP6I6XzXDTFE2','Yorgo','2025-07-14 11:06:39',1,NULL,0);
+INSERT INTO `users` VALUES (1,'anthony.imad@isae.edu.lb','$2y$10$Q65vpgrmm/TrWWGMoVXfb.DbpRnoT6g/6DdpzVXHaORuxTqQ9E6Yy','anthony','2025-07-12 00:49:50',0,NULL,0),(4,'baldingjoker@gmail.com','$2y$10$3swY2PHX2U3ko8Rk8bHR1OcD1ME8AjhMCcL5wbM5KLHhzWJCT7E6e','baldingjoker','2025-07-14 10:38:21',1,NULL,0),(5,'yorgobekaii.0@gmail.com','$2y$10$9xLiAlnYtvVFeml06aOhJu4Hu6rCMEU6/A3jdkRO0ICtSiR5H00fi','Yorgo','2025-07-14 11:06:39',1,NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
-CREATE TABLE IF NOT EXISTS `password_resets` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `expires_at` datetime NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `token` (`token`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `password_resets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Table structure for table `workout_plans`
@@ -185,4 +204,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-14 15:37:34
+-- Dump completed on 2025-07-15 23:06:38
