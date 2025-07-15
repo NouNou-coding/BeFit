@@ -9,26 +9,20 @@ if (session_status() === PHP_SESSION_NONE) session_start();
     <title>BeFit - AI-Powered Fitness</title>
     <link rel="stylesheet" href="/BeFit-Folder/public/css/styles1.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- In header.php -->
-<head>
-  <!-- Your existing meta tags, title, etc. -->
-  
-  <?php if (ALLOW_ANALYTICS): ?>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=<?= GA_TRACKING_ID ?>"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '<?= GA_TRACKING_ID ?>', { 
-      anonymize_ip: true,
-      cookie_domain: 'auto',
-      cookie_flags: 'SameSite=None;Secure'
-    });
-  </script>
-  <?php endif; ?>
-  
-</head>
+    <?php if (ALLOW_ANALYTICS): ?>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?= GA_TRACKING_ID ?>"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<?= GA_TRACKING_ID ?>', { 
+            anonymize_ip: true,
+            cookie_domain: 'auto',
+            cookie_flags: 'SameSite=None;Secure'
+        });
+    </script>
+    <?php endif; ?>
 </head>
 <body class="shared-bg">
     <nav class="page-header">
@@ -42,21 +36,35 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             <ul class="nav-links">
                 <li><a href="/BeFit-Folder/index.php#shop-section">Shop</a></li>
                 <li><a href="/BeFit-Folder/about.php">About</a></li>
-                <li><a href="support.php">Support</a></li>
+                <li><a href="/BeFit-Folder/support.php">Support</a></li>
                 <li><a href="/BeFit-Folder/workout_builder/index.php" <?= basename($_SERVER['PHP_SELF']) == 'workout_builder' ? 'class="active"' : '' ?>>Workout Builder</a></li>
-                <li><a href="/BeFit-Folder/ecommerce/cart.php"><i class="fas fa-shopping-cart"></i> Cart</a></li>
-                <li><a href="/BeFit-Folder/ecommerce/orders.php"><i class="fas fa-history"></i> Orders</a></li>
+                <li class="nav-icons">
+                    <a href="/BeFit-Folder/ecommerce/cart.php" class="icon-link" title="Cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count"><?= $_SESSION['cart_count'] ?? 0 ?></span>
+                    </a>
+                    <a href="/BeFit-Folder/ecommerce/orders.php" class="icon-link" title="Orders">
+                        <i class="fas fa-history"></i>
+                    </a>
+                </li>
             </ul>
     
             <div class="nav-buttons">
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <span class="welcome-message">
-                        Welcome <?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?>
-                    </span>
-                    <a href="/BeFit-Folder/auth/logout.php" class="cta-button nav-cta">Logout</a>
+                    <div class="user-welcome">
+                        <span class="welcome-message">Welcome,</span>
+                        <span class="username"><?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span>
+                    </div>
+                    <a href="/BeFit-Folder/auth/logout.php" class="cta-button nav-cta">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
                 <?php else: ?>
-                    <a href="/BeFit-Folder/auth/signin.php" class="nav-login">Log In</a>
-                    <a href="/BeFit-Folder/auth/signup.php" class="cta-button nav-cta">Get Started</a>
+                    <a href="/BeFit-Folder/auth/signin.php" class="nav-login">
+                        <i class="fas fa-sign-in-alt"></i> Log In
+                    </a>
+                    <a href="/BeFit-Folder/auth/signup.php" class="cta-button nav-cta">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
                 <?php endif; ?>
             </div>
         </div>
