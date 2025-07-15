@@ -1,60 +1,80 @@
 <?php
 require __DIR__ . '/config.php';
 
+// Start fresh session
+session_start();
+session_unset();
+
+// Validate token
 $token = $_GET['token'] ?? '';
-
-// At the top of reset_password.php
 if (empty($token) || !preg_match('/^[a-f0-9]{64}$/', $token)) {
-    header("Location: signin.php?error=invalid_token");
+    $_SESSION['reset_error'] = 'Invalid or expired reset link';
+    header("Location: signin.php");
     exit();
 }
 
-// Check if token is valid and not expired
-$stmt = $pdo->prepare("
-    SELECT user_id 
-    FROM password_resets 
-    WHERE token = ? AND expires_at > NOW()
-");
-$stmt->execute([$token]);
-$reset = $stmt->fetch();
+try {
+    // Verify token exists and is valid
+    $stmt = $pdo->prepare("
+        SELECT u.id, u.email, u.name, pr.expires_at 
+        FROM password_resets pr
+        JOIN users u ON pr.user_id = u.id
+        WHERE pr.token = ? AND pr.expires_at > NOW()
+        LIMIT 1
+    ");
+    $stmt->execute([$token]);
+    $resetData = $stmt->fetch();
 
-if (!$reset) {
-    header("Location: signin.php?error=invalid_or_expired_token");
-    exit();
-}
-
-// Handle form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $password = trim($_POST['password'] ?? '');
-    $confirm_password = trim($_POST['confirm_password'] ?? '');
-    
-    if (empty($password) || empty($confirm_password)) {
-        $error = "Both password fields are required";
-    } elseif ($password !== $confirm_password) {
-        $error = "Passwords don't match";
-    } elseif (strlen($password) < PASSWORD_MIN_LENGTH) {
-        $error = "Password must be at least " . PASSWORD_MIN_LENGTH . " characters";
-    } elseif (PASSWORD_NEEDS_UPPERCASE && !preg_match('/[A-Z]/', $password)) {
-        $error = "Password needs at least one uppercase letter";
-    } elseif (PASSWORD_NEEDS_NUMBER && !preg_match('/[0-9]/', $password)) {
-        $error = "Password needs at least one number";
-    } else {
-        // Update password
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-        $stmt->execute([$hashed_password, $reset['user_id']]);
-        
-        // Delete the used token
-        $stmt = $pdo->prepare("DELETE FROM password_resets WHERE token = ?");
-        $stmt->execute([$token]);
-        
-        // Redirect to login with success message
-        header("Location: signin.php?password_reset=success");
+    if (!$resetData) {
+        $_SESSION['reset_error'] = 'Invalid or expired reset link';
+        header("Location: signin.php");
         exit();
     }
+
+    // Handle form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $password = trim($_POST['password'] ?? '');
+        $confirm_password = trim($_POST['confirm_password'] ?? '');
+        
+        // Validate inputs
+        $errors = [];
+        
+        if (empty($password) || empty($confirm_password)) {
+            $errors[] = 'Both password fields are required';
+        } elseif ($password !== $confirm_password) {
+            $errors[] = 'Passwords do not match';
+        } elseif (strlen($password) < PASSWORD_MIN_LENGTH) {
+            $errors[] = 'Password must be at least ' . PASSWORD_MIN_LENGTH . ' characters';
+        } elseif (PASSWORD_NEEDS_UPPERCASE && !preg_match('/[A-Z]/', $password)) {
+            $errors[] = 'Password must contain at least one uppercase letter';
+        } elseif (PASSWORD_NEEDS_NUMBER && !preg_match('/[0-9]/', $password)) {
+            $errors[] = 'Password must contain at least one number';
+        }
+
+        if (empty($errors)) {
+            // Update password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
+            $stmt->execute([$hashed_password, $resetData['id']]);
+            
+            // Delete the used token
+            $stmt = $pdo->prepare("DELETE FROM password_resets WHERE token = ?");
+            $stmt->execute([$token]);
+            
+            // Set success message
+            $_SESSION['reset_success'] = 'Your password has been reset successfully. Please sign in.';
+            header("Location: signin.php");
+            exit();
+        }
+    }
+
+} catch (PDOException $e) {
+    error_log("Password reset error: " . $e->getMessage());
+    $_SESSION['reset_error'] = 'A database error occurred. Please try again.';
+    header("Location: signin.php");
+    exit();
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,15 +87,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             max-width: 500px;
             margin: 2rem auto;
             padding: 2rem;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
         }
         
-        .reset-container h2 {
-            color: #4A90E2;
-            margin-top: 0;
+        .reset-header {
+            text-align: center;
             margin-bottom: 1.5rem;
+        }
+        
+        .reset-header h2 {
+            color: #4A90E2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .reset-header p {
+            color: #666;
         }
         
         .form-group {
@@ -86,13 +114,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 600;
+            color: #444;
         }
         
         .form-group input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 12px;
             border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 1rem;
         }
         
@@ -104,37 +133,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         .btn-reset {
             width: 100%;
-            padding: 14px;
+            padding: 12px;
             background: linear-gradient(135deg, #4A90E2, #357ABD);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             font-weight: 600;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         
         .btn-reset:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.3);
         }
         
         .error-message {
+            background: #ffebee;
             color: #d32f2f;
             padding: 12px;
-            margin-bottom: 20px;
-            background-color: #ffebee;
-            border-radius: 4px;
-            font-size: 0.9rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .error-message p {
+            margin: 0;
         }
     </style>
 </head>
 <body class="shared-bg">
     <div class="reset-container">
-        <h2>Reset Your Password</h2>
+        <div class="reset-header">
+            <h2>Reset Your Password</h2>
+            <p>Enter a new password for <?= htmlspecialchars($resetData['email']) ?></p>
+        </div>
         
-        <?php if (isset($error)): ?>
-            <div class="error-message"><?= htmlspecialchars($error) ?></div>
+        <?php if (!empty($errors)): ?>
+            <div class="error-message">
+                <?php foreach ($errors as $error): ?>
+                    <p><?= htmlspecialchars($error) ?></p>
+                <?php endforeach; ?>
+            </div>
         <?php endif; ?>
         
         <form method="POST">
