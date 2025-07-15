@@ -46,7 +46,7 @@ include __DIR__ . '/includes/header.php';
                 </section>
 
                 <div class="terms-actions">
-                    <a href="contact.php" class="btn-primary">Contact Support</a>
+                    <a href="support.php" class="btn-primary">Contact Support</a>
                 </div>
             </article>
         </div>

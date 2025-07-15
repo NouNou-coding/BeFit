@@ -286,7 +286,7 @@ elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
                 <div class="terms-checkbox">
                     <input type="checkbox" id="terms" required>
-                    <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+                    <label for="terms">I agree to the <a href="../terms.php">Terms & Conditions</a></label>
                 </div>
 
                 <button type="submit" class="signup-btn">Sign Up</button>
