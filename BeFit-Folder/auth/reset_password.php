@@ -15,9 +15,29 @@
  * - CSRF protection via unique tokens
  */
 require __DIR__ . '/config.php';
-
-// Start fresh session
 session_start();
+//////////////////////////////////////////////////////////////
+// Debug: Check if token exists in URL
+error_log("Reset Token Received: " . ($_GET['token'] ?? 'NO TOKEN'));
+
+// Verify token format
+$token = $_GET['token'] ?? '';
+if (empty($token)) {
+    error_log("No token provided");
+    $_SESSION['reset_error'] = 'Invalid reset link';
+    header("Location: signin.php");
+    exit();
+}
+
+// Debug database connection
+try {
+    $pdo->query("SELECT 1"); // Simple test query
+    error_log("Database connection OK");
+} catch (PDOException $e) {
+    error_log("Database connection failed: " . $e->getMessage());
+}
+////////////////////////////////////debug
+// Start fresh session
 session_unset();
 
 // Validate token
