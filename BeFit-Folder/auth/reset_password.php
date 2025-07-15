@@ -3,7 +3,8 @@ require __DIR__ . '/config.php';
 
 $token = $_GET['token'] ?? '';
 
-if (empty($token)) {
+// At the top of reset_password.php
+if (empty($token) || !preg_match('/^[a-f0-9]{64}$/', $token)) {
     header("Location: signin.php?error=invalid_token");
     exit();
 }
