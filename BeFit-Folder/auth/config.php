@@ -1,5 +1,8 @@
 <?php
-// At the VERY TOP of config.php (before session_start())
+// Set timezone for Lebanon (Asia/Beirut)
+date_default_timezone_set('Asia/Beirut');
+
+
 if (!defined('ALLOW_ANALYTICS')) {
     $cookiePath = '/BeFit-Folder/'; // Match your site structure
     $cookieName = 'cookie_consent';
@@ -27,18 +30,23 @@ if (!defined('PASSWORD_MIN_LENGTH')) {
     define('PASSWORD_MIN_LENGTH', 8);
     define('PASSWORD_NEEDS_UPPERCASE', true);
     define('PASSWORD_NEEDS_NUMBER', true);
+    define('PASSWORD_RESET_EXPIRY', 3600); // 1 hour in seconds
+    define('TOKEN_LENGTH', 64);
 }
 
-if (!defined('SMTP_HOST')) {
+if (!defined('SMTP_CONFIG_SET')) {
     define('SMTP_HOST', 'smtp.gmail.com');
     define('SMTP_USER', 'befitcompany.contact@gmail.com');
     define('SMTP_PASS', 'yzqa psik rafu sszd');
     define('SMTP_PORT', 587);
+    define('SMTP_SECURE', 'tls');
+    define('SMTP_CONFIG_SET', true);
 }
 
 try {
     $pdo = new PDO("mysql:host=$dbHost", $dbUser, $dbPass);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->exec("SET time_zone = '+03:00'"); //Lebanon time
     $pdo->exec("CREATE DATABASE IF NOT EXISTS `$dbName`");
     $pdo->exec("USE `$dbName`");
     $pdo->exec("

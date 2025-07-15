@@ -16,28 +16,6 @@
  */
 require __DIR__ . '/config.php';
 session_start();
-//////////////////////////////////////////////////////////////
-// Debug: Check if token exists in URL
-error_log("Reset Token Received: " . ($_GET['token'] ?? 'NO TOKEN'));
-
-// Verify token format
-$token = $_GET['token'] ?? '';
-if (empty($token)) {
-    error_log("No token provided");
-    $_SESSION['reset_error'] = 'Invalid reset link';
-    header("Location: signin.php");
-    exit();
-}
-
-// Debug database connection
-try {
-    $pdo->query("SELECT 1"); // Simple test query
-    error_log("Database connection OK");
-} catch (PDOException $e) {
-    error_log("Database connection failed: " . $e->getMessage());
-}
-////////////////////////////////////debug
-// Start fresh session
 session_unset();
 
 // Validate token
@@ -51,12 +29,13 @@ if (empty($token) || !preg_match('/^[a-f0-9]{64}$/', $token)) {
 try {
     // Verify token exists and is valid
     $stmt = $pdo->prepare("
-        SELECT u.id, u.email, u.name, pr.expires_at 
-        FROM password_resets pr
-        JOIN users u ON pr.user_id = u.id
-        WHERE pr.token = ? AND pr.expires_at > NOW()
-        LIMIT 1
-    ");
+    SELECT u.id, u.email, pr.expires_at 
+    FROM password_resets pr
+    JOIN users u ON pr.user_id = u.id
+    WHERE pr.token = ? 
+    AND pr.expires_at > NOW()
+    LIMIT 1
+");
     $stmt->execute([$token]);
     $resetData = $stmt->fetch();
 

@@ -75,8 +75,8 @@ try {
 
     if ($user) {
         // Generate secure token
-        $token = bin2hex(random_bytes(32));
-        $expiresAt = date('Y-m-d H:i:s', time() + 3600); // 1 hour expiration
+        $token = bin2hex(random_bytes(TOKEN_LENGTH/2)); // 64 chars
+        $expiresAt = date('Y-m-d H:i:s', time() + PASSWORD_RESET_EXPIRY);
 
         // Store token in database
         $stmt = $pdo->prepare("
@@ -90,9 +90,9 @@ try {
         $stmt->execute([$user['id'], $token, $expiresAt]);
 
         // Create reset link
-         $resetLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://') . 
-            $_SERVER['HTTP_HOST'] . 
-            '/BeFit-Folder/auth/reset_password.php?token=' . $token;
+          $resetLink = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') 
+           . $_SERVER['HTTP_HOST'] 
+           . '/BeFit-Folder/auth/reset_password.php?token=' . $token;
 
         // Configure PHPMailer
         $mail = new PHPMailer(true);
