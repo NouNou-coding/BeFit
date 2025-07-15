@@ -15,7 +15,11 @@
  * - CSRF protection via unique tokens
  */
 require __DIR__ . '/config.php';
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+} else {
+    session_regenerate_id(true); // Optional security measure
+}
 session_unset();
 
 // Validate token
