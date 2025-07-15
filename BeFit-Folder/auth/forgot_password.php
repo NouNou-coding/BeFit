@@ -1,4 +1,21 @@
 <?php
+/**
+ * forgot_password.php
+ * 
+ * Handles password reset requests by:
+ * 
+ * 1. Accepting user's email via POST request
+ * 2. Generating secure token (even if email doesn't exist)
+ * 3. Sending password reset link via email
+ * 4. Recording token in database with expiration
+ * 
+ * Security Features:
+ * - Never reveals if email exists
+ * - Uses time-limited tokens
+ * - Requires HTTPS in production
+ * - Rate limiting via database timestamps
+ */
+
 require __DIR__ . '/config.php';
 require __DIR__ . '/mailer.php';
 require __DIR__ . '/../vendor/autoload.php';
@@ -73,10 +90,9 @@ try {
         $stmt->execute([$user['id'], $token, $expiresAt]);
 
         // Create reset link
-        $resetLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://') . 
-                    $_SERVER['HTTP_HOST'] . 
-                    dirname($_SERVER['PHP_SELF']) . 
-                    "/reset_password.php?token=$token";
+         $resetLink = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https://' : 'http://') . 
+            $_SERVER['HTTP_HOST'] . 
+            '/BeFit-Folder/auth/reset_password.php?token=' . $token;
 
         // Configure PHPMailer
         $mail = new PHPMailer(true);

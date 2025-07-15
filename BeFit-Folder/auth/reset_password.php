@@ -1,4 +1,19 @@
 <?php
+/**
+ * reset_password.php
+ * 
+ * Handles password reset functionality for users who have requested a reset link.
+ * 
+ * 1. Validates the reset token from the URL
+ * 2. Shows a form to enter new password
+ * 3. Updates password in database after validation
+ * 4. Deletes used token to prevent reuse
+ * 
+ * Security Features:
+ * - Token expiration (1 hour)
+ * - Complex password requirements
+ * - CSRF protection via unique tokens
+ */
 require __DIR__ . '/config.php';
 
 // Start fresh session
