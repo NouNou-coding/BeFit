@@ -336,7 +336,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </div> <!-- Add this modal at the bottom of your signin.php file, just before the footer include -->
-<div id="forgotPasswordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; display: flex; justify-content: center; align-items: center;">
+    <div id="forgotPasswordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center;">
     <div style="background: white; padding: 2rem; border-radius: 10px; max-width: 400px; width: 100%;">
         <h3 style="color: #4A90E2; margin-bottom: 1rem;">Reset Your Password</h3>
         <p>Enter your email address to receive a password reset link:</p>
@@ -373,21 +373,34 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', functio
     const formData = new FormData(form);
     const messageDiv = document.getElementById('forgotPasswordMessage');
     
+    // Show loading state
+    messageDiv.innerHTML = '<div style="color: #666;">Sending reset link...</div>';
+    
     fetch(form.action, {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
             messageDiv.innerHTML = `<div style="color: green;">${data.message}</div>`;
             form.reset();
+            // Optionally close modal after 3 seconds
+            setTimeout(() => {
+                document.getElementById('forgotPasswordModal').style.display = 'none';
+            }, 3000);
         } else {
             messageDiv.innerHTML = `<div style="color: red;">${data.message}</div>`;
         }
     })
     .catch(error => {
-        messageDiv.innerHTML = `<div style="color: red;">An error occurred. Please try again.</div>`;
+        console.error('Error:', error);
+        messageDiv.innerHTML = `<div style="color: red;">Failed to send reset link. Please try again later.</div>`;
     });
 });
 </script>
