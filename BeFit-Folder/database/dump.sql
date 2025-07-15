@@ -16,36 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `ai_chat_history`
---
-
-DROP TABLE IF EXISTS `ai_chat_history`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ai_chat_history` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `session_id` varchar(64) NOT NULL,
-  `message` text NOT NULL,
-  `is_user_message` tinyint(1) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `session_id` (`session_id`),
-  CONSTRAINT `ai_chat_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `ai_chat_history`
---
-
-LOCK TABLES `ai_chat_history` WRITE;
-/*!40000 ALTER TABLE `ai_chat_history` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ai_chat_history` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `order_items`
 --
 
@@ -175,8 +145,6 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
-  `gender` enum('male','female','other') DEFAULT NULL,
-  `fitness_level` enum('beginner','intermediate','advanced') DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `verified` tinyint(1) DEFAULT 0,
   `verification_sent_at` datetime DEFAULT NULL,
@@ -192,40 +160,8 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'anthony.imad@isae.edu.lb','$2y$10$Q65vpgrmm/TrWWGMoVXfb.DbpRnoT6g/6DdpzVXHaORuxTqQ9E6Yy','anthony',NULL,NULL,'2025-07-12 00:49:50',0,NULL,0),(4,'baldingjoker@gmail.com','$2y$10$3swY2PHX2U3ko8Rk8bHR1OcD1ME8AjhMCcL5wbM5KLHhzWJCT7E6e','baldingjoker',NULL,NULL,'2025-07-14 10:38:21',1,NULL,0),(5,'yorgobekaii.0@gmail.com','$2y$10$9xLiAlnYtvVFeml06aOhJu4Hu6rCMEU6/A3jdkRO0ICtSiR5H00fi','Yorgo',NULL,NULL,'2025-07-14 11:06:39',1,NULL,0);
+INSERT INTO `users` VALUES (1,'anthony.imad@isae.edu.lb','$2y$10$Q65vpgrmm/TrWWGMoVXfb.DbpRnoT6g/6DdpzVXHaORuxTqQ9E6Yy','anthony','2025-07-12 00:49:50',0,NULL,0),(4,'baldingjoker@gmail.com','$2y$10$3swY2PHX2U3ko8Rk8bHR1OcD1ME8AjhMCcL5wbM5KLHhzWJCT7E6e','baldingjoker','2025-07-14 10:38:21',1,NULL,0),(5,'yorgobekaii.0@gmail.com','$2y$10$9xLiAlnYtvVFeml06aOhJu4Hu6rCMEU6/A3jdkRO0ICtSiR5H00fi','Yorgo','2025-07-14 11:06:39',1,NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `workout_exercises`
---
-
-DROP TABLE IF EXISTS `workout_exercises`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `workout_exercises` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plan_id` int(11) NOT NULL,
-  `day_number` int(11) NOT NULL,
-  `exercise_name` varchar(255) NOT NULL,
-  `sets` int(11) NOT NULL,
-  `reps` varchar(50) NOT NULL,
-  `rest_seconds` int(11) DEFAULT 60,
-  `notes` text DEFAULT NULL,
-  `exercise_order` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `plan_id` (`plan_id`),
-  CONSTRAINT `workout_exercises_ibfk_1` FOREIGN KEY (`plan_id`) REFERENCES `workout_plans` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `workout_exercises`
---
-
-LOCK TABLES `workout_exercises` WRITE;
-/*!40000 ALTER TABLE `workout_exercises` DISABLE KEYS */;
-/*!40000 ALTER TABLE `workout_exercises` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -241,16 +177,11 @@ CREATE TABLE `workout_plans` (
   `weight` decimal(5,2) DEFAULT NULL,
   `height` int(11) DEFAULT NULL,
   `age` int(11) DEFAULT NULL,
-  `fitness_level` enum('beginner','intermediate','advanced') DEFAULT NULL,
-  `gender` enum('male','female','other') DEFAULT NULL,
   `goal` varchar(255) DEFAULT NULL,
   `training_days` int(11) DEFAULT NULL,
-  `duration_weeks` int(11) DEFAULT 4,
   `equipment` varchar(255) DEFAULT NULL,
-  `preferences` text DEFAULT NULL,
   `workout_plan` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `last_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -273,4 +204,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-16  0:36:55
+-- Dump completed on 2025-07-15 23:06:38
