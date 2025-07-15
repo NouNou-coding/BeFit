@@ -3,7 +3,6 @@ session_start();
 require 'config.php';
 // Clear any password reset tokens from URL
 if (isset($_GET['token'])) {
-    unset($_GET['token']);
     header("Location: signin.php");
     exit();
 }
