@@ -266,7 +266,7 @@ $loggedIn = isset($_SESSION['user_id']);
                     <p>Ready to crush your fitness goals today?</p>
                 </div>
         <div class="dashboard-options">
-            <a href="/BeFit-Folder/workout_builder/" class="dashboard-btn">
+            <a href="/BeFit-Folder/workout_builder/index.php" class="dashboard-btn">
                 <i class="fas fa-dumbbell"></i> Build Workout
             </a>
             <a href="/BeFit-Folder/track-progress.php" class="dashboard-btn">
