@@ -6,6 +6,26 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: /BeFit-Folder/auth/signin.php");
     exit;
 }
+// Initialize chat history if it doesn't exist
+if (!isset($_SESSION['chat_history'])) {
+    $_SESSION['chat_history'] = [
+        [
+            'role' => 'system',
+            'content' => 'You are a professional fitness trainer helping with workout plans.'
+        ],
+        [
+            'role' => 'ai',
+            'content' => "Hello! I'm your AI fitness trainer. Ask me anything about your workout plan."
+        ]
+    ];
+}
+
+// Ensure workout data exists
+if (!isset($_SESSION['workout_plan'])) {
+    $_SESSION['error'] = 'Please generate a workout plan first';
+    header("Location: form.php");
+    exit;
+}
 
 $userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
 $workoutPlan = !empty($userData['workout_plan']) ? json_decode($userData['workout_plan'], true) : [];

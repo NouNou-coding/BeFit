@@ -16,21 +16,25 @@ if (empty($input['message'])) {
     exit;
 }
 
-// Prepare conversation history for Gemini
-$messagesForGemini = [];
-foreach ($input['history'] as $msg) {
-    $messagesForGemini[] = [
-        'role' => $msg['role'] === 'user' ? 'user' : 'model',
-        'content' => $msg['content']
+// Add user message to history
+$_SESSION['chat_history'][] = [
+    'role' => 'user',
+    'content' => $input['message']
+];
+
+try {
+    $gemini = new GeminiWorkoutClient();
+    $response = $gemini->chatAboutWorkout($_SESSION['chat_history']);
+    
+    // Add AI response to history
+    $_SESSION['chat_history'][] = [
+        'role' => 'ai',
+        'content' => $response['response']
     ];
+    
+    echo json_encode($response);
+} catch (Exception $e) {
+    error_log("Chat error: " . $e->getMessage());
+    echo json_encode(['error' => 'Failed to process your message']);
 }
-
-// Add the new user message
-$messagesForGemini[] = ['role' => 'user', 'content' => $input['message']];
-
-// Get response from Gemini
-$gemini = new GeminiWorkoutClient();
-$response = $gemini->chatAboutWorkout($messagesForGemini);
-
-echo json_encode($response);
 ?>

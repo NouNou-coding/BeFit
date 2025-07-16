@@ -46,7 +46,8 @@ $recommendedSupplements = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <p>Generated specifically for your goals and fitness level</p>
             
             <div class="plan-actions">
-                <a href="chat.php" class="cta-button">Chat with AI Trainer</a>
+                <a href="chat.php" class="cta-button" id="chatButton">
+                <i class="fas fa-comment-dots"></i> Chat with AI Trainer</a>
                 <a href="history.php" class="secondary-button">View Workout History</a>
             </div>
         </div>
@@ -138,6 +139,17 @@ $recommendedSupplements = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <script>
         document.getElementById('printPlan').addEventListener('click', function() {
             window.print();
+        });
+    </script>
+    <script>
+        document.getElementById('chatButton').addEventListener('click', function(e) {
+            // Check if workout data exists
+            if (!<?= isset($_SESSION['workout_plan']) ? 'true' : 'false' ?>) {
+                e.preventDefault();
+                alert('Please generate a workout plan first');
+                window.location.href = 'form.php';
+            }
+            // Otherwise proceed normally
         });
     </script>
 </body>
