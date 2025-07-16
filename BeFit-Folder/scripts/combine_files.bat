@@ -17,11 +17,15 @@ echo.
 
 :: Get source directory path
 :getSource
+set "source_path="
 set /p "source_path=Enter the SOURCE directory path (where files are located): "
 if "%source_path%"=="" (
     echo ERROR: Source path cannot be empty!
     goto getSource
 )
+
+:: Remove quotes if user added them
+set "source_path=%source_path:"=%"
 
 :: Verify source path exists
 if not exist "%source_path%\" (
@@ -32,35 +36,40 @@ if not exist "%source_path%\" (
 
 :: Get destination directory path
 :getDest
+set "dest_path="
 set /p "dest_path=Enter the DESTINATION directory path (where output will be saved): "
 if "%dest_path%"=="" (
     echo ERROR: Destination path cannot be empty!
     goto getDest
 )
 
-:: Verify destination path exists
+:: Remove quotes if user added them
+set "dest_path=%dest_path:"=%"
+
+:: Verify destination path exists or create it
 if not exist "%dest_path%\" (
     echo.
-    echo WARNING: Destination path does not exist!
-    set /p "create_dir=Do you want to create this directory? (Y/N): "
-    if /i "!create_dir!"=="Y" (
-        mkdir "%dest_path%"
-        if errorlevel 1 (
-            echo ERROR: Failed to create directory!
-            goto getDest
-        )
-    ) else (
+    echo Creating destination directory: %dest_path%
+    mkdir "%dest_path%"
+    if errorlevel 1 (
+        echo ERROR: Failed to create destination directory!
+        echo Please check the path and try again.
         goto getDest
     )
+    echo Successfully created destination directory.
 )
 
 :: Get output filename
 :getFilename
+set "output_filename="
 set /p "output_filename=Enter the OUTPUT filename (without extension): "
 if "%output_filename%"=="" (
     echo ERROR: Filename cannot be empty!
     goto getFilename
 )
+
+:: Remove quotes if user added them
+set "output_filename=%output_filename:"=%"
 
 :: Set full output path
 set "output_file=%dest_path%\%output_filename%.txt"
@@ -68,9 +77,15 @@ set "output_file=%dest_path%\%output_filename%.txt"
 :: Check if output file exists and prompt to overwrite
 if exist "%output_file%" (
     echo.
+    :overwritePrompt
+    set "overwrite="
     set /p "overwrite=Output file already exists. Overwrite? (Y/N): "
-    if /i not "!overwrite!"=="Y" (
+    if /i "%overwrite%"=="Y" (
+        echo Overwriting existing file...
+    ) else if /i "%overwrite%"=="N" (
         goto getFilename
+    ) else (
+        goto overwritePrompt
     )
 )
 
@@ -110,4 +125,8 @@ echo Processed %file_count% files
 echo Output saved to: %output_file%
 echo **********************************************
 echo.
+
+:: Open the destination folder
+explorer.exe /select,"%output_file%"
+
 pause
