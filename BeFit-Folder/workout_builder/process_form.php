@@ -1,10 +1,24 @@
 <?php
+/**
+ * Process Workout Form Submission
+ * 
+ * 1. Validates user input and sanitizes data
+ * 2. Generates workout plan via Gemini API
+ * 3. Saves plan to database and session
+ * 
+ * Debug Mode:
+ * - Set DEBUG=true to show processing steps
+ * - Shows raw data, API calls, and results
+ * - Disables redirects for testing
+ * - Set DEBUG=false for production (enables redirects)
+ */
+
 session_start();
 require_once __DIR__ . '/../auth/config.php';
 require_once __DIR__ . '/includes/gemini_client.php';
 require_once __DIR__ . '/includes/workout_functions.php';
 
-// Debug mode - set to false in production
+// Debug mode
 define('DEBUG', false);
 
 unset($_SESSION['error']);
