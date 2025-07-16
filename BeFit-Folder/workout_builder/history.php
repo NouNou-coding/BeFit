@@ -65,13 +65,8 @@ $currentPlan = getUserWorkoutData($pdo, $_SESSION['user_id']);
             <h1>Your Workout History</h1>
             <p>Track your progress and revisit past workouts</p>
             
-            <div class="header-actions">
-                <?php if (!empty($currentPlan['workout_plan'])): ?>
-                    <a href="view_workout.php" class="cta-button">
-                        <i class="fas fa-dumbbell"></i> View Current Plan
-                    </a>
-                <?php endif; ?>
-                <a href="form.php" class="secondary-button">
+            <div class="header-actions" style="text-align: center; margin-top: 1.5rem;">
+                <a href="form.php" class="cta-button" style="padding: 12px 30px; font-size: 1.1rem;">
                     <i class="fas fa-plus"></i> Create New Plan
                 </a>
             </div>

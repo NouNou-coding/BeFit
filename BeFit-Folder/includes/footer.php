@@ -25,7 +25,6 @@
                     <ul class="footer-links">
                         <li><a href="/BeFit-Folder/terms.php">Terms of Service</a></li>
                         <li><a href="/BeFit-Folder/privacy.php">Privacy Policy</a></li>
-                        <li><a href="/BeFit-Folder/cookies.php">Cookie Policy</a></li>
                     </ul>
                 </div>
 
