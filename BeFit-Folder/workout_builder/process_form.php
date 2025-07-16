@@ -19,11 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-if (!isset($workoutPlan['weekly_plan']) || empty($workoutPlan['weekly_plan'])) {
-    $_SESSION['error'] = 'Invalid workout plan structure received';
-    header("Location: form.php");
-    exit;
-}
 
 // Validate and sanitize input
 $weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
@@ -64,6 +59,12 @@ saveUserWorkoutData($pdo, $_SESSION['user_id'], $userData);
 // Generate workout plan with Gemini
 $gemini = new GeminiWorkoutClient();
 $workoutPlan = $gemini->generateWorkoutPlan($userData);
+
+if (!isset($workoutPlan['weekly_plan']) || empty($workoutPlan['weekly_plan'])) {
+    $_SESSION['error'] = 'Invalid workout plan structure received';
+    header("Location: form.php");
+    exit;
+}
 
 if (isset($workoutPlan['error'])) {
     $_SESSION['error'] = $workoutPlan['error'];

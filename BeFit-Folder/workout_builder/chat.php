@@ -25,19 +25,16 @@ if (!isset($_SESSION['chat_history'])) {
 
 // Ensure workout data exists
 // Ensure workout data exists
-if (!isset($_SESSION['workout_plan'])) {
-    $userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
-    if (!empty($userData['workout_plan'])) {
-        $_SESSION['workout_plan'] = json_decode($userData['workout_plan'], true);
-    } else {
-        $_SESSION['error'] = 'Please generate a workout plan first';
-        header("Location: form.php");
-        exit;
-    }
-}
-
 $userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
-$workoutPlan = !empty($userData['workout_plan']) ? json_decode($userData['workout_plan'], true) : [];
+
+if (!empty($userData['workout_plan'])) {
+    $workoutPlan = json_decode($userData['workout_plan'], true);
+    $_SESSION['workout_plan'] = $workoutPlan;
+} else {
+    $_SESSION['error'] = 'Please generate a workout plan first';
+    header("Location: form.php");
+    exit;
+}
 
 if (empty($workoutPlan)) {
     header("Location: form.php");
@@ -103,7 +100,7 @@ if (empty($workoutPlan)) {
         const userMessage = document.getElementById('userMessage');
         
         // Load conversation history from session if available
-        let conversationHistory = <?= json_encode($_SESSION['workout_chat_history'] ?? [
+        let conversationHistory = <?= json_encode($_SESSION['chat_history'] ?? [
             ['role' => 'system', 'content' => 'You are a professional fitness trainer helping a user with their workout plan.'],
             ['role' => 'ai', 'content' => 'Hello! I\'m your AI fitness trainer. You can ask me anything about your workout plan.']
         ]) ?>;

@@ -6,6 +6,16 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: /BeFit-Folder/auth/signin.php");
     exit;
 }
+$userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
+
+if (!empty($userData['workout_plan'])) {
+    $workoutPlan = json_decode($userData['workout_plan'], true);
+    $_SESSION['workout_plan'] = $workoutPlan; // update session
+} else {
+    $_SESSION['error'] = "Please generate a workout plan first";
+    header("Location: form.php");
+    exit;
+}
 $isHistoricalView = isset($_GET['history_id']);
 $workoutData = [];
 
@@ -41,12 +51,7 @@ if ($isHistoricalView) {
         exit;
     }
 }
-$workoutPlan = $_SESSION['workout_plan'] ?? [];
-$userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
 
-if (empty($workoutPlan) && !empty($userData['workout_plan'])) {
-    $workoutPlan = json_decode($userData['workout_plan'], true);
-}
 
 if (empty($workoutPlan)) {
     header("Location: form.php");
