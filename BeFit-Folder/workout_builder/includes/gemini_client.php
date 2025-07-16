@@ -67,15 +67,17 @@ class GeminiWorkoutClient {
     }
 
     private function buildWorkoutPrompt(array $userData): string {
+        $equipmentList = explode(',', $userData['equipment']);
+        $equipmentText = implode(', ', $equipmentList);
+        
         return sprintf(
-            "Create a personalized %s workout plan for a %s year old %s, %scm tall, weighing %skg. " .
+            "Create a personalized %s-day workout plan for a %s year old %s, %scm tall, weighing %skg. " .
             "Fitness level: %s. Goal: %s. Available equipment: %s. " .
             "Medical considerations: %s. Preferences: %s. " .
-            "Provide a detailed weekly plan with exercises, sets, reps, rest periods, and notes. " .
-            "Also recommend 2-3 supplements from this list that would help with their goals: " .
-            "1. FitRx Smart Adjustable Dumbbells, 2. Resistance Band Set, 3. Weightlifting Belt, " .
-            "4. Whey Protein, 5. Creatine Monohydrate, 6. Preworkout, 7. Mass Gainer. " .
-            "Format the response as JSON with these keys: 'weekly_plan', 'supplement_recommendations', 'general_advice'.",
+            "Provide a detailed weekly plan with exercises, sets, reps, rest periods, and notes for each day. " .
+            "Format the response as valid JSON with these exact keys: " .
+            "'weekly_plan' (array of days), 'supplement_recommendations' (array with 'name' and 'reason'), " .
+            "and 'general_advice' (string). Ensure the JSON is properly formatted and can be decoded.",
             $userData['training_days'],
             $userData['age'],
             $userData['gender'],
@@ -83,11 +85,11 @@ class GeminiWorkoutClient {
             $userData['weight'],
             $userData['fitness_level'],
             $userData['goal'],
-            $userData['equipment'],
+            $equipmentText,
             $userData['medical_conditions'] ?? 'none',
             $userData['preferences'] ?? 'none'
         );
-    }
+}
 
     private function parseWorkoutResponse(string $response): array {
         $decoded = json_decode($response, true);

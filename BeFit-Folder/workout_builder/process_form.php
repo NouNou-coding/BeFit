@@ -5,14 +5,22 @@ require_once __DIR__ . '/includes/workout_functions.php';
 
 // Debug: Check if form is submitting
 error_log("Form submitted: " . print_r($_POST, true));
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: /BeFit-Folder/auth/signin.php");
     exit;
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: form.php");
+    exit;
+}
+
+if (!isset($workoutPlan['weekly_plan']) || empty($workoutPlan['weekly_plan'])) {
+    $_SESSION['error'] = 'Invalid workout plan structure received';
     header("Location: form.php");
     exit;
 }
@@ -73,6 +81,8 @@ if (isset($workoutPlan['supplement_recommendations'])) {
 
 // Redirect to view the workout plan
 $_SESSION['workout_plan'] = $workoutPlan;
+$_SESSION['workout_data'] = $userData; // Store all user data
+error_log("Workout plan generated: " . print_r($workoutPlan, true));
 header("Location: view_workout.php");
 exit;
 ?>

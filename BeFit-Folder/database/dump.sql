@@ -240,7 +240,7 @@ CREATE TABLE `workout_plans` (
   `goal` varchar(255) DEFAULT NULL,
   `training_days` int(11) DEFAULT NULL,
   `equipment` varchar(255) DEFAULT NULL,
-  `workout_plan` text DEFAULT NULL,
+  `workout_plan` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`workout_plan`)),
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `fitness_level` enum('beginner','intermediate','advanced') DEFAULT 'beginner',
   `gender` enum('male','female','other') DEFAULT NULL,
@@ -248,7 +248,7 @@ CREATE TABLE `workout_plans` (
   `preferences` text DEFAULT NULL,
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -257,6 +257,7 @@ CREATE TABLE `workout_plans` (
 
 LOCK TABLES `workout_plans` WRITE;
 /*!40000 ALTER TABLE `workout_plans` DISABLE KEYS */;
+INSERT INTO `workout_plans` VALUES (1,5,45.00,170,54,'build_muscle',3,'dumbbells,resistance_bands',NULL,'2025-07-15 23:38:51','beginner','male','','','2025-07-16 16:58:08');
 /*!40000 ALTER TABLE `workout_plans` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -269,4 +270,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-16  1:48:06
+-- Dump completed on 2025-07-16 20:45:18

@@ -24,10 +24,16 @@ if (!isset($_SESSION['chat_history'])) {
 }
 
 // Ensure workout data exists
+// Ensure workout data exists
 if (!isset($_SESSION['workout_plan'])) {
-    $_SESSION['error'] = 'Please generate a workout plan first';
-    header("Location: form.php");
-    exit;
+    $userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
+    if (!empty($userData['workout_plan'])) {
+        $_SESSION['workout_plan'] = json_decode($userData['workout_plan'], true);
+    } else {
+        $_SESSION['error'] = 'Please generate a workout plan first';
+        header("Location: form.php");
+        exit;
+    }
 }
 
 $userData = getUserWorkoutData($pdo, $_SESSION['user_id']);

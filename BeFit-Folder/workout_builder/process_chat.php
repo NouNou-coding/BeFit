@@ -24,17 +24,26 @@ $_SESSION['chat_history'][] = [
 
 try {
     $gemini = new GeminiWorkoutClient();
-    $response = $gemini->chatAboutWorkout($_SESSION['chat_history']);
     
-    // Add AI response to history
-    $_SESSION['chat_history'][] = [
-        'role' => 'ai',
-        'content' => $response['response']
-    ];
+    // Include workout plan in context
+    $workoutContext = "Current workout plan:\n" . 
+        json_encode($_SESSION['workout_plan']) . "\n\n" .
+        "Conversation history:\n";
     
-    echo json_encode($response);
+    foreach ($_SESSION['chat_history'] as $message) {
+        $workoutContext .= "{$message['role']}: {$message['content']}\n";
+    }
+    
+    $response = $gemini->chatAboutWorkout($_SESSION['chat_history'], $workoutContext);
+    
+    if (isset($response['error'])) {
+        throw new Exception($response['error']);
+    }
+    
 } catch (Exception $e) {
     error_log("Chat error: " . $e->getMessage());
-    echo json_encode(['error' => 'Failed to process your message']);
+    echo json_encode([
+        'error' => 'Failed to process your message: ' . $e->getMessage()
+    ]);
+    exit;
 }
-?>
