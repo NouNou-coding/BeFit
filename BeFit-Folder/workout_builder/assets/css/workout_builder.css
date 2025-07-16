@@ -501,25 +501,8 @@ textarea {
     50% { border-color: rgba(0, 123, 255, 0.5); }
     100% { border-color: var(--primary); }
 }
-/* Loading Button Styles */
-.cta-button {
-    position: relative;
-    overflow: hidden;
-}
-
-.button-text {
-    display: inline-block;
-    transition: all 0.3s;
-}
-
-
-
-
 
 /* Loading state */
-.cta-button.loading .button-text {
-    opacity: 0;
-}
 
 .form-section {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -530,23 +513,6 @@ textarea {
     box-shadow: 0 15px 30px rgba(0,0,0,0.1);
 }
 
-/* Enhanced Loading Button Styles */
-.cta-button {
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s ease;
-    transform: scale(1);
-    color: white; /* Ensure text is white */
-    background: var(--primary); /* Your primary color */
-}
-
-.button-text {
-    display: inline-block;
-    transition: all 0.3s ease;
-    transform: translateY(0);
-    opacity: 1;
-}
-
 
 /* Loading state */
 .cta-button.loading {
@@ -554,20 +520,9 @@ textarea {
     color: white; 
 }
 
-.cta-button.loading .button-text {
-    opacity: 0;
-    transform: translateY(-10px);
-}
-
-
 /* Add this for a smoother hover effect */
 .cta-button:not(.loading):hover {
     transform: scale(1.02);
-}
-
-.cta-button.loading .button-text::after {
-    content: "...";
-    animation: dots 1.5s infinite steps(3, end);
 }
 
 @keyframes dots {
@@ -590,4 +545,63 @@ textarea {
     0%, 20% { content: '.'; }
     40% { content: '..'; }
     60%, 100% { content: '...'; }
+}
+
+/* Button Base Style */
+.cta-button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Hover State */
+.cta-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+/* Loading State */
+.cta-button.loading {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.cta-button.loading .button-text::after {
+    content: '...';
+    display: inline-block;
+    width: 1em;
+    text-align: left;
+    animation: loadingDots 1.5s infinite;
+}
+
+/* Dot Animation */
+@keyframes loadingDots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+/* Remove any pseudo-elements that might be creating the circle */
+.cta-button::before,
+.cta-button::after,
+.cta-button *::before,
+.cta-button *::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Force remove any spinner visibility */
+.loading-spinner,
+.cta-button svg,
+.cta-button circle {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
 }

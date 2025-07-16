@@ -182,6 +182,11 @@ $defaultData = [
     document.getElementById('workoutForm').addEventListener('submit', function(e) {
     const button = document.getElementById('generateButton');
     const textSpan = button.querySelector('.button-text');
+    const existingLoader = button.querySelector('.loader');
+    if (existingLoader) {
+        existingLoader.remove();
+    }
+    
     const originalText = textSpan.textContent;
     
     // Prevent double submission
