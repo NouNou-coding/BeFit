@@ -39,6 +39,8 @@ try {
     if (isset($response['error'])) {
         throw new Exception($response['error']);
     }
+    echo json_encode($response);
+    exit;
     
 } catch (Exception $e) {
     error_log("Chat error: " . $e->getMessage());
@@ -47,6 +49,3 @@ try {
     ]);
     exit;
 }
-
-echo json_encode($response);
-exit;

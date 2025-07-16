@@ -119,7 +119,7 @@ if (empty($workoutPlan)) {
             e.preventDefault();
             const message = userMessage.value.trim();
             if (!message) return;
-            
+            console.log("User message submitted:", message);  //debug
             // Add user message to chat
             addUserMessage(message);
             userMessage.value = '';

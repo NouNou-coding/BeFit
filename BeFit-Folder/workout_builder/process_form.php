@@ -1,89 +1,183 @@
 <?php
+session_start();
 require_once __DIR__ . '/../auth/config.php';
 require_once __DIR__ . '/includes/gemini_client.php';
 require_once __DIR__ . '/includes/workout_functions.php';
 
-// Debug: Check if form is submitting
-error_log("Form submitted: " . print_r($_POST, true));
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Debug mode - set to false in production
+define('DEBUG', false);
 
+unset($_SESSION['error']);
+
+// Function to show debug output
+function debug_output($data, $title = '') {
+    if (!defined('DEBUG') || !DEBUG) return;
+    if ($title) echo "<h3>$title</h3>";
+    echo '<pre>';
+    print_r($data);
+    echo '</pre>';
+}
+
+// Debug: Show all POST data
+debug_output($_POST, 'Raw POST Data');
+
+// Check authentication
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /BeFit-Folder/auth/signin.php");
+    debug_output(['Error' => 'Not authenticated'], 'Authentication Error');
+    if (!DEBUG) header("Location: /BeFit-Folder/auth/signin.php");
     exit;
 }
 
-
+// Validate request method
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: form.php");
+    debug_output(['Error' => 'Invalid request method'], 'Request Method Error');
+    if (!DEBUG) header("Location: form.php");
     exit;
 }
 
+// Initialize filtered data array
+$filteredData = [];
 
-// Validate and sanitize input
-$weight = filter_input(INPUT_POST, 'weight', FILTER_VALIDATE_FLOAT);
-$height = filter_input(INPUT_POST, 'height', FILTER_VALIDATE_INT);
-$age = filter_input(INPUT_POST, 'age', FILTER_VALIDATE_INT);
-$gender = filter_input(INPUT_POST, 'gender', FILTER_SANITIZE_STRING);
-$fitness_level = filter_input(INPUT_POST, 'fitness_level', FILTER_SANITIZE_STRING);
-$goal = filter_input(INPUT_POST, 'goal', FILTER_SANITIZE_STRING);
-$training_days = filter_input(INPUT_POST, 'training_days', FILTER_VALIDATE_INT);
-$equipment = isset($_POST['equipment']) ? implode(',', $_POST['equipment']) : 'none';
-$medical_conditions = filter_input(INPUT_POST, 'medical_conditions', FILTER_SANITIZE_STRING);
-$preferences = filter_input(INPUT_POST, 'preferences', FILTER_SANITIZE_STRING);
-
-// Basic validation
-if (!$weight || !$height || !$age || !$gender || !$fitness_level || !$goal || !$training_days) {
-    $_SESSION['error'] = 'Please fill in all required fields.';
-    header("Location: form.php");
-    exit;
-}
-
-// Prepare data for Gemini API
-$userData = [
-    'weight' => $weight,
-    'height' => $height,
-    'age' => $age,
-    'gender' => $gender,
-    'fitness_level' => $fitness_level,
-    'goal' => $goal,
-    'training_days' => $training_days,
-    'equipment' => $equipment,
-    'medical_conditions' => $medical_conditions,
-    'preferences' => $preferences
+// Validate numeric inputs
+$numericFields = [
+    'weight' => ['min' => 30, 'max' => 200],
+    'height' => ['min' => 100, 'max' => 250],
+    'age' => ['min' => 12, 'max' => 100],
+    'training_days' => ['min' => 2, 'max' => 6]
 ];
 
-// Save user data to database first
-saveUserWorkoutData($pdo, $_SESSION['user_id'], $userData);
+foreach ($numericFields as $field => $limits) {
+    $value = filter_input(INPUT_POST, $field, FILTER_VALIDATE_FLOAT);
+    if ($value === false || $value === null || $value < $limits['min'] || $value > $limits['max']) {
+        debug_output([
+            'Error' => "Invalid $field",
+            'Value' => $_POST[$field] ?? 'NULL',
+            'Expected' => "Between {$limits['min']} and {$limits['max']}"
+        ], 'Validation Error');
+        if (!DEBUG) {
+            $_SESSION['error'] = "Invalid value for $field";
+            header("Location: form.php");
+        }
+        exit;
+    }
+    $filteredData[$field] = $value;
+}
 
-// Generate workout plan with Gemini
-$gemini = new GeminiWorkoutClient();
-$workoutPlan = $gemini->generateWorkoutPlan($userData);
+// Validate select inputs
+$selectFields = [
+    'gender' => ['male', 'female', 'other'],
+    'fitness_level' => ['beginner', 'intermediate', 'advanced'],
+    'goal' => ['build_muscle', 'lose_weight', 'strength', 'endurance', 'tone']
+];
 
-if (!isset($workoutPlan['weekly_plan']) || empty($workoutPlan['weekly_plan'])) {
-    $_SESSION['error'] = 'Invalid workout plan structure received';
-    header("Location: form.php");
+foreach ($selectFields as $field => $allowedValues) {
+    $value = $_POST[$field] ?? '';
+    if (!in_array($value, $allowedValues)) {
+        debug_output([
+            'Error' => "Invalid $field",
+            'Value' => $value,
+            'Allowed' => $allowedValues
+        ], 'Validation Error');
+        if (!DEBUG) {
+            $_SESSION['error'] = "Invalid value for $field";
+            header("Location: form.php");
+        }
+        exit;
+    }
+    $filteredData[$field] = $value;
+}
+
+// Process equipment
+$allowedEquipment = ['dumbbells', 'resistance_bands', 'pullup_bar', 'weight_bench', 'none'];
+$equipment = [];
+
+if (isset($_POST['equipment'])) {
+    if (is_array($_POST['equipment'])) {
+        foreach ($_POST['equipment'] as $item) {
+            if (in_array($item, $allowedEquipment)) {
+                $equipment[] = $item;
+            }
+        }
+    }
+}
+
+$filteredData['equipment'] = !empty($equipment) ? implode(',', $equipment) : 'none';
+
+// Sanitize text inputs
+$textFields = ['medical_conditions', 'preferences'];
+foreach ($textFields as $field) {
+    $filteredData[$field] = isset($_POST[$field]) 
+        ? htmlspecialchars(strip_tags(trim($_POST[$field])), ENT_QUOTES, 'UTF-8')
+        : '';
+}
+
+// Debug: Show filtered data
+debug_output($filteredData, 'Filtered Form Data');
+
+// Save user data
+if (!saveUserWorkoutData($pdo, $_SESSION['user_id'], $filteredData)) {
+    debug_output(['Error' => 'Failed to save user data'], 'Database Error');
+    if (!DEBUG) {
+        $_SESSION['error'] = "Failed to save user data";
+        header("Location: form.php");
+    }
     exit;
 }
 
-if (isset($workoutPlan['error'])) {
-    $_SESSION['error'] = $workoutPlan['error'];
-    header("Location: form.php");
+// Generate workout plan
+try {
+    $gemini = new GeminiWorkoutClient();
+    $workoutPlan = $gemini->generateWorkoutPlan($filteredData);
+    
+    if (isset($workoutPlan['error'])) {
+        throw new Exception($workoutPlan['error']);
+    }
+    
+    if (empty($workoutPlan['weekly_plan'])) {
+        throw new Exception("Invalid workout plan structure received");
+    }
+    
+    debug_output($workoutPlan, 'Generated Workout Plan');
+    
+} catch (Exception $e) {
+    debug_output([
+        'Error' => 'Workout generation failed',
+        'Message' => $e->getMessage(),
+        'Trace' => $e->getTraceAsString()
+    ], 'Workout Generation Error');
+    if (!DEBUG) {
+        $_SESSION['error'] = "Workout generation failed: " . $e->getMessage();
+        header("Location: form.php");
+    }
     exit;
 }
 
 // Save the generated workout plan
-saveWorkoutPlan($pdo, $_SESSION['user_id'], $workoutPlan);
+if (!saveWorkoutPlan($pdo, $_SESSION['user_id'], $workoutPlan)) {
+    debug_output(['Error' => 'Failed to save workout plan'], 'Database Error');
+    if (!DEBUG) {
+        $_SESSION['error'] = "Failed to save workout plan";
+        header("Location: form.php");
+    }
+    exit;
+}
 
 // Store supplement recommendations
 if (isset($workoutPlan['supplement_recommendations'])) {
     saveSupplementRecommendations($pdo, $_SESSION['user_id'], $workoutPlan['supplement_recommendations']);
 }
 
-// Redirect to view the workout plan
+// Store in session
 $_SESSION['workout_plan'] = $workoutPlan;
-$_SESSION['workout_data'] = $userData; // Store all user data
-error_log("Workout plan generated: " . print_r($workoutPlan, true));
-header("Location: view_workout.php");
-exit;
-?>
+$_SESSION['workout_data'] = $filteredData;
+
+debug_output($_SESSION, 'Session Data After Processing');
+
+// In debug mode, show success but don't redirect
+if (!DEBUG) {
+    header("Location: view_workout.php");
+    exit;
+}
+
+echo "<h2>Workout Plan Generated Successfully!</h2>";
+echo "<p>In production mode, this would redirect to view_workout.php</p>";

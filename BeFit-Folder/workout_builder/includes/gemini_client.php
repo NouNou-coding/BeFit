@@ -7,10 +7,9 @@ use GeminiAPI\Resources\Content;
 use GeminiAPI\Requests\GenerateContentRequest;
 use GeminiAPI\Enums\Role;
 
-
 class GeminiWorkoutClient {
     private $client;
-    private $model = 'gemini-pro';
+    private $model = 'gemini-2.0-flash';
 
     public function __construct() {
         $this->client = new GeminiAPI\Client(GEMINI_API_KEY);
@@ -23,6 +22,7 @@ class GeminiWorkoutClient {
             $textPart = new TextPart($promptText, 'text/plain');
             $content = new Content([$textPart], Role::User);
             $request = new GenerateContentRequest($this->model, [$content]);
+            
             $response = $this->client->generateContent($request);
 
             $responseText = '';
@@ -34,8 +34,10 @@ class GeminiWorkoutClient {
 
             return $this->parseWorkoutResponse($responseText);
         } catch (Exception $e) {
-            error_log("Gemini API Error: " . $e->getMessage());
-            return ['error' => 'Failed to generate workout plan. Please try again.'];
+            return [
+                'error' => 'API Error: ' . $e->getMessage(),
+                'api_response' => $e->getMessage()
+            ];
         }
     }
 
@@ -89,18 +91,28 @@ class GeminiWorkoutClient {
             $userData['medical_conditions'] ?? 'none',
             $userData['preferences'] ?? 'none'
         );
-}
+    }
 
     private function parseWorkoutResponse(string $response): array {
+        // First try direct JSON decode
         $decoded = json_decode($response, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
+            // If that fails, try to extract JSON from the response
             preg_match('/\{.*\}/s', $response, $matches);
             if ($matches) {
                 $decoded = json_decode($matches[0], true);
             }
         }
 
-        return $decoded ?? ['error' => 'Could not parse the workout plan response.'];
+        if (json_last_error() !== JSON_ERROR_NONE || !$decoded) {
+            echo "<h3>JSON Parse Error:</h3>";
+            echo "<p>Error: " . json_last_error_msg() . "</p>";
+            echo "<p>Response that failed to parse:</p>";
+            echo "<pre>" . htmlspecialchars($response) . "</pre>";
+            return ['error' => 'Could not parse the workout plan response.'];
+        }
+
+        return $decoded;
     }
 }

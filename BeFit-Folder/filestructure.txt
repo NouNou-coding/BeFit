@@ -29,6 +29,7 @@ C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth\resend_code.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth\reset_password.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth\signin.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth\signup.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth\smtp_debug.log
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\auth\verify_email.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\database\dump.sql
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\ecommerce\admin
@@ -59,6 +60,7 @@ C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\public\photos\prework
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\public\photos\prot.webp
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\public\photos\pullup.jpg
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\public\photos\resistance.jpg
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\scripts\combine_files.bat
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\scripts\generate_structure.bat
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\scripts\publish.bat
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\scripts\setup.bat
@@ -1229,4 +1231,3 @@ C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\asset
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\assets\js\workout_builder.js
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes\gemini_client.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes\workout_functions.php
-C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes\workout_history_functions.php
