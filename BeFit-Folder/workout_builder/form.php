@@ -9,7 +9,12 @@ if (!isset($_SESSION['user_id'])) {
 
 $userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
 $hasExistingPlan = !empty($userData);
+$forceUpdate = isset($_GET['force_update']) && $_GET['force_update'] == 1;
 
+if ($hasExistingPlan && !$forceUpdate) {
+    header("Location: view_workout.php");
+    exit;
+}
 // Set default values for the form
 $defaultData = [
     'weight' => $userData['weight'] ?? '',
@@ -39,15 +44,18 @@ $defaultData = [
     
     <main class="workout-builder-container">
         <div class="workout-header">
-            <h1>AI-Powered Workout Builder</h1>
-            <p>Get a personalized workout plan tailored to your goals and equipment</p>
+            <h1><?= $hasExistingPlan ? 'Update Your Workout Plan' : 'Create Your Workout Plan' ?></h1>
+            <p><?= $hasExistingPlan ? 'Modify your details to generate an updated plan' : 'Get a personalized workout plan tailored to your goals and equipment' ?></p>
+            <?php if ($hasExistingPlan): ?>
+            <div class="update-notice">
+                <i class="fas fa-info-circle"></i> Updating will generate a new plan based on your changes
+            </div>
+            <?php endif; ?>
+            <div class="progress-bar">
+                <div class="progress" style="width: 0%"></div>
+            </div>
         </div>
         
-        <?php if ($hasExistingPlan): ?>
-        <div class="existing-plan-notice">
-            <p>You already have a workout plan. You can update it below or <a href="chat.php">chat with your AI trainer</a>.</p>
-        </div>
-        <?php endif; ?>
         
         <form id="workoutForm" action="process_form.php" method="post" class="workout-form">
             <div class="form-section">
@@ -137,7 +145,9 @@ $defaultData = [
             </div>
             
             <div class="form-actions">
-                <button type="submit" class="cta-button">Generate My Workout Plan</button>
+                <button type="submit" class="cta-button" id="generateButton">
+                    <span class="button-text"><?= $hasExistingPlan ? 'Update My Plan' : 'Generate My Workout Plan' ?></span>
+                </button>
                 <?php if ($hasExistingPlan): ?>
                 <a href="history.php" class="secondary-button">View Workout History</a>
                 <?php endif; ?>
@@ -148,5 +158,51 @@ $defaultData = [
     <?php include __DIR__ . '/../includes/footer.php'; ?>
     
     <script src="/BeFit-Folder/workout_builder/assets/js/workout_builder.js"></script>
+    <script>
+        // Update progress bar as user fills form
+        document.querySelectorAll('input, select, textarea').forEach(el => {
+            el.addEventListener('input', updateProgress);
+            el.addEventListener('change', updateProgress);
+        });
+
+        function updateProgress() {
+            const fields = document.querySelectorAll('input[required], select[required], textarea[required]');
+            const filled = [...fields].filter(f => f.value.trim() !== '').length;
+            const progress = (filled / fields.length) * 100;
+            document.querySelector('.progress').style.width = `${progress}%`;
+        }
+    </script>
+    <script>
+        // Add update mode class if editing existing plan
+        <?php if ($hasExistingPlan): ?>
+        document.querySelector('.workout-form').classList.add('update-mode');
+        <?php endif; ?>
+    </script>
+    <script>
+    document.getElementById('workoutForm').addEventListener('submit', function(e) {
+    const button = document.getElementById('generateButton');
+    const textSpan = button.querySelector('.button-text');
+    const originalText = textSpan.textContent;
+    
+    // Prevent double submission
+    if (button.classList.contains('loading')) {
+        e.preventDefault();
+        return;
+    }
+    
+    button.classList.add('loading');
+    button.disabled = true;
+    textSpan.textContent = 'Generating Your Plan';
+    
+    // Optional: Revert if submission fails (you'll need to handle this in your process_form.php)
+    setTimeout(() => {
+        if (!document.getElementById('workoutForm').checkValidity()) {
+            button.classList.remove('loading');
+            button.disabled = false;
+            textSpan.textContent = originalText;
+        }
+    }, 3000);
+});
+    </script>
 </body>
 </html>

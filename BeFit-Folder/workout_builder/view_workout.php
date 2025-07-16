@@ -188,7 +188,7 @@ $recommendedSupplements = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <?php endif; ?>
         
         <div class="plan-actions-bottom">
-            <a href="form.php" class="secondary-button">Update My Plan</a>
+            <a href="form.php?force_update=1" class="secondary-button">Update My Plan</a>
             <button id="printPlan" class="secondary-button">Print This Plan</button>
         </div>
     </main>
