@@ -40,11 +40,21 @@ function saveUserWorkoutData(PDO $pdo, int $userId, array $data): bool {
 function saveWorkoutPlan(PDO $pdo, int $userId, array $plan): bool {
     $jsonPlan = json_encode($plan);
     
+    // Save to workout_plans
     $stmt = $pdo->prepare("UPDATE workout_plans SET 
         workout_plan = ?, last_updated = NOW() 
         WHERE user_id = ? ORDER BY last_updated DESC LIMIT 1");
+    $success = $stmt->execute([$jsonPlan, $userId]);
     
-    return $stmt->execute([$jsonPlan, $userId]);
+    // Also log to history
+    if ($success) {
+        logWorkoutSession($pdo, $userId, [
+            'workout_data' => $plan,
+            'notes' => 'Workout plan generated'
+        ]);
+    }
+    
+    return $success;
 }
 
 function saveSupplementRecommendations(PDO $pdo, int $userId, array $recommendations): bool {
@@ -95,4 +105,53 @@ function logWorkoutSession(PDO $pdo, int $userId, array $data): bool {
         $data['notes'] ?? ''
     ]);
 }
+
+/**
+ * Gets a specific historical workout by ID
+ */
+function getHistoricalWorkout(PDO $pdo, int $workoutId, int $userId): array {
+    $stmt = $pdo->prepare("SELECT * FROM user_workout_history 
+                          WHERE id = ? AND user_id = ?");
+    $stmt->execute([$workoutId, $userId]);
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
+}
+
+/**
+ * Logs workout completion
+ */
+function logWorkoutCompletion(PDO $pdo, int $workoutId, int $userId): bool {
+    $stmt = $pdo->prepare("UPDATE user_workout_history 
+                          SET completed = 1 
+                          WHERE id = ? AND user_id = ?");
+    return $stmt->execute([$workoutId, $userId]);
+}
+
+/**
+ * Gets workout statistics
+ */
+function getWorkoutStats(PDO $pdo, int $userId): array {
+    $stats = [];
+    
+    // Total workouts
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM user_workout_history 
+                          WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    $stats['total_workouts'] = $stmt->fetchColumn();
+    
+    // Completed workouts
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM user_workout_history 
+                          WHERE user_id = ? AND completed = 1");
+    $stmt->execute([$userId]);
+    $stats['completed_workouts'] = $stmt->fetchColumn();
+    
+    // Recent activity
+    $stmt = $pdo->prepare("SELECT workout_date FROM user_workout_history 
+                          WHERE user_id = ? 
+                          ORDER BY workout_date DESC LIMIT 1");
+    $stmt->execute([$userId]);
+    $stats['last_workout'] = $stmt->fetchColumn();
+    
+    return $stats;
+}
+
 ?>

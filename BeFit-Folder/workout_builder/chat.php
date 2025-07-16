@@ -2,6 +2,9 @@
 require_once __DIR__ . '/../auth/config.php';
 require_once __DIR__ . '/includes/workout_functions.php';
 
+//debug
+error_log("Session data: " . print_r($_SESSION, true));
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: /BeFit-Folder/auth/signin.php");
     exit;

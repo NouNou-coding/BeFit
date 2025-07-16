@@ -343,3 +343,29 @@ th {
         text-align: center;
     }
 }
+
+/* Historical workout styling */
+.workout-notes {
+    background: rgba(255,255,255,0.1);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.history-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-left: 1rem;
+}
+
+.history-badge.completed {
+    background: #4CAF50;
+    color: white;
+}
+
+.history-badge.incomplete {
+    background: #FFC107;
+    color: #333;
+}

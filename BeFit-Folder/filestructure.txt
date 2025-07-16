@@ -1218,6 +1218,7 @@ C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\form.
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\history.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\includes
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\index.php
+C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\log_completion.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\process_chat.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\process_form.php
 C:\Users\yorgo_4ck6kyf\Documents\GitHub\BeFit\BeFit-Folder\workout_builder\save_workout.php

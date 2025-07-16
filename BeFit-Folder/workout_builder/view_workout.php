@@ -6,7 +6,41 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: /BeFit-Folder/auth/signin.php");
     exit;
 }
+$isHistoricalView = isset($_GET['history_id']);
+$workoutData = [];
 
+if ($isHistoricalView) {
+    // Load historical workout
+    $historyId = (int)$_GET['history_id'];
+    $stmt = $pdo->prepare("SELECT * FROM user_workout_history 
+                          WHERE id = ? AND user_id = ?");
+    $stmt->execute([$historyId, $_SESSION['user_id']]);
+    $workoutData = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if (!$workoutData) {
+        $_SESSION['error'] = "Workout not found";
+        header("Location: history.php");
+        exit;
+    }
+    
+    $workoutPlan = json_decode($workoutData['workout_data'], true);
+    $userData = json_decode($workoutPlan['user_data'] ?? '{}', true);
+} else {
+    // Existing logic for current workout
+    $workoutPlan = $_SESSION['workout_plan'] ?? [];
+    
+    if (empty($workoutPlan)) {
+        $userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
+        if (!empty($userData['workout_plan'])) {
+            $workoutPlan = json_decode($userData['workout_plan'], true);
+        }
+    }
+    
+    if (empty($workoutPlan)) {
+        header("Location: form.php");
+        exit;
+    }
+}
 $workoutPlan = $_SESSION['workout_plan'] ?? [];
 $userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
 
@@ -41,16 +75,37 @@ $recommendedSupplements = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <?php include __DIR__ . '/../includes/header.php'; ?>
     
     <main class="workout-plan-container">
-        <div class="workout-header">
-            <h1>Your Personalized Workout Plan</h1>
-            <p>Generated specifically for your goals and fitness level</p>
-            
-            <div class="plan-actions">
+    <div class="workout-header">
+        <h1>
+            <?= $isHistoricalView ? 
+                'Workout from '.htmlspecialchars(date('F j, Y', strtotime($workoutData['workout_date']))) : 
+                'Your Personalized Workout Plan' ?>
+        </h1>
+        
+        <p>
+            <?= $isHistoricalView ? 
+                'Your past workout session' : 
+                'Generated specifically for your goals and fitness level' ?>
+        </p>
+        
+        <div class="plan-actions">
+            <?php if (!$isHistoricalView): ?>
                 <a href="chat.php" class="cta-button" id="chatButton">
-                <i class="fas fa-comment-dots"></i> Chat with AI Trainer</a>
-                <a href="history.php" class="secondary-button">View Workout History</a>
-            </div>
+                    <i class="fas fa-comment-dots"></i> Chat with AI Trainer
+                </a>
+            <?php endif; ?>
+            <a href="history.php" class="secondary-button">
+                <i class="fas fa-history"></i> <?= $isHistoricalView ? 'Back to History' : 'View History' ?>
+            </a>
         </div>
+        
+        <?php if ($isHistoricalView && isset($workoutData['notes'])): ?>
+            <div class="workout-notes">
+                <h3>Your Notes:</h3>
+                <p><?= nl2br(htmlspecialchars($workoutData['notes'])) ?></p>
+            </div>
+        <?php endif; ?>
+    </div>
         
         <div class="plan-details">
             <div class="user-stats">

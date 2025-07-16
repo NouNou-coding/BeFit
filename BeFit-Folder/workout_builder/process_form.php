@@ -3,6 +3,10 @@ require_once __DIR__ . '/../auth/config.php';
 require_once __DIR__ . '/includes/gemini_client.php';
 require_once __DIR__ . '/includes/workout_functions.php';
 
+// Debug: Check if form is submitting
+error_log("Form submitted: " . print_r($_POST, true));
+
+
 if (!isset($_SESSION['user_id'])) {
     header("Location: /BeFit-Folder/auth/signin.php");
     exit;
