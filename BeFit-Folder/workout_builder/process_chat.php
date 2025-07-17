@@ -2,7 +2,9 @@
 require_once __DIR__ . '/../auth/config.php';
 require_once __DIR__ . '/includes/gemini_client.php';
 
-session_start(); 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 header('Content-Type: application/json');
 
 if (!isset($_SESSION['user_id'])) {
@@ -50,3 +52,4 @@ try {
     ]);
     exit;
 }
+?>
