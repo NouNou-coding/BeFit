@@ -135,21 +135,24 @@ if (empty($workoutPlan)) {
             chatBox.scrollTop = chatBox.scrollHeight;
             
             try {
-                // Send to server for processing
-                const response = await fetch('process_chat.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        history: conversationHistory,
-                        workoutPlan: <?= json_encode($workoutPlan) ?>,
-                        userData: <?= json_encode($userData) ?>
-                    })
-                });
+            const response = await fetch('process_chat.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    message: message,
+                    history: conversationHistory,
+                    workoutPlan: <?= json_encode($workoutPlan) ?>,
+                    userData: <?= json_encode($userData) ?>
+                })
+            });
+            // First get the response as text to see what's really coming back
+                const responseText = await response.text();
+                console.log("Raw response:", responseText);
                 
-                const data = await response.json();
+                // Then try to parse as JSON
+                const data = JSON.parse(responseText);
                 
                 // Remove loading indicator
                 chatBox.removeChild(loadingDiv);
@@ -171,9 +174,11 @@ if (empty($workoutPlan)) {
                 }
             } catch (error) {
                 console.error('Error:', error);
+                console.log('Full response text:', await response.text()); // Add this line
                 chatBox.removeChild(loadingDiv);
                 addAiMessage("Error: " + (error.message || "Please check the console for details"));
             }
+
         });
         
         // Handle suggestion buttons
