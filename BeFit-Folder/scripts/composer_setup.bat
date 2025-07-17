@@ -29,18 +29,30 @@ if %errorlevel% equ 0 (
 echo.
 echo Composer not found. Installing now...
 echo Downloading Composer Setup...
-powershell -Command "(New-Object System.Net.WebClient).DownloadFile('https://getcomposer.org/installer', 'composer-setup.php')" >nul 2>&1
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object System.Net.WebClient).DownloadFile('https://getcomposer.org/installer', 'composer-setup.php')"
 
 if not exist composer-setup.php (
     echo ERROR: Failed to download Composer
-    echo Please install manually from: https://getcomposer.org/download
+    echo Please check your internet connection
     pause
     exit /b
 )
 
-echo Installing Composer (this requires admin rights)...
-echo Please accept UAC prompt if it appears...
-powershell -Command "Start-Process php -ArgumentList 'composer-setup.php' -Verb RunAs -Wait" >nul 2>&1
+echo Installing Composer...
+echo NOTE: If no prompt appears, right-click and "Run as Administrator"
+echo.
+
+:: Try silent install first
+php composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer >nul 2>&1
+
+:: If silent install failed, request admin rights
+composer --version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Requesting admin privileges...
+    powershell -Command "Start-Process 'php' -ArgumentList 'composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer' -Verb RunAs -WindowStyle Hidden -Wait"
+)
+
+:: Cleanup
 del composer-setup.php >nul 2>&1
 del composer-setup.php.pubkey >nul 2>&1
 
