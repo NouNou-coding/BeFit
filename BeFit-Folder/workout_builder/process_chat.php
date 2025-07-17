@@ -1,15 +1,26 @@
 <?php
 
-// Try normal autoload first
-if (!@include(__DIR__.'/../vendor/autoload.php')) {
-    // If fails, run repair
-    require_once __DIR__.'/../fix_autoloader.php';
-    repairAutoloader();
-    
-    // Try again
-    if (!@include(__DIR__.'/../vendor/autoload.php')) {
-        die(json_encode(['error' => 'System maintenance required']));
+// Improved version with better error handling
+$rootDir = dirname(__DIR__);
+$autoloader = $rootDir . '/vendor/autoload.php';
+
+if (file_exists($autoloader)) {
+    require $autoloader;
+} else {
+    // Only attempt repair if fix_autoloader exists
+    $fixer = $rootDir . '/fix_autoloader.php';
+    if (file_exists($fixer)) {
+        require $fixer;
+        if (function_exists('repairAutoloader')) {
+            repairAutoloader();
+            if (file_exists($autoloader)) {
+                require $autoloader;
+            } else {
+                die(json_encode(['error' => 'Autoloader repair failed']));
+            }
+        }
     }
+    die(json_encode(['error' => 'Vendor dependencies missing. Run "composer install"']));
 }
 
 
@@ -58,6 +69,12 @@ try {
     }
     echo json_encode($response);
     exit;
+
+    echo json_encode([
+    'response' => $response,
+    'error' => '' // No error
+]);
+exit;
     
 } catch (Exception $e) {
     error_log("Chat error: " . $e->getMessage());

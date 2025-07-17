@@ -69,4 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Chat functionality is handled inline in chat.php
+    if (data.error) {
+        addAiMessage(data.error);
+    } else {
+        addAiMessage(data.response);
+    }
