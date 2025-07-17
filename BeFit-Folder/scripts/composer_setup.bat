@@ -1,74 +1,76 @@
 @echo off
-if not exist "C:\" (
-    echo ERROR: This script requires Windows
-    pause
-    exit /b
-)
-:: BeFit AI - Smart Dependency Installer
-:: Automatically detects PHP and installs dependencies
+:: BeFit AI - One-Click Dependency Installer
+:: Safe, clear, and foolproof version
+:: Save to: scripts/composer-setup.bat
+
+title BeFit AI Setup
 
 echo ********************************************
-echo  BeFit AI - Automatic Dependency Installer
+echo       BE FIT AI DEPENDENCY INSTALLER
 echo ********************************************
 echo.
-echo This script will:
-echo 1. Setup Composer (if missing)
-echo 2. Install PHP dependencies
+echo This will:
+echo 1. Check/install Composer (if needed)
+echo 2. Install all PHP dependencies
 echo 3. Create vendor folder
+echo.
+echo NOTE: May require admin rights for Composer
 echo.
 pause
 
-:: Check admin rights
-set IS_ADMIN=0
-net session >nul 2>&1 && set IS_ADMIN=1
-
-:: Smart PHP Detection
+:: =============================================
+:: 1. PHP CHECK (with clear guidance)
+:: =============================================
 echo.
-echo [STEP 1/3] Checking Environment...
+echo [1/3] CHECKING PHP...
 
-:: Check if PHP is in PATH
 where php >nul 2>&1
 if %errorlevel% equ 0 (
     set PHP_CMD=php
-    goto :check_composer
+    goto check_composer
 )
 
 :: Check common PHP locations
-set PHP_PATHS="
-C:\xampp\php\php.exe
-C:\laragon\bin\php\php.exe
-C:\wamp64\bin\php\php.exe
-C:\Program Files\PHP\php.exe
-"
-
-for %%P in (%PHP_PATHS%) do (
-    if exist "%%~P" (
-        set PHP_CMD="%%~P"
-        goto :check_composer
-    )
+set FOUND_PHP=0
+for %%P in (
+    "C:\xampp\php\php.exe"
+    "C:\laragon\bin\php\php.exe"
+    "C:\wamp64\bin\php\php.exe"
+) do if exist %%P (
+    set PHP_CMD=%%P
+    set FOUND_PHP=1
 )
 
-echo ERROR: PHP not found! Please install either:
-echo 1. XAMPP (https://www.apachefriends.org)
-echo 2. Laragon (https://laragon.org)
-echo 3. Or standalone PHP (https://windows.php.net/download/)
-pause
-exit /b
+if %FOUND_PHP% equ 0 (
+    echo.
+    echo ERROR: PHP NOT FOUND!
+    echo.
+    echo Required for Composer. Please install:
+    echo.
+    echo [RECOMMENDED] XAMPP: https://www.apachefriends.org
+    echo (Includes PHP + MySQL + Apache)
+    echo.
+    echo Then RESTART your computer and run this again.
+    pause
+    exit /b
+)
 
 :check_composer
-:: Check Composer
+echo Using PHP at: %PHP_CMD%
 echo.
-echo [STEP 2/3] Checking Composer...
+
+:: =============================================
+:: 2. COMPOSER INSTALL (with admin fallback)
+:: =============================================
+echo [2/3] CHECKING COMPOSER...
 composer --version >nul 2>&1
 if %errorlevel% equ 0 (
-    echo Composer is already installed ✓
-    goto :install_deps
+    echo Composer already installed ✓
+    goto install_deps
 )
 
-:: Install Composer
 echo.
-echo Composer not found. Installing now...
-echo Downloading Composer Setup...
+echo DOWNLOADING COMPOSER...
 powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object System.Net.WebClient).DownloadFile('https://getcomposer.org/installer', 'composer-setup.php')"
 
 if not exist composer-setup.php (
@@ -78,59 +80,58 @@ if not exist composer-setup.php (
     exit /b
 )
 
-:: Run installation
-echo Installing Composer...
+echo.
+echo INSTALLING COMPOSER...
 %PHP_CMD% composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer
 
-:: Verify installation
-timeout /t 3 >nul
+:: Verify
+timeout /t 2 >nul
 composer --version >nul 2>&1
 if %errorlevel% neq 0 (
-    if %IS_ADMIN% equ 0 (
-        echo.
-        echo ADMIN REQUIRED: Right-click and "Run as administrator"
-    ) else (
-        echo.
-        echo INSTALL FAILED: Try manual install from:
-        echo https://getcomposer.org/download
-    )
+    echo.
+    echo COMPOSER INSTALL FAILED
+    echo.
+    echo SOLUTION: Right-click this file and select
+    echo "Run as administrator", then try again
+    del composer-setup.php 2>nul
     pause
     exit /b
 )
 
-:: Cleanup
-del composer-setup.php >nul 2>&1
-del composer-setup.php.pubkey >nul 2>&1
-
+del composer-setup.php 2>nul
 echo Composer installed successfully ✓
 
+:: =============================================
+:: 3. VENDOR SETUP (with retry logic)
+:: =============================================
 :install_deps
 echo.
-echo [STEP 3/3] Installing dependencies...
-echo This may take several minutes...
+echo [3/3] INSTALLING DEPENDENCIES...
+echo This may take 2-5 minutes...
 echo.
+
 composer install --no-interaction --no-progress
 if %errorlevel% neq 0 (
     echo.
-    echo ERROR: Dependency installation failed!
-    echo Try these solutions:
-    echo 1. Check internet connection
-    echo 2. Delete vendor folder and retry
-    echo 3. Run 'composer install' manually
-    pause
-    exit /b
+    echo WARNING: First attempt failed
+    echo Retrying with clearer cache...
+    echo.
+    composer clear-cache
+    composer install --no-interaction --no-progress
 )
 
-echo.
-echo Verifying vendor folder...
-if exist "vendor\autoload.php" (
-    echo SUCCESS! Vendor folder created ✓
-    echo Your setup is complete.
+if exist "..\vendor\autoload.php" (
+    echo.
+    echo SUCCESS! Setup complete ✓
+    echo Vendor folder created at: %cd%\..\vendor
 ) else (
-    echo WARNING: Vendor folder missing!
-    echo Try running 'composer install' manually
+    echo.
+    echo ERROR: Vendor folder not created
+    echo Try manual steps:
+    echo 1. Open CMD as admin
+    echo 2. Run: composer install
 )
 
 echo.
-echo PROCESS COMPLETE
-pause
+echo FINISHED. Press any key to close...
+pause >nul
