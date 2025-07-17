@@ -1,16 +1,27 @@
-# **BeFit AI - Database Setup Guide**
+# **BeFit AI**
 
-This guide explains how to set up the `befit_db` database for the BeFit AI project using XAMPP.  
-Follow these steps to ensure your local environment matches the latest database structure.
+This guide explains how to set up both the PHP dependencies and `befit_db` database for the BeFit AI project using XAMPP.  
+Follow these steps to prepare your complete local development environment.
 
 ---
 
 ## **Prerequisites**
 1. **XAMPP Installed**  
-2. **Project Files**  
-   - Clone/download the BeFit AI repository.  
+   - Must include Apache and MySQL  
+   - [Download XAMPP](https://www.apachefriends.org/download.html)  
 
----
+2. **Project Setup**  
+   ```bash
+   git clone https://github.com/your-repo/BeFit-AI.git
+   cd BeFit-AI
+
+## 🚀 Automatic Dependency Setup
+
+Run this **one-click installer** to set up all PHP dependencies (including Composer if needed):
+
+```bash
+cd scripts
+composer-setup.bat
 
 ## **1. First-Time Setup**  
 ### **Option A: Automated Setup (Recommended)**  
@@ -71,12 +82,5 @@ If you modify the database (e.g., add tables), update the shared `dump.sql` for 
 |---------------|-----------------------------------------------------------------------|----------------------------|  
 | **User**      | Set up the database for the first time                                | `setup.bat`                |  
 | **Developer** | Publish database changes (e.g., new tables)                          | `publish.bat` → Commit `dump.sql` |  
-
----
-
-## **Support**  
-For issues, contact:  
-- **Email**: your-email@example.com  
-- **GitHub Issues**: [https://github.com/your-repo/issues](https://github.com/your-repo/issues)  
 
 ---
