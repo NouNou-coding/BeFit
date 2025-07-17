@@ -66,13 +66,17 @@ if exist composer.phar (
 )
 
 :: Verify installation
+timeout /t 3 >nul
 composer --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo ERROR: Composer installation failed
-    echo Please install manually from: https://getcomposer.org/download
+    echo.
+    echo IMPORTANT: Composer installation may have failed
+    echo Please try right-clicking this file and selecting
+    echo "Run as administrator", then try again
     pause
     exit /b
 )
+
 
 echo Composer installed successfully ✓
 
