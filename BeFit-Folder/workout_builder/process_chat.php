@@ -1,4 +1,29 @@
 <?php
+
+// Auto-repair vendor dependencies on Windows
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+    $vendorDir = __DIR__.'/../../vendor';
+    $autoloader = $vendorDir.'/autoload.php';
+    
+    // Check if autoloader is broken
+    if (file_exists($autoloader) && !@include($autoloader)) {
+        // Regenerate autoloader
+        $composerLock = __DIR__.'/../../composer.lock';
+        if (file_exists($composerLock)) {
+            // Backup original vendor
+            rename($vendorDir, $vendorDir.'_backup_'.time());
+            
+            // Reinstall dependencies
+            exec('cd "'.__DIR__.'/../.." && composer install --no-dev --no-interaction --quiet');
+            
+            // Verify new autoloader works
+            if (!file_exists($autoloader) || !@include($autoloader)) {
+                die(json_encode(['error' => 'Failed to repair dependencies automatically']));
+            }
+        }
+    }
+}
+
 require_once __DIR__ . '/../auth/config.php';
 require_once __DIR__ . '/includes/gemini_client.php';
 

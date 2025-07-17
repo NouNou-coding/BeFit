@@ -4,6 +4,12 @@ This guide explains how to set up both the PHP dependencies and `befit_db` datab
 Follow these steps to prepare your complete local development environment.
 
 ---
+## Windows Deployment Notes
+If experiencing autoloader issues:
+
+```bash
+rm -rf vendor/composer
+composer dump-autoload
 
 ## **Prerequisites**
 1. **XAMPP Installed**  
