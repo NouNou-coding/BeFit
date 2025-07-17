@@ -10,21 +10,53 @@ Follow these steps to prepare your complete local development environment.
    - Must include Apache and MySQL  
    - [Download XAMPP](https://www.apachefriends.org/download.html)  
 
+### **PHP Version Requirements**
+BeFit AI requires **PHP 8.2 or higher**. Verify your version:
+```bash
+php -v
+
+   - **How to Upgrade PHP**:  
+     - Windows (XAMPP): Download the latest PHP 8.2+ binaries and replace the `php` folder in your XAMPP installation.  
+       [Download PHP 8.2+ for Windows](https://windows.php.net/download/)  
+     - Linux (Debian/Ubuntu):  
+       ```bash
+       sudo apt install php8.2
+       ```
+     - macOS (Homebrew):  
+       ```bash
+       brew install php@8.2
+       ```
+
+2. **XAMPP Installed**  
+   - Must include Apache and MySQL.  
+   - [Download XAMPP](https://www.apachefriends.org/download.html)  
+
+3. **Project Setup**  
+   ```bash
+   git clone https://github.com/your-repo/BeFit-AI.git
+   cd BeFit-AI
+   ```
+
+---
+
+### **Troubleshooting: PHP Version Issues**
+- **Error: "Unsupported PHP Version"**  
+  - Ensure you’re running **PHP 8.2 or later**.  
+  - If using XAMPP:  
+    1. Download the correct PHP version.  
+    2. Replace the `php` folder in `xampp/` directory.  
+    3. Restart Apache in XAMPP.  
+  - Verify the change:  
+    ```bash
+    php -v  # Should show 8.2.x or higher.
+    ```
+
+---
+
 2. **Project Setup**  
    ```bash
    git clone https://github.com/your-repo/BeFit-AI.git
    cd BeFit-AI
-
-## 🚀 Automatic Dependency Setup
-
-## One-Click Setup  
-1. Double-click `scripts/composer-setup.bat`  
-2. Follow the on-screen instructions  
-3. If asked, run as administrator  
-
-Troubleshooting:  
-- If PHP isn't found: Install [XAMPP](https://www.apachefriends.org)  
-- If Composer fails: Right-click → "Run as administrator"  
 
 ## **1. First-Time Setup**  
 ### **Option A: Automated Setup (Recommended)**  

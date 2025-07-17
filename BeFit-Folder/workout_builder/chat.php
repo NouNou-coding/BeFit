@@ -172,7 +172,7 @@ if (empty($workoutPlan)) {
             } catch (error) {
                 console.error('Error:', error);
                 chatBox.removeChild(loadingDiv);
-                addAiMessage("Sorry, I'm having trouble responding right now. Please try again later.");
+                addAiMessage("Error: " + (error.message || "Please check the console for details"));
             }
         });
         
