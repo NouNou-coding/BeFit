@@ -14,6 +14,16 @@ IF %ERRORLEVEL% NEQ 0 (
     exit /b
 )
 
+:: Check if composer.json exists
+if not exist "composer.json" (
+    echo.
+    echo [ERROR] composer.json not found in this folder:
+    echo %CD%
+    echo Please run this script from your project root folder.
+    pause
+    exit /b
+)
+
 :: Run composer install
 echo.
 echo Installing dependencies with Composer...
