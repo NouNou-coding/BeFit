@@ -17,17 +17,14 @@ Follow these steps to prepare your complete local development environment.
 
 ## 🚀 Automatic Dependency Setup
 
-Run this **one-click installer** to set up all PHP dependencies (including Composer if needed):
-Nota Bene: RUN AS ADMINISTRATOR!
-```bash
-cd scripts
-composer-setup.bat
+## One-Click Setup  
+1. Double-click `scripts/composer-setup.bat`  
+2. Follow the on-screen instructions  
+3. If asked, run as administrator  
 
-### Composer Installation Issues
-If you see PHP-related errors:
-1. Verify XAMPP is installed at `C:\xampp`
-2. Check `C:\xampp\php\php.exe` exists
-3. Manually add PHP to your PATH if needed
+Troubleshooting:  
+- If PHP isn't found: Install [XAMPP](https://www.apachefriends.org)  
+- If Composer fails: Right-click → "Run as administrator"  
 
 ## **1. First-Time Setup**  
 ### **Option A: Automated Setup (Recommended)**  
