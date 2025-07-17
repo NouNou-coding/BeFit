@@ -1,4 +1,9 @@
 @echo off
+if not exist "C:\" (
+    echo ERROR: This script requires Windows
+    pause
+    exit /b
+)
 :: BeFit AI - Smart Dependency Installer
 :: Automatically detects PHP and installs dependencies
 
