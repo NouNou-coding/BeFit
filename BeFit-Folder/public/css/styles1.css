@@ -1,10 +1,11 @@
 :root {
     /* Core Colors */
-    --primary: #0066FF;       /* Main brand blue */
-    --primary-dark: #0052CC;  /* Darker blue */
+    --primary: #2563eb; /* Slightly deeper blue */
+    --primary-dark: #1d4ed8;
     --dark: #1A1A1A;         /* Dark text color */
     --light: #F8F9FA;        /* Light background */
     --gray: #6C757D;         /* Subtitle/text gray */
+    --gray-dark: #495057;
     
     /* Spacing */
     --section-padding: 8rem;

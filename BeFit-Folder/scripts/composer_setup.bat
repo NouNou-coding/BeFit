@@ -1,6 +1,6 @@
 @echo off
-:: Batch file for automatic Composer and dependency setup
-:: Final fixed version - handles all cases correctly
+:: BeFit AI - Smart Dependency Installer
+:: Automatically detects PHP and installs dependencies
 
 echo ********************************************
 echo  BeFit AI - Automatic Dependency Installer
@@ -17,9 +17,43 @@ pause
 set IS_ADMIN=0
 net session >nul 2>&1 && set IS_ADMIN=1
 
+:: Smart PHP Detection
+echo.
+echo [STEP 1/3] Checking Environment...
+
+:: Check if PHP is in PATH
+where php >nul 2>&1
+if %errorlevel% equ 0 (
+    set PHP_CMD=php
+    goto :check_composer
+)
+
+:: Check common PHP locations
+set PHP_PATHS="
+C:\xampp\php\php.exe
+C:\laragon\bin\php\php.exe
+C:\wamp64\bin\php\php.exe
+C:\Program Files\PHP\php.exe
+"
+
+for %%P in (%PHP_PATHS%) do (
+    if exist "%%~P" (
+        set PHP_CMD="%%~P"
+        goto :check_composer
+    )
+)
+
+echo ERROR: PHP not found! Please install either:
+echo 1. XAMPP (https://www.apachefriends.org)
+echo 2. Laragon (https://laragon.org)
+echo 3. Or standalone PHP (https://windows.php.net/download/)
+pause
+exit /b
+
+:check_composer
 :: Check Composer
 echo.
-echo [STEP 1/3] Checking Composer...
+echo [STEP 2/3] Checking Composer...
 composer --version >nul 2>&1
 if %errorlevel% equ 0 (
     echo Composer is already installed ✓
@@ -39,18 +73,9 @@ if not exist composer-setup.php (
     exit /b
 )
 
-:: Set PHP path (XAMPP default)
-set PHP_PATH=C:\xampp\php\php.exe
-if not exist "%PHP_PATH%" (
-    echo ERROR: PHP not found at %PHP_PATH%
-    echo Install XAMPP or update PHP path in script
-    pause
-    exit /b
-)
-
 :: Run installation
 echo Installing Composer...
-"%PHP_PATH%" composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer
+%PHP_CMD% composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer
 
 :: Verify installation
 timeout /t 3 >nul
@@ -76,7 +101,7 @@ echo Composer installed successfully ✓
 
 :install_deps
 echo.
-echo [STEP 2/3] Installing dependencies...
+echo [STEP 3/3] Installing dependencies...
 echo This may take several minutes...
 echo.
 composer install --no-interaction --no-progress
@@ -92,7 +117,7 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-echo [STEP 3/3] Verifying vendor folder...
+echo Verifying vendor folder...
 if exist "vendor\autoload.php" (
     echo SUCCESS! Vendor folder created ✓
     echo Your setup is complete.
