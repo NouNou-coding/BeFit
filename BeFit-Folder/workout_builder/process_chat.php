@@ -1,13 +1,13 @@
 <?php
 
 // Try normal autoload first
-if (!@include(__DIR__.'/../../vendor/autoload.php')) {
+if (!@include(__DIR__.'../vendor/autoload.php')) {
     // If fails, run repair
-    require_once __DIR__.'/../../fix_autoloader.php';
+    require_once __DIR__.'../fix_autoloader.php';
     repairAutoloader();
     
     // Try again
-    if (!@include(__DIR__.'/../../vendor/autoload.php')) {
+    if (!@include(__DIR__.'../vendor/autoload.php')) {
         die(json_encode(['error' => 'System maintenance required']));
     }
 }
