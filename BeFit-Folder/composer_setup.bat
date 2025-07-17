@@ -32,9 +32,8 @@ composer install
 IF %ERRORLEVEL% EQU 0 (
     echo.
     echo [SUCCESS] All Composer dependencies installed successfully!
-) ELSE (
     echo.
-    echo [ERROR] composer install encountered an issue.
-)
-
-pause
+    echo This window will close in 10 seconds. Press any key to close it now.
+    timeout /t 10 >nul
+) ELSE (
+    echo
