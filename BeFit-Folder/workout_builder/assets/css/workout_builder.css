@@ -907,3 +907,126 @@ textarea {
         max-width: 320px;
     }
 }
+
+/* Ultra-Premium Supplement Card */
+.supplement-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 300px;
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.supplement-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.supplement-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain; /* Changed from cover to contain */
+    object-position: center;
+    padding: 20px;
+    background: #f9f9f9;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.supplement-content {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Premium Typography */
+.supplement-brand {
+    font-size: 0.9rem;
+    color: #777;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.supplement-name {
+    font-size: 1.6rem;
+    color: #111;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    font-family: 'Helvetica Neue', sans-serif;
+}
+
+.supplement-subtitle {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.5;
+    margin: 4px 0;
+    font-weight: 400;
+}
+
+.supplement-price {
+    font-size: 1.5rem;
+    color: #2563eb;
+    font-weight: 700;
+    margin: 8px 0;
+    letter-spacing: -0.5px;
+}
+
+.supplement-description {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 8px 0 16px;
+}
+
+/* Perfectly Centered Add to Cart */
+.supplement-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.buy-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #2563eb;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+    border: none;
+    cursor: pointer;
+}
+
+.buy-button:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.buy-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Premium Details */
+.supplement-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #f59e0b, #ef4444);
+}

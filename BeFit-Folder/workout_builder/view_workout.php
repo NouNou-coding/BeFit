@@ -176,12 +176,40 @@ $recommendedSupplements = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="supplement-grid">
                 <?php foreach ($recommendedSupplements as $supplement): ?>
                 <div class="supplement-card">
-                    <img src="/BeFit-Folder/public/<?= htmlspecialchars($supplement['image_url']) ?>" alt="<?= htmlspecialchars($supplement['name']) ?>">
-                    <h3><?= htmlspecialchars($supplement['name']) ?></h3>
-                    <p class="price">$<?= number_format($supplement['price'], 2) ?></p>
-                    <p class="reason"><?= htmlspecialchars($supplement['reason']) ?></p>
-                    <a href="/BeFit-Folder/ecommerce/shop.php?add_to_cart=<?= $supplement['product_id'] ?>" class="buy-button">Add to Cart</a>
+    <img src="/BeFit-Folder/public/<?= htmlspecialchars($supplement['image_url']) ?>" alt="<?= htmlspecialchars($supplement['name']) ?>">
+    <div class="supplement-content">
+        <?php 
+        // Extract brand and product name if formatted as "Brand - Product"
+        $nameParts = explode(' - ', htmlspecialchars($supplement['name']), 2);
+        $brand = count($nameParts) > 1 ? trim($nameParts[0]) : '';
+        $productName = count($nameParts) > 1 ? trim($nameParts[1]) : htmlspecialchars($supplement['name']);
+        ?>
+        
+        <?php if($brand): ?>
+            <p class="supplement-brand"><?= strtoupper($brand) ?></p>
+        <?php endif; ?>
+        
+        <h3 class="supplement-name"><?= $productName ?></h3>
+        
+        <?php if(!empty($supplement['description'])): ?>
+            <p class="supplement-subtitle"><?= htmlspecialchars($supplement['description']) ?></p>
+        <?php endif; ?>
+        
+        <p class="supplement-price">$<?= number_format($supplement['price'], 2) ?></p>
+        <p class="supplement-description"><?= htmlspecialchars($supplement['reason']) ?></p>
+        
+        <div class="supplement-actions">
+                    <a href="/BeFit-Folder/ecommerce/shop.php?add_to_cart=<?= $supplement['product_id'] ?>" class="buy-button">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                        Add to Cart
+                    </a>
                 </div>
+            </div>
+        </div>
                 <?php endforeach; ?>
             </div>
         </div>
