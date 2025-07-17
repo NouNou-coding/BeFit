@@ -42,28 +42,28 @@ echo Installing Composer...
 echo NOTE: If no prompt appears, right-click and "Run as Administrator"
 echo.
 
+:: Set PHP path explicitly for XAMPP
+set PHP_PATH=C:\xampp\php\php.exe
+if not exist "%PHP_PATH%" (
+    echo ERROR: PHP not found at %PHP_PATH%
+    echo Please ensure XAMPP is installed correctly
+    pause
+    exit /b
+)
+
 :: Try silent install first
-php composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer >nul 2>&1
+"%PHP_PATH%" composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer >nul 2>&1
 
 :: If silent install failed, request admin rights
 composer --version >nul 2>&1
 if %errorlevel% neq 0 (
     echo Requesting admin privileges...
-    powershell -Command "Start-Process 'php' -ArgumentList 'composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer' -Verb RunAs -WindowStyle Hidden -Wait"
+    powershell -Command "Start-Process '%PHP_PATH%' -ArgumentList 'composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer' -Verb RunAs -WindowStyle Hidden -Wait"
 )
 
 :: Cleanup
 del composer-setup.php >nul 2>&1
 del composer-setup.php.pubkey >nul 2>&1
-
-:: Move composer to system path
-if exist composer.phar (
-    echo Moving Composer to system location...
-    mkdir "%SystemDrive%\ProgramData\ComposerSetup" >nul 2>&1
-    copy composer.phar "%SystemDrive%\ProgramData\ComposerSetup\composer.bat" >nul 2>&1
-    setx /M PATH "%PATH%;%SystemDrive%\ProgramData\ComposerSetup" >nul 2>&1
-    del composer.phar >nul 2>&1
-)
 
 :: Verify installation
 timeout /t 3 >nul
@@ -71,12 +71,13 @@ composer --version >nul 2>&1
 if %errorlevel% neq 0 (
     echo.
     echo IMPORTANT: Composer installation may have failed
-    echo Please try right-clicking this file and selecting
-    echo "Run as administrator", then try again
+    echo Solutions:
+    echo 1. Right-click this file and select "Run as administrator"
+    echo 2. Install Composer manually from: https://getcomposer.org/download
+    echo 3. Ensure XAMPP PHP is installed at C:\xampp\php
     pause
     exit /b
 )
-
 
 echo Composer installed successfully ✓
 

@@ -23,6 +23,12 @@ Nota Bene: RUN AS ADMINISTRATOR!
 cd scripts
 composer-setup.bat
 
+### Composer Installation Issues
+If you see PHP-related errors:
+1. Verify XAMPP is installed at `C:\xampp`
+2. Check `C:\xampp\php\php.exe` exists
+3. Manually add PHP to your PATH if needed
+
 ## **1. First-Time Setup**  
 ### **Option A: Automated Setup (Recommended)**  
 Run the `setup.bat` script to automatically create and populate the database:  
