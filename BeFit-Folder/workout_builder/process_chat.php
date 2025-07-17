@@ -1,5 +1,4 @@
 <?php
-ob_start();
 require_once __DIR__ . '/../auth/config.php';
 require_once __DIR__ . '/includes/gemini_client.php';
 
@@ -53,9 +52,5 @@ try {
     ]);
     exit;
 }
-$output = ob_get_clean();
-if (!empty($output)) {
-    echo json_encode(['error' => 'Unexpected output', 'details' => $output]);
-    exit;
-}
+
 ?>
