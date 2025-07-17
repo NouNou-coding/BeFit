@@ -18,7 +18,7 @@ Follow these steps to prepare your complete local development environment.
 ## 🚀 Automatic Dependency Setup
 
 Run this **one-click installer** to set up all PHP dependencies (including Composer if needed):
-
+Nota Bene: RUN AS ADMINISTRATOR!
 ```bash
 cd scripts
 composer-setup.bat
