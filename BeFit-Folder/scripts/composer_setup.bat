@@ -1,6 +1,6 @@
 @echo off
 :: Batch file for automatic Composer installation and dependency setup
-:: Requires admin privileges for Composer installation
+:: Version 2.1 - Fixed admin rights handling
 
 echo ********************************************
 echo  BeFit AI - Automatic Dependency Installer
@@ -11,9 +11,12 @@ echo 1. Install Composer (if missing)
 echo 2. Install all PHP dependencies
 echo 3. Verify the vendor folder
 echo.
-echo Note: Composer installation requires admin rights.
-echo.
 pause
+
+:: Check for admin rights first
+set IS_ADMIN=0
+net session >nul 2>&1
+if %errorlevel% equ 0 (set IS_ADMIN=1)
 
 :: Check if composer is available
 echo.
@@ -38,10 +41,6 @@ if not exist composer-setup.php (
     exit /b
 )
 
-echo Installing Composer...
-echo NOTE: If no prompt appears, right-click and "Run as Administrator"
-echo.
-
 :: Set PHP path explicitly for XAMPP
 set PHP_PATH=C:\xampp\php\php.exe
 if not exist "%PHP_PATH%" (
@@ -51,14 +50,17 @@ if not exist "%PHP_PATH%" (
     exit /b
 )
 
-:: Try silent install first
-"%PHP_PATH%" composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer >nul 2>&1
-
-:: If silent install failed, request admin rights
-composer --version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo Requesting admin privileges...
-    powershell -Command "Start-Process '%PHP_PATH%' -ArgumentList 'composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer' -Verb RunAs -WindowStyle Hidden -Wait"
+:: Install based on admin rights
+if %IS_ADMIN% equ 1 (
+    echo Installing Composer with admin rights...
+    "%PHP_PATH%" composer-setup.php --install-dir=%SystemDrive%\Windows --filename=composer
+) else (
+    echo.
+    echo WARNING: Admin rights required for Composer installation
+    echo Please right-click this script and select "Run as administrator"
+    pause
+    del composer-setup.php
+    exit /b
 )
 
 :: Cleanup
@@ -66,15 +68,14 @@ del composer-setup.php >nul 2>&1
 del composer-setup.php.pubkey >nul 2>&1
 
 :: Verify installation
-timeout /t 3 >nul
+timeout /t 2 >nul
 composer --version >nul 2>&1
 if %errorlevel% neq 0 (
     echo.
-    echo IMPORTANT: Composer installation may have failed
-    echo Solutions:
-    echo 1. Right-click this file and select "Run as administrator"
-    echo 2. Install Composer manually from: https://getcomposer.org/download
-    echo 3. Ensure XAMPP PHP is installed at C:\xampp\php
+    echo ERROR: Composer installation failed
+    echo Please try:
+    echo 1. Right-click and "Run as administrator"
+    echo 2. Install manually from: https://getcomposer.org/download
     pause
     exit /b
 )

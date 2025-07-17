@@ -625,3 +625,92 @@ textarea {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
+
+.plan-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 2.5rem 0;
+}
+
+.plan-actions .cta-button,
+.plan-actions .secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    padding: 0.9rem 1.8rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-align: center;
+    min-width: 220px;
+}
+
+.plan-actions .cta-button {
+    background: var(--primary);
+    color: white;
+    border: 2px solid var(--primary);
+}
+
+.plan-actions .cta-button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.plan-actions .secondary-button {
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.plan-actions .secondary-button:hover {
+    background: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.plan-actions .fas {
+    font-size: 1.1rem;
+}
+
+/* Enhanced Section Heading */
+.weekly-plan h2 {
+    position: relative;
+    font-size: 2rem;
+    color: var(--primary-dark);
+    margin: 3rem 0 1.5rem;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.weekly-plan h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+    .weekly-plan h2 {
+        font-size: 1.8rem;
+        margin: 2.5rem 0 1.25rem;
+    }
+}
+
+.weekly-plan h2 {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.plan-actions .cta-button:active,
+.plan-actions .secondary-button:active {
+    transform: translateY(1px);
+    box-shadow: none;
+}
