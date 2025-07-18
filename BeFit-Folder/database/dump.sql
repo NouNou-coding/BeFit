@@ -39,7 +39,6 @@ CREATE TABLE `order_items` (
 
 LOCK TABLES `order_items` WRITE;
 /*!40000 ALTER TABLE `order_items` DISABLE KEYS */;
-INSERT INTO `order_items` VALUES (3,2,1);
 /*!40000 ALTER TABLE `order_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,7 +69,6 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (3,5,21.24,'completed','2025-07-14 11:08:41','2025-07-15 18:53:14');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -100,7 +98,6 @@ CREATE TABLE `password_resets` (
 
 LOCK TABLES `password_resets` WRITE;
 /*!40000 ALTER TABLE `password_resets` DISABLE KEYS */;
-INSERT INTO `password_resets` VALUES (1,5,'f64bd4af2e22b8af1827a1f1df7b7eec0c5b346af71897ab6ee1eda32fef5131','2025-07-15 21:59:36','2025-07-15 18:59:36'),(2,5,'7bee5e94f4bb945d8213b6f83f156b21e97c4c74a9c7dc40fde46138d0eead4d','2025-07-15 22:04:13','2025-07-15 19:04:13'),(3,5,'fbd812d53b399ea56a9acac643b97d2d1d246079255ef6351c45ea7bbf59b665','2025-07-15 22:04:14','2025-07-15 19:04:14'),(4,5,'445761729ae94d03ee4603bdcd31c4861f626b182f5589f3af1e0b5e43d9fb1c','2025-07-15 22:14:31','2025-07-15 19:14:31'),(5,5,'58a8fbaac17d62765e7f9ec9b4f1506cb66ebe1faab70d6c47f1353ca3763518','2025-07-15 22:25:34','2025-07-15 19:25:34'),(6,5,'7f114cd229a0bacb11ed22425856dbc22f4534fd8a970b035d032ec2302bba6c','2025-07-15 22:29:19','2025-07-15 19:29:19'),(8,5,'e1d3e7677a771cd3ff4d1490ef8b5272abacb530a45b022a0fd731ce9d0c83fe','2025-07-16 00:00:43','2025-07-15 20:00:43'),(9,5,'b718a7e46a90617764924297ed58f20892e298ec32c50b4b754595f6c64edadb','2025-07-16 00:06:10','2025-07-15 20:06:10');
 /*!40000 ALTER TABLE `password_resets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +149,7 @@ CREATE TABLE `recommended_supplements` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `recommended_supplements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `recommended_supplements_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -161,6 +158,7 @@ CREATE TABLE `recommended_supplements` (
 
 LOCK TABLES `recommended_supplements` WRITE;
 /*!40000 ALTER TABLE `recommended_supplements` DISABLE KEYS */;
+INSERT INTO `recommended_supplements` VALUES (27,10,6,'May help increase muscle mass and strength gains, particularly beneficial for beginners.','2025-07-17 18:26:41',0);
 /*!40000 ALTER TABLE `recommended_supplements` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,7 +179,7 @@ CREATE TABLE `user_workout_history` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `user_workout_history_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,6 +188,7 @@ CREATE TABLE `user_workout_history` (
 
 LOCK TABLES `user_workout_history` WRITE;
 /*!40000 ALTER TABLE `user_workout_history` DISABLE KEYS */;
+INSERT INTO `user_workout_history` VALUES (21,10,'2025-07-17','{\"weekly_plan\":[{\"day\":\"Monday\",\"focus\":\"Upper Body (Push)\",\"exercises\":[{\"name\":\"Dumbbell Bench Press\",\"sets\":3,\"reps\":8,\"rest\":\"60-90 seconds\",\"notes\":\"Focus on controlled movement, lowering the dumbbells slowly. If 8 reps are too easy, increase the weight slightly next week.\"},{\"name\":\"Dumbbell Shoulder Press\",\"sets\":3,\"reps\":8,\"rest\":\"60-90 seconds\",\"notes\":\"Maintain good posture, avoid arching your back. Start with lighter dumbbells if needed.\"},{\"name\":\"Dumbbell Flyes\",\"sets\":3,\"reps\":10,\"rest\":\"60 seconds\",\"notes\":\"Keep a slight bend in your elbows. Focus on squeezing your chest muscles at the top of the movement.\"},{\"name\":\"Resistance Band Triceps Pushdowns\",\"sets\":3,\"reps\":12,\"rest\":\"60 seconds\",\"notes\":\"Keep your elbows close to your body. Control the resistance as you extend your arms.\"}]},{\"day\":\"Wednesday\",\"focus\":\"Lower Body\",\"exercises\":[{\"name\":\"Dumbbell Squats\",\"sets\":3,\"reps\":10,\"rest\":\"60-90 seconds\",\"notes\":\"Focus on proper form â€“ chest up, back straight, squat down as if sitting in a chair.  Consider bodyweight squats until form is solid.\"},{\"name\":\"Dumbbell Lunges\",\"sets\":3,\"reps\":10,\"rest\":\"60-90 seconds\",\"notes\":\"Alternate legs each set. Keep your front knee behind your toes. Start with bodyweight only if needed.\"},{\"name\":\"Resistance Band Glute Bridges\",\"sets\":3,\"reps\":15,\"rest\":\"60 seconds\",\"notes\":\"Place the resistance band around your thighs, just above your knees. Squeeze your glutes at the top of the movement.\"},{\"name\":\"Standing Calf Raises (Dumbbells optional)\",\"sets\":3,\"reps\":15,\"rest\":\"60 seconds\",\"notes\":\"Can be done with or without dumbbells. Focus on a full range of motion.\"}]},{\"day\":\"Friday\",\"focus\":\"Upper Body (Pull)\",\"exercises\":[{\"name\":\"Dumbbell Rows\",\"sets\":3,\"reps\":8,\"rest\":\"60-90 seconds\",\"notes\":\"Maintain a flat back, pull the dumbbell towards your chest. Keep your elbow close to your body.\"},{\"name\":\"Resistance Band Pull-Aparts\",\"sets\":3,\"reps\":15,\"rest\":\"60 seconds\",\"notes\":\"Focus on squeezing your shoulder blades together. Use a band with appropriate resistance.\"},{\"name\":\"Dumbbell Bicep Curls\",\"sets\":3,\"reps\":10,\"rest\":\"60 seconds\",\"notes\":\"Keep your elbows close to your body. Avoid using momentum to swing the dumbbells.\"},{\"name\":\"Dumbbell Hammer Curls\",\"sets\":3,\"reps\":10,\"rest\":\"60 seconds\",\"notes\":\"Similar to bicep curls, but your palms face each other throughout the movement.\"}]}],\"supplement_recommendations\":[{\"name\":\"Creatine Monohydrate\",\"reason\":\"May help increase muscle mass and strength gains, particularly beneficial for beginners.\"},{\"name\":\"Whey Protein Powder\",\"reason\":\"Can help meet daily protein needs, supporting muscle recovery and growth, especially if dietary protein intake is insufficient. Consume post-workout or between meals.\"}],\"general_advice\":\"Consistency is key! Stick to this plan for at least 4-6 weeks and track your progress. Focus on proper form over lifting heavy weights. Gradually increase the weight or resistance as you get stronger. Ensure you\'re eating a balanced diet with enough protein (around 0.8-1 gram per pound of bodyweight). Get enough sleep (7-9 hours) for optimal recovery. Listen to your body and take rest days when needed. Don\'t be afraid to adjust the plan as you progress and discover what works best for you. If you have any pre-existing medical conditions, consult with a doctor or qualified healthcare professional before starting any new exercise program.\"}',0,'Workout plan generated');
 /*!40000 ALTER TABLE `user_workout_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -220,7 +219,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'anthony.imad@isae.edu.lb','$2y$10$Q65vpgrmm/TrWWGMoVXfb.DbpRnoT6g/6DdpzVXHaORuxTqQ9E6Yy','anthony','2025-07-12 00:49:50',0,NULL,0),(5,'yorgobekaii.0@gmail.com','$2y$10$9xLiAlnYtvVFeml06aOhJu4Hu6rCMEU6/A3jdkRO0ICtSiR5H00fi','Yorgo','2025-07-14 11:06:39',1,NULL,0),(10,'yorgobekaiiprofessional@gmail.com','$2y$10$YtDfn.Sh3tzCWa6iOCfWOOb0AOU9Q3yOiT11uBTwTuLWmuuBmuwjq','Yorgo','2025-07-16 22:00:10',1,NULL,0);
+INSERT INTO `users` VALUES (1,'anthony.imad@isae.edu.lb','$2y$10$Q65vpgrmm/TrWWGMoVXfb.DbpRnoT6g/6DdpzVXHaORuxTqQ9E6Yy','anthony','2025-07-12 00:49:50',0,NULL,0),(10,'yorgobekaiiprofessional@gmail.com','$2y$10$YtDfn.Sh3tzCWa6iOCfWOOb0AOU9Q3yOiT11uBTwTuLWmuuBmuwjq','Yorgo','2025-07-16 22:00:10',1,NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,7 +247,7 @@ CREATE TABLE `workout_plans` (
   `preferences` text DEFAULT NULL,
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -257,7 +256,7 @@ CREATE TABLE `workout_plans` (
 
 LOCK TABLES `workout_plans` WRITE;
 /*!40000 ALTER TABLE `workout_plans` DISABLE KEYS */;
-INSERT INTO `workout_plans` VALUES (1,5,45.00,170,54,'build_muscle',3,'dumbbells,resistance_bands',NULL,'2025-07-15 23:38:51','beginner','male','','','2025-07-16 16:58:08');
+INSERT INTO `workout_plans` VALUES (4,10,54.00,174,18,'build_muscle',3,'dumbbells,resistance_bands','{\"weekly_plan\":[{\"day\":\"Monday\",\"focus\":\"Upper Body (Push)\",\"exercises\":[{\"name\":\"Dumbbell Bench Press\",\"sets\":3,\"reps\":8,\"rest\":\"60-90 seconds\",\"notes\":\"Focus on controlled movement, lowering the dumbbells slowly. If 8 reps are too easy, increase the weight slightly next week.\"},{\"name\":\"Dumbbell Shoulder Press\",\"sets\":3,\"reps\":8,\"rest\":\"60-90 seconds\",\"notes\":\"Maintain good posture, avoid arching your back. Start with lighter dumbbells if needed.\"},{\"name\":\"Dumbbell Flyes\",\"sets\":3,\"reps\":10,\"rest\":\"60 seconds\",\"notes\":\"Keep a slight bend in your elbows. Focus on squeezing your chest muscles at the top of the movement.\"},{\"name\":\"Resistance Band Triceps Pushdowns\",\"sets\":3,\"reps\":12,\"rest\":\"60 seconds\",\"notes\":\"Keep your elbows close to your body. Control the resistance as you extend your arms.\"}]},{\"day\":\"Wednesday\",\"focus\":\"Lower Body\",\"exercises\":[{\"name\":\"Dumbbell Squats\",\"sets\":3,\"reps\":10,\"rest\":\"60-90 seconds\",\"notes\":\"Focus on proper form â€“ chest up, back straight, squat down as if sitting in a chair.  Consider bodyweight squats until form is solid.\"},{\"name\":\"Dumbbell Lunges\",\"sets\":3,\"reps\":10,\"rest\":\"60-90 seconds\",\"notes\":\"Alternate legs each set. Keep your front knee behind your toes. Start with bodyweight only if needed.\"},{\"name\":\"Resistance Band Glute Bridges\",\"sets\":3,\"reps\":15,\"rest\":\"60 seconds\",\"notes\":\"Place the resistance band around your thighs, just above your knees. Squeeze your glutes at the top of the movement.\"},{\"name\":\"Standing Calf Raises (Dumbbells optional)\",\"sets\":3,\"reps\":15,\"rest\":\"60 seconds\",\"notes\":\"Can be done with or without dumbbells. Focus on a full range of motion.\"}]},{\"day\":\"Friday\",\"focus\":\"Upper Body (Pull)\",\"exercises\":[{\"name\":\"Dumbbell Rows\",\"sets\":3,\"reps\":8,\"rest\":\"60-90 seconds\",\"notes\":\"Maintain a flat back, pull the dumbbell towards your chest. Keep your elbow close to your body.\"},{\"name\":\"Resistance Band Pull-Aparts\",\"sets\":3,\"reps\":15,\"rest\":\"60 seconds\",\"notes\":\"Focus on squeezing your shoulder blades together. Use a band with appropriate resistance.\"},{\"name\":\"Dumbbell Bicep Curls\",\"sets\":3,\"reps\":10,\"rest\":\"60 seconds\",\"notes\":\"Keep your elbows close to your body. Avoid using momentum to swing the dumbbells.\"},{\"name\":\"Dumbbell Hammer Curls\",\"sets\":3,\"reps\":10,\"rest\":\"60 seconds\",\"notes\":\"Similar to bicep curls, but your palms face each other throughout the movement.\"}]}],\"supplement_recommendations\":[{\"name\":\"Creatine Monohydrate\",\"reason\":\"May help increase muscle mass and strength gains, particularly beneficial for beginners.\"},{\"name\":\"Whey Protein Powder\",\"reason\":\"Can help meet daily protein needs, supporting muscle recovery and growth, especially if dietary protein intake is insufficient. Consume post-workout or between meals.\"}],\"general_advice\":\"Consistency is key! Stick to this plan for at least 4-6 weeks and track your progress. Focus on proper form over lifting heavy weights. Gradually increase the weight or resistance as you get stronger. Ensure you\'re eating a balanced diet with enough protein (around 0.8-1 gram per pound of bodyweight). Get enough sleep (7-9 hours) for optimal recovery. Listen to your body and take rest days when needed. Don\'t be afraid to adjust the plan as you progress and discover what works best for you. If you have any pre-existing medical conditions, consult with a doctor or qualified healthcare professional before starting any new exercise program.\"}','2025-07-17 18:26:30','beginner','male','','','2025-07-17 18:26:41');
 /*!40000 ALTER TABLE `workout_plans` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -270,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-17  1:01:51
+-- Dump completed on 2025-07-18  3:53:18
