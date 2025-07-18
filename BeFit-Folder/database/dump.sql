@@ -43,9 +43,7 @@ LOCK TABLES `order_items` WRITE;
 UNLOCK TABLES;
 
 --
---
--- Table structure for table "orders"
---
+-- Table structure for table `orders`
 --
 
 DROP TABLE IF EXISTS `orders`;
