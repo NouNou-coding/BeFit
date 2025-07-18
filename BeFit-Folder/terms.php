@@ -12,6 +12,8 @@ include __DIR__ . '/includes/header.php';
         </div>
     </section>
 
+// welcome section
+
     <div class="container">
         <div class="terms-container">
             <article class="terms-content">
