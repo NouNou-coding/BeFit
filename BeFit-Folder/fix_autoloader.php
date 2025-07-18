@@ -22,7 +22,7 @@ function repairAutoloader() {
     // 2. Regenerate autoloader
     $composerPhar = __DIR__.'/composer.phar';
     if (!file_exists($composerPhar)) {
-        file_put_contents($composerPhr, file_get_contents('https://getcomposer.org/composer-stable.phar'));
+        file_put_contents($composerPhar, file_get_contents('https://getcomposer.org/composer-stable.phar'));
     }
     
     exec('php '.escapeshellarg($composerPhar).' dump-autoload');
