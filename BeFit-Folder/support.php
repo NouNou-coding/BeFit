@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (sendSupportEmail(
     "befitcompany.contact@gmail.com",  // Your support email address
-    $_POST['email'],     // Customer's email form
+    $_POST['email'],     // Customer's email from form
     $_POST['name'],      // Customer's name from form
     $_POST['message']    // Customer's message from form
 )) {
