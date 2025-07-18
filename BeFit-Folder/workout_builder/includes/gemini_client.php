@@ -42,31 +42,37 @@ class GeminiWorkoutClient {
     }
 
     public function chatAboutWorkout(array $conversationHistory): array {
-        $promptText = "You are a professional fitness trainer. Continue this conversation about workout plans:\n\n";
-        foreach ($conversationHistory as $message) {
-            $promptText .= "{$message['role']}: {$message['content']}\n";
-        }
-
-        try {
-            $textPart = new TextPart($promptText, 'text/plain');
-            $content = new Content([$textPart], Role::User);
-            $request = new GenerateContentRequest($this->model, [$content]);
-
-            $response = $this->client->generateContent($request);
-
-            $responseText = '';
-            foreach ($response->candidates as $candidate) {
-                if (isset($candidate->content->parts[0]->text)) {
-                    $responseText .= $candidate->content->parts[0]->text;
-                }
-            }
-
-            return ['response' => $responseText];
-        } catch (Exception $e) {
-            error_log("Gemini Chat Error: " . $e->getMessage());
-            return ['error' => 'Failed to process your message. Please try again.'];
-        }
+    $promptText = "You are a professional fitness trainer. Continue this conversation about workout plans:\n\n";
+    foreach ($conversationHistory as $message) {
+        $promptText .= "{$message['role']}: {$message['content']}\n";
     }
+
+    try {
+        $textPart = new TextPart($promptText, 'text/plain');
+        $content = new Content([$textPart], Role::User);
+        $request = new GenerateContentRequest($this->model, [$content]);
+
+        $response = $this->client->generateContent($request);
+
+        $responseText = '';
+        foreach ($response->candidates as $candidate) {
+            if (isset($candidate->content->parts[0]->text)) {
+                $responseText .= $candidate->content->parts[0]->text;
+            }
+        }
+
+        if (trim($responseText) === '') {
+            return ['response' => null, 'error' => 'Empty response from AI.'];
+        }
+
+        return ['response' => $responseText, 'error' => null];
+
+    } catch (Exception $e) {
+        error_log("Gemini Chat Error: " . $e->getMessage());
+        return ['response' => null, 'error' => 'Failed to process your message. Please try again.'];
+    }
+}
+
 
     private function buildWorkoutPrompt(array $userData): string {
         $equipmentList = explode(',', $userData['equipment']);

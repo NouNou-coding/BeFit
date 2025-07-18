@@ -1,13 +1,14 @@
 <?php
+// Set response type early
+header('Content-Type: application/json');
 
-// Improved version with better error handling
+// Autoloader logic
 $rootDir = dirname(__DIR__);
 $autoloader = $rootDir . '/vendor/autoload.php';
 
 if (file_exists($autoloader)) {
     require $autoloader;
 } else {
-    // Only attempt repair if fix_autoloader exists
     $fixer = $rootDir . '/fix_autoloader.php';
     if (file_exists($fixer)) {
         require $fixer;
@@ -16,72 +17,73 @@ if (file_exists($autoloader)) {
             if (file_exists($autoloader)) {
                 require $autoloader;
             } else {
-                die(json_encode(['error' => 'Autoloader repair failed']));
+                echo json_encode(['error' => 'Autoloader repair failed']);
+                exit;
             }
         }
     }
-    die(json_encode(['error' => 'Vendor dependencies missing. Run "composer install"']));
+    echo json_encode(['error' => 'Vendor dependencies missing. Run "composer install"']);
+    exit;
 }
-
 
 require_once __DIR__ . '/../auth/config.php';
 require_once __DIR__ . '/includes/gemini_client.php';
 
+// Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-header('Content-Type: application/json');
 
+// Check authentication
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['error' => 'Not authenticated']);
     exit;
 }
 
-$input = json_decode(file_get_contents('php://input'), true);
-
-if (empty($input['message'])) {
-    echo json_encode(['error' => 'No message provided']);
-    exit;
-}
-
-// Add user message to history
-$_SESSION['chat_history'][] = [
-    'role' => 'user',
-    'content' => $input['message']
-];
-
+// Try/Catch wrapper for everything else
 try {
+    // Decode request
+    $input = json_decode(file_get_contents('php://input'), true);
+
+    if (empty($input['message'])) {
+        throw new Exception('No message provided');
+    }
+
+    // Append user message to chat history
+    $_SESSION['chat_history'][] = [
+        'role' => 'user',
+        'content' => $input['message']
+    ];
+
     $gemini = new GeminiWorkoutClient();
-    
-    // Include workout plan in context
+
+    // Build workout context
     $workoutContext = "Current workout plan:\n" . 
-        json_encode($_SESSION['workout_plan']) . "\n\n" .
+        json_encode($_SESSION['workout_plan'], JSON_PRETTY_PRINT) . "\n\n" .
         "Conversation history:\n";
-    
+
     foreach ($_SESSION['chat_history'] as $message) {
         $workoutContext .= "{$message['role']}: {$message['content']}\n";
     }
-    
-    $response = $gemini->chatAboutWorkout($_SESSION['chat_history'], $workoutContext);
-    
+
+    // Call AI
+    $response = $gemini->chatAboutWorkout($_SESSION['chat_history']);
+
     if (isset($response['error'])) {
         throw new Exception($response['error']);
     }
-    echo json_encode($response);
+
+    // Return proper JSON (ensure only this runs)
+    echo json_encode(['response' => $response['response'] ?? $response]);
     exit;
 
-    echo json_encode([
-    'response' => $response,
-    'error' => '' // No error
-]);
-exit;
-    
-} catch (Exception $e) {
+} catch (Throwable $e) {
+    // Log and return error safely
     error_log("Chat error: " . $e->getMessage());
+    http_response_code(500);
     echo json_encode([
         'error' => 'Failed to process your message: ' . $e->getMessage()
     ]);
     exit;
 }
-
 ?>

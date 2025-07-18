@@ -69,8 +69,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-    if (data.error) {
-        addAiMessage(data.error);
-    } else {
-        addAiMessage(data.response);
-    }

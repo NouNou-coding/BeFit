@@ -149,7 +149,14 @@ if (empty($workoutPlan)) {
                     })
                 });
                 
-                const data = await response.json();
+                let data;
+                try {
+                    data = await response.json();
+                } catch (e) {
+                    const text = await response.text();
+                    console.error("Server returned non-JSON response:", text);
+                    throw new Error("Invalid JSON from server.");
+                }
                 
                 // Remove loading indicator
                 chatBox.removeChild(loadingDiv);
