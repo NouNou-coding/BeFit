@@ -38,7 +38,24 @@ function saveUserWorkoutData(PDO $pdo, int $userId, array $data): bool {
 }
 
 function saveWorkoutPlan(PDO $pdo, int $userId, array $plan): bool {
-    $jsonPlan = json_encode($plan, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    // Get user data to include in the plan
+    $userData = getUserWorkoutData($pdo, $userId);
+    
+    // Create complete workout plan structure
+    $completePlan = [
+        'weekly_plan' => $plan['weekly_plan'] ?? [],
+        'general_advice' => $plan['general_advice'] ?? '',
+        'user_data' => [
+            'age' => $userData['age'] ?? null,
+            'height' => $userData['height'] ?? null,
+            'weight' => $userData['weight'] ?? null,
+            'fitness_level' => $userData['fitness_level'] ?? null,
+            'goal' => $userData['goal'] ?? null,
+            'training_days' => $userData['training_days'] ?? null
+        ]
+    ];
+    
+    $jsonPlan = json_encode($completePlan, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     
     // Save to workout_plans
     $stmt = $pdo->prepare("UPDATE workout_plans SET 
@@ -49,8 +66,8 @@ function saveWorkoutPlan(PDO $pdo, int $userId, array $plan): bool {
     // Also log to history
     if ($success) {
         logWorkoutSession($pdo, $userId, [
-            'workout_data' => $plan,
-            'completed' => 0, // Explicitly set to not completed
+            'workout_data' => $completePlan,
+            'completed' => 0,
             'notes' => 'Workout plan generated'
         ]);
     }
@@ -98,6 +115,23 @@ function getWorkoutHistory(PDO $pdo, int $userId): array {
 }
 
 function logWorkoutSession(PDO $pdo, int $userId, array $data): bool {
+    // Get current user data
+    $userData = getUserWorkoutData($pdo, $userId);
+    
+    // Prepare complete workout data to save
+    $workoutData = [
+        'weekly_plan' => $data['workout_data']['weekly_plan'] ?? [],
+        'general_advice' => $data['workout_data']['general_advice'] ?? '',
+        'user_data' => [
+            'age' => $userData['age'] ?? null,
+            'height' => $userData['height'] ?? null,
+            'weight' => $userData['weight'] ?? null,
+            'fitness_level' => $userData['fitness_level'] ?? null,
+            'goal' => $userData['goal'] ?? null,
+            'training_days' => $userData['training_days'] ?? null
+        ]
+    ];
+    
     $stmt = $pdo->prepare("INSERT INTO user_workout_history 
         (user_id, workout_date, workout_data, completed, notes) 
         VALUES (?, ?, ?, ?, ?)");
@@ -105,7 +139,7 @@ function logWorkoutSession(PDO $pdo, int $userId, array $data): bool {
     return $stmt->execute([
         $userId,
         $data['workout_date'] ?? date('Y-m-d'),
-        json_encode($data['workout_data'] ?? [], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+        json_encode($workoutData, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
         isset($data['completed']) ? (int)$data['completed'] : 0,
         $data['notes'] ?? ''
     ]);
@@ -124,6 +158,7 @@ function logWorkoutCompletion(PDO $pdo, int $workoutId, int $userId): bool {
                           WHERE id = ? AND user_id = ?");
     return $stmt->execute([$workoutId, $userId]);
 }
+
 
 function getWorkoutStats(PDO $pdo, int $userId): array {
     $stats = [];

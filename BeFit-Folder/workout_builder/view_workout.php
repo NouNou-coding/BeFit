@@ -34,21 +34,21 @@ if ($isHistoricalView) {
     }
     
     $workoutPlan = json_decode($workoutData['workout_data'], true);
-    $userData = json_decode($workoutPlan['user_data'] ?? '{}', true);
-} else {
-    // Existing logic for current workout
-    $workoutPlan = $_SESSION['workout_plan'] ?? [];
     
-    if (empty($workoutPlan)) {
-        $userData = getUserWorkoutData($pdo, $_SESSION['user_id']);
-        if (!empty($userData['workout_plan'])) {
-            $workoutPlan = json_decode($userData['workout_plan'], true);
-        }
-    }
+    // Get user data - first try from the workout plan, then fallback to current data
+    $userData = $workoutPlan['user_data'] ?? [];
     
-    if (empty($workoutPlan)) {
-        header("Location: form.php");
-        exit;
+    // If user_data is empty or incomplete, get current data
+    if (empty($userData) || !isset($userData['age'])) {
+        $currentData = getUserWorkoutData($pdo, $_SESSION['user_id']);
+        $userData = array_merge([
+            'age' => $currentData['age'] ?? null,
+            'height' => $currentData['height'] ?? null,
+            'weight' => $currentData['weight'] ?? null,
+            'fitness_level' => $currentData['fitness_level'] ?? null,
+            'goal' => $currentData['goal'] ?? null,
+            'training_days' => $currentData['training_days'] ?? null
+        ], $userData);
     }
 }
 

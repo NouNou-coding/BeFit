@@ -40,6 +40,7 @@ class GeminiWorkoutClient {
             ];
         }
     }
+    
 
     public function chatAboutWorkout(array $conversationHistory): array {
     $promptText = "You are a professional fitness trainer. Continue this conversation about workout plans:\n\n";
